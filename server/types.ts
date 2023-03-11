@@ -8,13 +8,31 @@ interface User {
   favorites:      Favorite[];
   blacklist:      Blacklist[];
 }
+interface Quote {
+  id:         string;
+  dialog:     string;
+  movie:      string;
+  character:  string;
+}
+interface Character {
+  id:         string;
+  height:     string;
+  race:       string;
+  gender:     string;
+  spouse:     string;
+  death:      string;
+  realm:      string;
+  hair:       string;
+  name:       string;
+  wikiUrl:    string;
+}
 interface Favorite {
-  characterName:  string;
-  quote:          string;
+  character:  Character;
+  quote:      Quote;
 }
 
 interface Blacklist {
-  quote:                    string;
+  quote:                    Quote;
   reasonForBlacklisting:    string;
 }
 
