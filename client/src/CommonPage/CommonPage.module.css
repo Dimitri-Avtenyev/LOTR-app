@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+  justify-content: space-between;
+  border-collapse: collapse;
+}
+.main img {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+.main .theone img {
+  filter: none;
+}
+.main >:hover {
+  border: solid rgb(211, 174, 10) 10px;
+}
+.main h1 {
+  text-align: center;
+}

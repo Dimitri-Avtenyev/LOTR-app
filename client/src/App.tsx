@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { User } from './types';
+import CommonPage from './CommonPage/CommonPage';
 
 interface Favorite {
   characterName:  string;
@@ -22,9 +23,9 @@ const App = () => {
     }
     loadApi();
   }, [])
-
   return (
     <div>
+      <CommonPage/>
       {users && users.map((user:User, index:number) => {
         return (
           <div key={index}>
