@@ -1,0 +1,26 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #D5CEA3;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    border: 5px solid
+}
+
+.projectName {
+    border: 5px solid;
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+    
+}
+
+.navs {
+    border: 5px solid;
+    display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
