@@ -10,6 +10,7 @@ import { User } from "./types";
 const uri:string = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PSW}@lotr-cluster.l9mo3yk.mongodb.net/?retryWrites=true&w=majority`;
 export const dbClient = new MongoClient(uri);
 
+
 const app = express();
 
 app.use(express.json());
