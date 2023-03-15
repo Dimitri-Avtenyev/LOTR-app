@@ -6,14 +6,16 @@
   border-collapse: collapse;
 }
 .main img {
-  filter: grayscale(100%);
-  -webkit-filter: grayscale(100%);
   width: 200px;
   height: 200px;
   object-fit: cover;
 }
-.main .theone img {
+.theone img {
   filter: none;
+}
+.others img {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
 }
 .main >:hover {
   border: solid rgb(211, 174, 10) 10px;
