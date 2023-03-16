@@ -5,6 +5,7 @@ const router = express.Router();
 
 // GET
 router.get("/", userController.getUsersHighscore);
+router.get("/all", userController.getAllUsers);
 
 // POST
 router.post("/adduser", userController.addUser);

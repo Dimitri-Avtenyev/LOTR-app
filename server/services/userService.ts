@@ -57,14 +57,7 @@ const emptyCollection = async () => {
     await dbClient.close();
   }
 }
-const createUser = async () => {
-  let user:User = {
-    userName:       "Gandalf",
-    password:       "ABC123",
-    highscore:      900,
-    favorites:      [],
-    blacklist:      []
-  }
+const createUser = async (user:User) => {
   try {
     await dbClient.connect();
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).insertOne(user);
@@ -75,9 +68,25 @@ const createUser = async () => {
     await dbClient.close();
   }
 }
+
+const getAllUsers = async () => { //dev env
+  let users:User[] = [];
+  try {
+    await dbClient.connect();
+    let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).find<User>({});
+    users = await cursor.toArray();
+
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await dbClient.close();
+  }
+  return users;
+}
 export default {
   getUsersHighscore,
   createUser,
   addUserToHighscores,
-  emptyCollection
+  emptyCollection,
+  getAllUsers
 }
