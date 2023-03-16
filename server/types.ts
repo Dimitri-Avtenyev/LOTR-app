@@ -42,8 +42,9 @@ interface UserHighscore {
 }
 export {
   User,
+  Quote,
   Favorite,
   Blacklist,
   UserHighscore
-}
+};
 
