@@ -36,9 +36,14 @@ interface Blacklist {
   reasonForBlacklisting:    string;
 }
 
+interface UserHighscore {
+  userName:       string;
+  score:          number;
+}
 export {
   User,
   Favorite,
-  Blacklist
+  Blacklist,
+  UserHighscore
 }
 

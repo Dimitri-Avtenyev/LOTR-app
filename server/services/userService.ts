@@ -1,31 +1,29 @@
 import { dbClient } from "../server"
-import { User } from "../types";
+import { User, UserHighscore } from "../types";
 
-const getAllUsers = async () => {
+const DB_NAME:string = "LOTR-app";
+const COLLECTION_USERS:string= "Users";
+const COLLECTION_HIGHSCORES:string = "Highscores";
 
-  let users:User[] = [] ;
+const getUsersHighscore = async () => {
+
+  let users:UserHighscore[] = [] ;
 
   try {
     await dbClient.connect();
-    let cursor = await dbClient.db("LOTR-app").collection("Users").find<User>({});
+    let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_HIGHSCORES).find<UserHighscore>({});
     users = await cursor.toArray();
 
     if (users.length <= 0) {
-        // sample data for tests
+        // sample data 
       users = [
         {
           userName:       "testUser",
-          password:       "123ABC",
-          highscore:      10,
-          favorites:      [],
-          blacklist:      []
+          score:      10
         }, 
         {
           userName:       "testUser_2",
-          password:       "123ABC_2",
-          highscore:      7,
-          favorites:      [],
-          blacklist:      []
+          score:      7
         }
       ]
     }
@@ -38,6 +36,27 @@ const getAllUsers = async () => {
   return users;
 }
 
+const addUserToHighscores = async (user:UserHighscore) => {
+  try {
+    await dbClient.connect();
+    await dbClient.db(DB_NAME).collection(COLLECTION_HIGHSCORES).insertOne(user);
+
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await dbClient.close();
+  }
+}
+const emptyCollection = async () => {
+  try {
+    await dbClient.connect();
+    await dbClient.db(DB_NAME).collection(COLLECTION_HIGHSCORES).deleteMany({});
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await dbClient.close();
+  }
+}
 const createUser = async () => {
   let user:User = {
     userName:       "Gandalf",
@@ -48,7 +67,7 @@ const createUser = async () => {
   }
   try {
     await dbClient.connect();
-    await dbClient.db("LOTR-app").collection("Users").insertOne(user);
+    await dbClient.db(DB_NAME).collection(COLLECTION_USERS).insertOne(user);
 
   } catch (err) {
 
@@ -57,6 +76,8 @@ const createUser = async () => {
   }
 }
 export default {
-  getAllUsers,
-  createUser
+  getUsersHighscore,
+  createUser,
+  addUserToHighscores,
+  emptyCollection
 }
