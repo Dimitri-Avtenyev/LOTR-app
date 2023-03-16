@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 
 interface User {
   _id?:           ObjectId;
-  userName:       string;
+  username:       string;
   password:       string;
   highscore:      number;
   favorites:      Favorite[];
