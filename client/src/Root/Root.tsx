@@ -1,16 +1,17 @@
 import React from "react";
 import { Outlet, createBrowserRouter, RouterProvider, Route, NavLink } from "react-router-dom";
 import styles from "./Root.module.css";
-import Startpage from "../Startpage/Startpage";
-import NavBar from "../Navbar/Navbar";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 const Root = () => {
     return (
         <div>
-            <NavBar/>
+            <Header/>
             <div className={styles.content}>
 				<Outlet/> 
 			</div>
+            <Footer/>
         </div>
     );
 }

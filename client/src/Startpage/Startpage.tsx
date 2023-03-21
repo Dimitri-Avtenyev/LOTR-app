@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "../Navbar/Navbar";
 import { Quote } from "../types";
 
 
