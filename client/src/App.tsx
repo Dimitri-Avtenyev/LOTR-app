@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider, Route, NavLink } from "react-route
 import './App.css';
 import Root from './Root/Root';
 import Startpage from './Startpage/Startpage';
+import Quizpage from './Quizpage/Quizpage';
 
 const App = () => {
 
@@ -20,6 +21,10 @@ const App = () => {
         {
           path:"startpage/theone", //nadien fix met params -> "startpage/:"
           element: <Startpage/>
+        },
+        {
+          path:"quizpage/theone", 
+          element: <Quizpage/>
         }
       ]
     },
