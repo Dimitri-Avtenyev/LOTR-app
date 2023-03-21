@@ -5,6 +5,7 @@ import './App.css';
 import { User } from './types';
 import Root from './Root/Root';
 import Startpage from './Startpage/Startpage';
+import Quizpage from "./Quizpage/Quizpage";
 
 interface Favorite {
   characterName:  string;
@@ -34,7 +35,11 @@ const App = () => {
               {
                 path: "Startpage",
                 element: <Startpage/>
-            },
+              },
+              {
+                path: "Quizpage",
+                element: <Quizpage/>
+              }
           ]
       }
   ]);

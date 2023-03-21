@@ -1,0 +1,36 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 75vh;
+}
+
+.Quizform {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+}
+
+.quizColumn {
+    display: flex;
+   
+}
+
+.quizColumn p, label  {
+    padding: 50px;
+}
+
+.quizColumn input {
+    margin-bottom: 10px;
+}
+
+.line {
+    border-left: 1px solid black;
+    height: 500px;
+    position: absolute;
+    left: 50%;
+    margin-right: 1px;
+}
+
+

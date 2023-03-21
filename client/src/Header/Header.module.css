@@ -1,0 +1,23 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #D5CEA3;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+
+.projectName {
+    display: flex;
+    margin-left: 22%;
+    
+}
+
+.navs {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
