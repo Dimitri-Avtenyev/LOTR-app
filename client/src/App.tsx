@@ -6,6 +6,7 @@ import './App.css';
 import Root from './Root/Root';
 import Startpage from './Startpage/Startpage';
 import Quizpage from './Quizpage/Quizpage';
+import ErrorPage from './ErrorPage/ErrorPage';
 
 const App = () => {
 
@@ -30,7 +31,7 @@ const App = () => {
     },
     {
       path: "*",
-      element: <></>// <PageNotFound/>
+      element: <ErrorPage/>
     }
   ]);
 
