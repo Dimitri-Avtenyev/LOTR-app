@@ -7,6 +7,7 @@ import Root from './Root/Root';
 import Startpage from './Startpage/Startpage';
 import Quizpage from './Quizpage/Quizpage';
 import ErrorPage from './ErrorPage/ErrorPage';
+import ResultPage from './ResultPage/ResultPage';
 
 const App = () => {
 
@@ -26,6 +27,10 @@ const App = () => {
         {
           path:"quizpage/theone", 
           element: <Quizpage/>
+        },
+        {
+          path:"/result",
+          element:<ResultPage/>
         }
       ]
     },
