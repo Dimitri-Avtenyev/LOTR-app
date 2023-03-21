@@ -3,9 +3,19 @@ import userController from "../controllers/userController";
 
 const router = express.Router();
 
-router.get("/", userController.getUsers);
+// GET
+router.get("/", userController.getUsersHighscore);
+router.get("/all", userController.getAllUsers);
 
+// POST
+router.post("/adduser", userController.addUser);
+router.post("/addusertohighscores", userController.addUserToHighscores)
+// PUT
+
+// DELETE
+router.delete("/highscores/emptyall", userController.emptyHighscoresCollection);
 
 export default {
   router
 }
+

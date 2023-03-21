@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 
 interface User {
   _id?:           ObjectId;
-  userName:       string;
+  username:       string;
   password:       string;
   highscore:      number;
   favorites:      Favorite[];
@@ -36,9 +36,15 @@ interface Blacklist {
   reasonForBlacklisting:    string;
 }
 
+interface UserHighscore {
+  userName:       string;
+  score:          number;
+}
 export {
   User,
+  Quote,
   Favorite,
-  Blacklist
-}
+  Blacklist,
+  UserHighscore
+};
 
