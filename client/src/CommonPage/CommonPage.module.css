@@ -17,9 +17,54 @@
   filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
 }
+.main {
+  transition: all 0.2s ease-in-out;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
+}
 .main >:hover {
-  border: solid rgb(211, 174, 10) 10px;
+  transform: scale(1.1);
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }
 .main h1 {
   text-align: center;
+}
+.others{
+  background-color: #d3d3d3;
+  margin: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
+}
+.theone{
+  background-color: #d3d3d3;
+  margin: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
+}
+
+
+.grow {
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+  background-color: #d3d3d3;
+  margin: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
+}
+h1 {
+  text-align: center;
+  padding-top: 2rem;
+}
+.grow:hover {
+  transform: scale(1.1);
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: red;
 }
