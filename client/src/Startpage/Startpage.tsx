@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "./Startpage.module.css";
 import { Quote } from "../types";
 
 
