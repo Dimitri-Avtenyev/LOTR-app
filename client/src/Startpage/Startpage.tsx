@@ -22,7 +22,7 @@ const Startpage = () => {
           <div className={styles.startpage}>
               <h1>Lord of the rings <br></br> Quiz</h1>
               <p>Beetje uitleg over de quiz</p>
-              <Button className={styles.startButton} variant="primary" size="lg">Start Quiz</Button>
+              <Button href="/quizpage/theone" className={styles.startButton} variant="primary" size="lg">Start Quiz</Button>
           </div>
       </main>
       {quotes.map((quote:Quote) => { // test 10 random quotes
