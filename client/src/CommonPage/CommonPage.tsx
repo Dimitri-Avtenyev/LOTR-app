@@ -22,9 +22,9 @@ const CommonPage = () => {
  
   return (
     <div className={styles.main}>
-      {projects.map((project:Project) => {
+      {projects.map((project:Project, index:number) => {
         return (
-          <div className={project.name === "theone" ? styles.theone :  styles.others }>
+          <div key={index} className={project.name === "theone" ? styles.theone :  styles.others }>
             <Link to={`/startpage/${project.name}`}><img src={project.projectImage}></img></Link>
             <h1>{project.name}</h1>
           </div>

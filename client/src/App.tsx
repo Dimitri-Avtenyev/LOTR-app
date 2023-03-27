@@ -2,7 +2,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CommonPage from './CommonPage/CommonPage';
 import { createBrowserRouter, RouterProvider, Route, NavLink } from "react-router-dom";
-import './App.css';
 import Root from './Root/Root';
 import Startpage from './Startpage/Startpage';
 import Quizpage from './Quizpage/Quizpage';
