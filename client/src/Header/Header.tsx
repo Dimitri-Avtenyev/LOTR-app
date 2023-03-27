@@ -4,14 +4,22 @@ import {Link} from "react-router-dom";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import icon from "./assets/user.png";
+import iconLoggedIn from "./assets/profileLoggedIn.png";
 import thering from "./assets/thering.png";
-
-let loggedIn = true;
+import { useEffect, useState } from "react";
 
 let userIcon = <img className={styles.userIcon} src={icon} alt="user icon"/>
 
-const HeaderNotLoggedIn = () => {
 
+interface HeaderChildProps {
+    loggedin: boolean,
+    setLoggedin: (loggedin:boolean) => void
+}
+const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
+    const logIn = () => {
+        localStorage.setItem("loggedin", JSON.parse("true"));
+        setLoggedin(true);
+    }
     return (
         <header>
             <nav>
@@ -19,7 +27,7 @@ const HeaderNotLoggedIn = () => {
                 <div className={styles.navs}>
                     <Nav>
                         <Nav.Item>
-                            <Nav.Link href="#" className={styles.loginNav}>Log in</Nav.Link>
+                            <Nav.Link className={styles.loginNav} onClick={logIn}>Log in</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <p>|</p>
@@ -34,8 +42,11 @@ const HeaderNotLoggedIn = () => {
     )
 }
 
-const HeaderLoggedIn = () => {
-
+const HeaderLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
+    const logOut = () => {
+        localStorage.setItem("loggedin", JSON.parse("false"));
+        setLoggedin(false);
+    }
     return (
     <header>
         <nav>
@@ -54,7 +65,7 @@ const HeaderLoggedIn = () => {
                     </Nav.Item>
                     <NavDropdown title={userIcon} id="nav-dropdown">
                         <NavDropdown.Item eventKey="4.1">Account</NavDropdown.Item>
-                        <NavDropdown.Item eventKey="4.2">Log Out</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2" onClick={logOut}>Log Out</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             </div>
@@ -64,8 +75,16 @@ const HeaderLoggedIn = () => {
 }
 
 const Header = () => {
+    const [loggedIn, setLoggedIn] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));
+
+
+    useEffect(() => {
+    }, [loggedIn]);
+
     return (
-        loggedIn ? <HeaderLoggedIn/> : <HeaderNotLoggedIn/>
+        loggedIn ? 
+        <HeaderLoggedIn loggedin={loggedIn} setLoggedin={setLoggedIn}/> : 
+        <HeaderNotLoggedIn loggedin={loggedIn} setLoggedin={setLoggedIn}/>
     )
 }
 
