@@ -17,9 +17,12 @@ interface HeaderChildProps {
 }
 const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
     const logIn = () => {
-        localStorage.setItem("loggedin", JSON.parse("true"));
         setLoggedin(true);
     }
+    useEffect(() => {
+        localStorage.setItem("loggedin", JSON.parse("true"));
+    }, [loggedin]);
+
     return (
         <header>
             <nav>
@@ -44,9 +47,12 @@ const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
 
 const HeaderLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
     const logOut = () => {
-        localStorage.setItem("loggedin", JSON.parse("false"));
         setLoggedin(false);
     }
+    useEffect(() => {
+        localStorage.setItem("loggedin", JSON.parse("false"));
+    }, [loggedin]);
+
     return (
     <header>
         <nav>
@@ -76,10 +82,6 @@ const HeaderLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
 
 const Header = () => {
     const [loggedIn, setLoggedIn] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));
-
-
-    useEffect(() => {
-    }, [loggedIn]);
 
     return (
         loggedIn ? 
