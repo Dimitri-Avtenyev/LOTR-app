@@ -11,8 +11,8 @@ interface User {
 interface Quote {
   id:         string;
   dialog:     string;
-  movie:      string;
-  character:  string;
+  movie:      Movie;
+  character:  Character;
 }
 interface Character {
   id:         string;
@@ -25,6 +25,16 @@ interface Character {
   hair:       string;
   name:       string;
   wikiUrl:    string;
+}
+interface Movie {
+  _id:                        string;
+  name:                       string;
+  runtimeInMinutes:           number;
+  budgetInMillions:           number;
+  boxOfficeRevenueInMillions: number;
+  academyAwardNominations:    number;
+  academyAwardWins:           number;
+  rottenTomatoesScore:        number;
 }
 interface Favorite {
   character:  Character;
@@ -43,6 +53,8 @@ interface UserHighscore {
 export {
   User,
   Quote,
+  Movie,
+  Character,
   Favorite,
   Blacklist,
   UserHighscore
