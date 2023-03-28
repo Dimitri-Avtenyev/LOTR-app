@@ -20,7 +20,7 @@ const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
         setLoggedin(true);
     }
     useEffect(() => {
-        localStorage.setItem("loggedin", JSON.parse("true"));
+        localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
     }, [loggedin]);
 
     return (
@@ -50,7 +50,7 @@ const HeaderLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
         setLoggedin(false);
     }
     useEffect(() => {
-        localStorage.setItem("loggedin", JSON.parse("false"));
+        localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
     }, [loggedin]);
 
     return (
