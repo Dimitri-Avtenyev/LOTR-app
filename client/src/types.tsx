@@ -9,8 +9,8 @@ export interface User {
 export interface Quote {
   id:         string;
   dialog:     string;
-  movie:      string;
-  character:  string;
+  movie:      Movie;
+  character:  Character;
 }
 export interface Character {
   id:         string;
@@ -23,6 +23,16 @@ export interface Character {
   hair:       string;
   name:       string;
   wikiUrl:    string;
+}
+export interface Movie {
+  _id:                        string;
+  name:                       string;
+  runtimeInMinutes:           number;
+  budgetInMillions:           number;
+  boxOfficeRevenueInMillions: number;
+  academyAwardNominations:    number;
+  academyAwardWins:           number;
+  rottenTomatoesScore:        number;
 }
 export interface Favorite {
   character:  Character;
