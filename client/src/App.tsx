@@ -7,6 +7,7 @@ import Startpage from './Startpage/Startpage';
 import Quizpage from './Quizpage/Quizpage';
 import ErrorPage from './ErrorPage/ErrorPage';
 import ResultPage from './ResultPage/ResultPage';
+import EndQuizPage from "./EndQuizPage/EndQuizPage";
 
 const App = () => {
 
@@ -30,6 +31,10 @@ const App = () => {
         {
           path:"/result",
           element:<ResultPage/>
+        }, 
+        {
+          path:"/endquizpage",
+          element:<EndQuizPage/>
         }
       ]
     },
