@@ -5,6 +5,9 @@ const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN
 
 // get 10 random quotes
 // todo -> 10 random quotes excl. blacklisted bij user
+
+// API calls ->
+// Quotes -> movies -> characters -> 3 calls / quiz
 const getQuotes = async () => {
   let quotes: Quote[] = [];
   let response = await axios.get(`${process.env.API_URL}/quote?limit=2384`, API_HEADER);
@@ -20,6 +23,7 @@ const getQuotes = async () => {
   }
   return quotes;
 }
+
 
 export default {
   getQuotes

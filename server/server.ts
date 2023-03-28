@@ -5,8 +5,9 @@ import express from "express";
 import cors from "cors";
 import { MongoClient, MongoCursorInUseError, ObjectId} from "mongodb";
 import userRoutes from "./routers/userRouter";
-import { User } from "./types";
-import quoteRouter from "./routers/quoteRouter";
+import quoteRoutes from "./routers/quoteRouter";
+import movieRoutes from "./routers/movieRouter";
+import characterRouter from "./routers/characterRouter";
 
 const uri:string = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PSW}@lotr-cluster.l9mo3yk.mongodb.net/?retryWrites=true&w=majority`;
 export const dbClient = new MongoClient(uri);
@@ -20,8 +21,11 @@ app.use(cors());
 
 app.set("port", process.env.PORT || 3000);
 
-app.use("/api/users", userRoutes.router);
-app.use("/api/quotes", quoteRouter.router);
+const prefixUrl:string = "/api/";
+app.use(`${prefixUrl}users`, userRoutes.router);
+app.use(`${prefixUrl}quotes`, quoteRoutes.router);
+app.use(`${prefixUrl}movies`, movieRoutes.router);
+app.use(`${prefixUrl}characters`, characterRouter.router)
 // app.use(<PATH>, <router>);
 
 app.listen(app.get("port"), async () => {
