@@ -14,6 +14,15 @@ const getCharacters = async () => {
   return characters;
 }
 
+const getCharacter = async (characters:Character[], id:string) => {
+  let foundCharacter:Character | null = characters.find(character => character._id === id) || null;
+  if (foundCharacter === null) {
+    throw "Character not found";
+  }
+  return foundCharacter;
+}
+
 export default {
-  getCharacters
+  getCharacters,
+  getCharacter
 }
