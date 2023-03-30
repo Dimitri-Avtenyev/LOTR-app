@@ -8,14 +8,20 @@ interface User {
   favorites:      Favorite[];
   blacklist:      Blacklist[];
 }
+interface QuoteQuiz {
+  id:           string;
+  dialog:       string;
+  movie:        Movie;
+  character:    Character;
+}
 interface Quote {
   id:         string;
   dialog:     string;
-  movie:      Movie;
-  character:  Character;
+  movie:      string;
+  character:  string;
 }
 interface Character {
-  id:         string;
+  _id:         string;
   height:     string;
   race:       string;
   gender:     string;
@@ -50,9 +56,11 @@ interface UserHighscore {
   userName:       string;
   score:          number;
 }
+
 export {
   User,
   Quote,
+  QuoteQuiz,
   Movie,
   Character,
   Favorite,
