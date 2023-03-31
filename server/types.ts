@@ -13,6 +13,15 @@ interface QuoteQuiz {
   dialog:       string;
   movie:        Movie;
   character:    Character;
+  wrongAnswers: WrongAnswer;
+}
+interface WrongAnswer {
+  movie:      Movie[];
+  character:  Character[];
+}
+enum ObjectType {
+  movie,
+  character,
 }
 interface Quote {
   id:         string;
@@ -61,6 +70,8 @@ export {
   User,
   Quote,
   QuoteQuiz,
+  ObjectType,
+  WrongAnswer,
   Movie,
   Character,
   Favorite,
