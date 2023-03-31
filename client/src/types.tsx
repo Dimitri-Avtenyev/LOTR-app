@@ -7,10 +7,15 @@ export interface User {
   blacklist:      Blacklist[];
 }
 export interface Quote {
-  id:         string;
-  dialog:     string;
-  movie:      Movie;
-  character:  Character;
+  id:           string;
+  dialog:       string;
+  movie:        Movie;
+  character:    Character;
+  wrongAnswers: WrongAnswer;
+}
+export interface WrongAnswer {
+  movie:      Movie[];
+  character:  Character[];
 }
 export interface Character {
   id:         string;

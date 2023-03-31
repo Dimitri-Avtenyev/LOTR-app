@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Character, Movie, ObjectType, Quote, QuoteQuiz, WrongAnswer } from "../types";
+import { Character, Movie, Quote, QuoteQuiz, WrongAnswer } from "../types";
 import movieService from "../services/movieService";
 import characterService from "./characterService";
 import quoteService from "./quoteService";
