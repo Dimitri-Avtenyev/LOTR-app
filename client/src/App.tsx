@@ -8,47 +8,66 @@ import Quizpage from './Quizpage/Quizpage';
 import ErrorPage from './ErrorPage/ErrorPage';
 import ResultPage from './ResultPage/ResultPage';
 import EndQuizPage from "./EndQuizPage/EndQuizPage";
+import LoginPage from './LoginPage/LoginPage';
+import { UserContext } from './Context/UserContext';
+import { User } from './types';
+import { useState } from 'react';
+import { LoggedinContext } from './Context/LoggedinContext';
 
 const App = () => {
-
+  const [loggedin, setLoggedin] = useState<boolean>(false);
+  const [user, setUser] = useState<User>({
+    _id: "123",
+    userName: "Guest",
+    highscore: 0,
+    favorites: [],
+    blacklist: []
+  });
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Root/>,
+      element: <Root />,
       children: [
         {
           path: "",
-          element: <CommonPage/>
+          element: <CommonPage />
         },
         {
-          path:"startpage/theone", //nadien fix met params -> "startpage/:"
-          element: <Startpage/>
+          path: "/login",
+          element: <LoginPage />
         },
         {
-          path:"quizpage/theone", 
-          element: <Quizpage/>
+          path: "startpage/theone", //nadien fix met params -> "startpage/:"
+          element: <Startpage />
         },
         {
-          path:"/result",
-          element:<ResultPage/>
-        }, 
+          path: "quizpage/theone",
+          element: <Quizpage />
+        },
         {
-          path:"/endquizpage",
-          element:<EndQuizPage/>
+          path: "/result",
+          element: <ResultPage />
+        },
+        {
+          path: "/endquizpage",
+          element: <EndQuizPage />
         }
       ]
     },
     {
       path: "*",
-      element: <ErrorPage/>
+      element: <ErrorPage />
     }
   ]);
 
   return (
     <div>
-      <div>
-        <RouterProvider router={router} />
-      </div>
+      <LoggedinContext.Provider value={{loggedin, setLoggedin}}>
+        <UserContext.Provider value={{ user: user }}>
+          <RouterProvider router={router} />
+        </UserContext.Provider>
+      </LoggedinContext.Provider>
+
     </div>
 
   );

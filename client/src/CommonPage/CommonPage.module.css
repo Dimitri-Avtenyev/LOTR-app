@@ -2,13 +2,17 @@
   display: flex;
   flex-wrap: wrap;
   padding: 1rem;
-  justify-content: space-between;
+  justify-content: center;
   border-collapse: collapse;
 }
+
 .main img {
   width: 200px;
   height: 200px;
   object-fit: cover;
+}
+.main h1 {
+  text-align: center;
 }
 .theone img {
   filter: none;
@@ -17,17 +21,15 @@
   filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
 }
-.main {
+.card .others, .theone {
   transition: all 0.2s ease-in-out;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
 }
-.main >:hover {
+.card .others:hover, .theone:hover{
   transform: scale(1.1);
-  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  border-radius: 10%;
+  box-shadow: 5px 7px rgba(17, 12, 46, 0.15);
 }
-.main h1 {
-  text-align: center;
-}
+
 .others{
   background-color: #d3d3d3;
   margin: 2rem;
@@ -42,29 +44,12 @@
   border-radius: 1rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
 }
-
-
-.grow {
-  transition: all 0.2s ease-in-out;
-  display: inline-block;
-  background-color: #d3d3d3;
-  margin: 2rem;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
+a, a:hover{
+  text-decoration: none;
+  color: rgb(0, 0, 0);
 }
+
 h1 {
   text-align: center;
   padding-top: 2rem;
-}
-.grow:hover {
-  transform: scale(1.1);
-  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-}
-
-.container{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: red;
 }
