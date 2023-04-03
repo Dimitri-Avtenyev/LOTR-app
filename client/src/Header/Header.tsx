@@ -6,23 +6,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import icon from "./assets/user.png";
 import iconLoggedIn from "./assets/profileLoggedIn.png";
 import thering from "./assets/thering.png";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../Context/UserContext";
+import { User } from "../types";
+import { LoggedinContext } from "../Context/LoggedinContext";
 
 let userIcon = <img className={styles.userIcon} src={icon} alt="user icon"/>
 
 
 interface HeaderChildProps {
+    user?: User,
     loggedin: boolean,
     setLoggedin: (loggedin:boolean) => void
 }
+
 const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
     const logIn = () => {
         setLoggedin(true);
     }
-    useEffect(() => {
-        localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
-    }, [loggedin]);
-
     return (
         <header>
             <nav>
@@ -45,13 +46,10 @@ const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
     )
 }
 
-const HeaderLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
+const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
     const logOut = () => {
         setLoggedin(false);
     }
-    useEffect(() => {
-        localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
-    }, [loggedin]);
 
     return (
     <header>
@@ -67,7 +65,7 @@ const HeaderLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
                         <Nav.Link href="/Blacklist">Blacklist</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey="disabled" disabled>Hello, *name*</Nav.Link>
+                        <Nav.Link eventKey="disabled" disabled>Hello, {user?.userName}</Nav.Link>
                     </Nav.Item>
                     <NavDropdown title={userIcon} id="nav-dropdown">
                         <NavDropdown.Item eventKey="4.1">Account</NavDropdown.Item>
@@ -81,12 +79,12 @@ const HeaderLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
 }
 
 const Header = () => {
-    const [loggedIn, setLoggedIn] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));
-
+    const {user} = useContext(UserContext);
+    const {loggedin, setLoggedin} = useContext(LoggedinContext);
     return (
-        loggedIn ? 
-        <HeaderLoggedIn loggedin={loggedIn} setLoggedin={setLoggedIn}/> : 
-        <HeaderNotLoggedIn loggedin={loggedIn} setLoggedin={setLoggedIn}/>
+        loggedin ? 
+        <HeaderLoggedIn user={user} loggedin={loggedin} setLoggedin={setLoggedin}/> : 
+        <HeaderNotLoggedIn loggedin={loggedin} setLoggedin={setLoggedin}/>
     )
 }
 

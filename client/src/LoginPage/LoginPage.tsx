@@ -6,17 +6,13 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Login
-      </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton></Modal.Header>
         <Form>
