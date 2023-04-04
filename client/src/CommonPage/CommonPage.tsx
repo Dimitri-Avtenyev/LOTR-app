@@ -10,7 +10,6 @@ import mtg from "./assets/mtg.png";
 import nbb from "./assets/nbb.png";
 import pokemon from "./assets/pokemon.png";
 import AccessPage from "../AccessPage/AccessPage";
-import { UserContext } from "../Context/UserContext";
 import { LoggedinContext } from "../Context/LoggedinContext";
 
 const CommonPage = () => {

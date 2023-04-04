@@ -11,11 +11,11 @@ import EndQuizPage from "./EndQuizPage/EndQuizPage";
 import LoginPage from './LoginPage/LoginPage';
 import { UserContext } from './Context/UserContext';
 import { User } from './types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LoggedinContext } from './Context/LoggedinContext';
 
 const App = () => {
-  const [loggedin, setLoggedin] = useState<boolean>(false);
+  const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin")?? "false"));
   const [user, setUser] = useState<User>({
     _id: "123",
     userName: "Guest",
@@ -23,6 +23,10 @@ const App = () => {
     favorites: [],
     blacklist: []
   });
+  useEffect(() => {
+    localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
+}, [loggedin]);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -33,11 +37,11 @@ const App = () => {
           element: <CommonPage />
         },
         {
-          path: "/login",
+          path: "login",
           element: <LoginPage />
         },
         {
-          path: "startpage/theone", //nadien fix met params -> "startpage/:"
+          path: "startpage/:project", 
           element: <Startpage />
         },
         {
@@ -45,11 +49,11 @@ const App = () => {
           element: <Quizpage />
         },
         {
-          path: "/result",
+          path: "quizpage/result",
           element: <ResultPage />
         },
         {
-          path: "/endquizpage",
+          path: "quizpage/endquizpage",
           element: <EndQuizPage />
         }
       ]
