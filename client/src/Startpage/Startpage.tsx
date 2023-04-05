@@ -5,17 +5,7 @@ import { Quote } from "../types";
 
 
 const Startpage = () => {
-  const [quotes, setQuotes] = useState<Quote[]>([]);
-
-  useEffect(() => {
-    const loadQuotes = async () => {
-      let response = await fetch("http://localhost:3000/api/quotes");
-      let data: Quote[] = await response.json();
-      setQuotes(data);
-    }
-    loadQuotes();
-  }, [])
-
+  
   return (
     <div>
       <main>
@@ -25,13 +15,6 @@ const Startpage = () => {
               <Button href="/quizpage/theone" className={styles.startButton} variant="primary" size="lg">Start Quiz</Button>
           </div>
       </main>
-      {quotes.map((quote:Quote) => { // test 10 random quotes
-        return (
-          <p key={quote.id}>
-            {quote.dialog}
-          </p>
-        )
-      })}
     </div>
   )
 }
