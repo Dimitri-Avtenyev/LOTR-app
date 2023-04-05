@@ -46,7 +46,7 @@ const App = () => {
         },
         {
           path: "quizpage/theone",
-          element: <Quizpage />
+          element: <Quizpage limit={1} />
         },
         {
           path: "quizpage/result",
