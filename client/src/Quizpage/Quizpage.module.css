@@ -33,6 +33,7 @@
 
 .columnLeft {
     align-self: center;
+    margin-right: 50px;
 }
 
 .line {
@@ -43,6 +44,7 @@
 
 .columnRight {
     align-self: center;
+    margin-left: 50px;
 }
 
 .submitButton {
