@@ -40,7 +40,6 @@ export interface Movie {
   rottenTomatoesScore:        number;
 }
 export interface Favorite {
-  character:  Character;
   quote:      Quote;
 }
 

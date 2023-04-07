@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider, Route, NavLink } from "react-route
 import Root from './Root/Root';
 import Startpage from './Components/Startpage/Startpage';
 import { UserContext } from './Context/UserContext';
-import { User } from './types';
+import { Character, Movie, User } from './types';
 import { useEffect, useState } from 'react';
 import { LoggedinContext } from './Context/LoggedinContext';
 import Quizpage from './Components/Quizpage/Quizpage';
@@ -14,6 +14,7 @@ import ErrorPage from './Components/ErrorPage/ErrorPage';
 import LoginPage from './Components/LoginPage/LoginPage';
 import ResultPage from './Components/ResultPage/ResultPage';
 import AccountPage from './Components/AccountPage/AccountPage';
+import UserPreference from './Components/UserPreference/UserPreference';
 
 const App = () => {
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin")?? "false"));
@@ -45,6 +46,14 @@ const App = () => {
         {
           path: "account",
           element: <AccountPage account={user}/>
+        },
+        {
+          path: "account/favorites",
+          element: <UserPreference preference={"favorites"} user={user}/>
+        },
+        {
+          path: "account/blacklisted",
+          element: <UserPreference preference={"blacklisted"} user={user}/>
         },
         {
           path: "start/:project", 

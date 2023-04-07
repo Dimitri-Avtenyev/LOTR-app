@@ -59,10 +59,10 @@ const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
                 {/* {defaultActiveKey="/Favorites"} */}
                 <Nav variant="pills" > 
                     <Nav.Item>
-                        <Nav.Link href="/Favorites">Favorites</Nav.Link>
+                        <Nav.Link href="/account/favorites">Favorites</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="/Blacklist">Blacklist</Nav.Link>
+                        <Nav.Link href="/account/blacklisted">Blacklisted</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="disabled" disabled>Hello, {user?.userName}</Nav.Link>
