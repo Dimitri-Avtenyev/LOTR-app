@@ -1,18 +1,38 @@
-
+.answer{
+    align-items: center;
+}
 .image{
     margin: 2rem 2rem 2rem 2rem;
     width: 100px;
   }
+.infoQuote{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
 .thumb{
+    /* display: flex; */
+    flex-direction: row;
+    align-items: center;
     border: none;
     background-color: white;
+    margin: 20px;
+    
 }
 .thumbsUp{
     transform: scaleY(-1);
     border: none;
     background-color: white;
     padding-left: 20%;
+    margin-left: 50px;
 }
 .saveButton {
     padding: 10px 40px;
 }
+.resultPage{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 100px;
+    text-align: center;
+} 
