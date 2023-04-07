@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Startpage.module.css";
 import Button from 'react-bootstrap/Button';
-import { Quote } from "../types";
+import { Quote } from "../../types";
 
 
 const Startpage = () => {

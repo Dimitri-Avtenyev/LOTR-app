@@ -1,4 +1,4 @@
-import { Link, redirect, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Project } from "./types";
 import styles from "./CommonPage.module.css";
@@ -10,7 +10,7 @@ import mtg from "./assets/mtg.png";
 import nbb from "./assets/nbb.png";
 import pokemon from "./assets/pokemon.png";
 import AccessPage from "../AccessPage/AccessPage";
-import { LoggedinContext } from "../Context/LoggedinContext";
+import { LoggedinContext } from "../../Context/LoggedinContext";
 
 const CommonPage = () => {
   const [showAccess, setShowAccess] = useState<boolean>(false);
