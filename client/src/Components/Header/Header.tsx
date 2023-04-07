@@ -4,14 +4,11 @@ import {Link} from "react-router-dom";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import icon from "./assets/user.png";
-import iconLoggedIn from "./assets/profileLoggedIn.png";
 import thering from "./assets/thering.png";
 import { useContext } from "react";
 import { User } from "../../types";
 import { UserContext } from "../../Context/UserContext";
 import { LoggedinContext } from "../../Context/LoggedinContext";
-
-let userIcon = <img className={styles.userIcon} src={icon} alt="user icon"/>
 
 
 interface HeaderChildProps {
@@ -47,6 +44,8 @@ const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
 }
 
 const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
+    let userIcon = <img className={styles.userIcon} src={require(`../AccountPage/assets/avatar_${user?.avatarID}.png`)} alt="user icon"/>
+
     const logOut = () => {
         setLoggedin(false);
     }
@@ -57,18 +56,21 @@ const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
             <Link to="/" className={styles.logo}><img src={thering} className={styles.logo}/></Link>
             <Link to="/" className={styles.projectName}>The One</Link>
             <div className={styles.navs}>
-                <Nav variant="pills" defaultActiveKey="/Favorites">
+                {/* {defaultActiveKey="/Favorites"} */}
+                <Nav variant="pills" > 
                     <Nav.Item>
-                        <Nav.Link href="/Favorites">Favorites</Nav.Link>
+                        <Nav.Link href="/account/favorites">Favorites</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="/Blacklist">Blacklist</Nav.Link>
+                        <Nav.Link href="/account/blacklisted">Blacklisted</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="disabled" disabled>Hello, {user?.userName}</Nav.Link>
                     </Nav.Item>
                     <NavDropdown title={userIcon} id="nav-dropdown">
-                        <NavDropdown.Item eventKey="4.1">Account</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.1" href="/account">
+                            Account
+                            </NavDropdown.Item>
                         <NavDropdown.Item eventKey="4.2" onClick={logOut}>Log Out</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>

@@ -8,6 +8,7 @@ interface IUserContext {
 export const UserContext = React.createContext<IUserContext>({
   user: {
     _id:            "",
+    avatarID:       1,
     userName:       "Guest",
     highscore:      0,
     favorites:      [],

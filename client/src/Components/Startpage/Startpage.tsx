@@ -12,7 +12,7 @@ const Startpage = () => {
           <div className={styles.startpage}>
               <h1>Lord of the rings <br></br> Quiz</h1>
               <p>Beetje uitleg over de quiz</p>
-              <Button href="/quizpage/theone" className={styles.startButton} variant="primary" size="lg">Start Quiz</Button>
+              <Button href="/quiz/theone" className={styles.startButton} variant="primary" size="lg">Start Quiz</Button>
           </div>
       </main>
     </div>

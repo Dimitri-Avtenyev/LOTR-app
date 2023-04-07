@@ -44,7 +44,7 @@ const CommonPage = () => {
         {projects.map((project: Project, index: number) => {
           let projectPath: string = `/`;
           if (loggedin && project.id === 1) {
-            projectPath += `startpage/${project.name}`;
+            projectPath += `start/${project.name}`;
           }
           return (
             <div key={index} className={styles.card}>

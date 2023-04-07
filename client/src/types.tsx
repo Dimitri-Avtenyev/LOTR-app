@@ -1,5 +1,6 @@
 export interface User {
   _id?:           string;
+  avatarID:       number;
   userName:       string;
   highscore:      number;
   favorites:      Favorite[];
@@ -39,7 +40,6 @@ export interface Movie {
   rottenTomatoesScore:        number;
 }
 export interface Favorite {
-  character:  Character;
   quote:      Quote;
 }
 
