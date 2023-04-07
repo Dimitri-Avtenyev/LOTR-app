@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Quizpage.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
-import {Quote, Movie, Character } from "../types";
+import { Quote } from "../../types";
 
 interface QuizProps {
     limit: number
