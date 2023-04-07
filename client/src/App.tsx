@@ -13,13 +13,15 @@ import EndQuizPage from './Components/EndQuizPage/EndQuizPage';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import LoginPage from './Components/LoginPage/LoginPage';
 import ResultPage from './Components/ResultPage/ResultPage';
+import AccountPage from './Components/AccountPage/AccountPage';
 
 const App = () => {
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin")?? "false"));
   const [user, setUser] = useState<User>({
     _id: "123",
-    userName: "Guest",
-    highscore: 0,
+    avatarID: 1,
+    userName: "Gandalf",
+    highscore: 10,
     favorites: [],
     blacklist: []
   });
@@ -41,19 +43,23 @@ const App = () => {
           element: <LoginPage />
         },
         {
-          path: "startpage/:project", 
+          path: "account",
+          element: <AccountPage account={user}/>
+        },
+        {
+          path: "start/:project", 
           element: <Startpage />
         },
         {
-          path: "quizpage/theone",
+          path: "quiz/theone",
           element: <Quizpage limit={1} />
         },
         {
-          path: "quizpage/result",
+          path: "quiz/result",
           element: <ResultPage />
         },
         {
-          path: "quizpage/endquizpage",
+          path: "quiz/endquiz",
           element: <EndQuizPage />
         }
       ]

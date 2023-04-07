@@ -1,5 +1,6 @@
 export interface User {
   _id?:           string;
+  avatarID:       number;
   userName:       string;
   highscore:      number;
   favorites:      Favorite[];
