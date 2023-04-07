@@ -7,9 +7,9 @@ import icon from "./assets/user.png";
 import iconLoggedIn from "./assets/profileLoggedIn.png";
 import thering from "./assets/thering.png";
 import { useContext } from "react";
-import { UserContext } from "../Context/UserContext";
-import { User } from "../types";
-import { LoggedinContext } from "../Context/LoggedinContext";
+import { User } from "../../types";
+import { UserContext } from "../../Context/UserContext";
+import { LoggedinContext } from "../../Context/LoggedinContext";
 
 let userIcon = <img className={styles.userIcon} src={icon} alt="user icon"/>
 
