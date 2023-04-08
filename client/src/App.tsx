@@ -19,7 +19,7 @@ import { User } from './types';
 
 const App = () => {
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin")?? "false"));
-  let user1:User =  {
+  let userDefault:User =  {
     _id:            "",
     avatarID:       1,
     userName:       "",
@@ -27,7 +27,7 @@ const App = () => {
     favorites:      [],
     blacklist:      []
   }
-  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user") ?? "user"));
+  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user") ?? JSON.stringify(userDefault)));
   console.log(user);
   useEffect(() => {
     localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));

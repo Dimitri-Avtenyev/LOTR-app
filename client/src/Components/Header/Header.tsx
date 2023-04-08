@@ -46,6 +46,7 @@ const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
 
     const logOut = () => {
         setLoggedin(false);
+        localStorage.clear();
     }
 
     return (
