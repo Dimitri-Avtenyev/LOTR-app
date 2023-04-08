@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Character, Movie, Quote, QuoteQuiz, WrongAnswer } from "../types";
 import movieService from "../services/movieService";
 import characterService from "./characterService";
@@ -7,17 +6,21 @@ import quoteService from "./quoteService";
 const getQuiz = async (amountQuotes: number) => {
   let quoteQuiz: QuoteQuiz[] = [];
 
-  let randomQuotes: Quote[] = await quoteService.getQuotes(amountQuotes);
-  let movies: Movie[] = await movieService.getMovies();
-  let characters: Character[] = await characterService.getCharacters();
-
+  let [randomQuotes, movies, characters] = await Promise.all([
+    quoteService.getQuotes(amountQuotes), 
+    movieService.getMovies(), 
+    characterService.getCharacters()
+  ]);
+    
   for (var quote of randomQuotes) {
     let foundMovie: Movie = {} as Movie;
     let foundCharacter: Character = {} as Character;
     try {
-      foundMovie = await movieService.getMovie(movies, quote.movie);
-      foundCharacter = await characterService.getCharacter(characters, quote.character);
-
+      [foundMovie, foundCharacter] = await Promise.all([
+        movieService.getMovie(movies, quote.movie),
+        characterService.getCharacter(characters, quote.character)
+      ])
+    
     } catch (err) {
       console.log(err);
     }
