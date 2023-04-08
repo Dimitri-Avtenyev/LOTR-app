@@ -2,9 +2,24 @@ import { dbClient } from "../server"
 import { User, UserHighscore } from "../types";
 
 const DB_NAME:string = "LOTR-app";
-const COLLECTION_USERS:string= "Users";
-const COLLECTION_HIGHSCORES:string = "Highscores";
+export const COLLECTION_USERS:string= "Users";
+export const COLLECTION_HIGHSCORES:string = "Highscores";
 
+
+const getUser = async (email:string):Promise<User|null> => {
+  let foundUser:User|null = null;
+
+  try {
+    await dbClient.connect();
+    foundUser = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).findOne<User>({username: email});
+    
+  }  catch (err) {
+    console.log(err);
+  } finally {
+    await dbClient.close();
+  }
+  return foundUser;
+}
 const getUsersHighscore = async () => {
 
   let users:UserHighscore[] = [] ;
@@ -47,10 +62,10 @@ const addUserToHighscores = async (user:UserHighscore) => {
     await dbClient.close();
   }
 }
-const emptyCollection = async () => {
+const emptyCollection = async (collection:string) => {
   try {
     await dbClient.connect();
-    await dbClient.db(DB_NAME).collection(COLLECTION_HIGHSCORES).deleteMany({});
+    await dbClient.db(DB_NAME).collection(collection).deleteMany({});
   } catch (err) {
     console.log(err);
   } finally {
@@ -86,6 +101,7 @@ const getAllUsers = async () => { //dev env
 export default {
   getUsersHighscore,
   createUser,
+  getUser,
   addUserToHighscores,
   emptyCollection,
   getAllUsers

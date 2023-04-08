@@ -18,9 +18,7 @@ interface HeaderChildProps {
 }
 
 const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
-    const logIn = () => {
-        setLoggedin(true);
-    }
+
     return (
         <header>
             <nav>
@@ -28,13 +26,13 @@ const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
                 <div className={styles.navs}>
                     <Nav>
                         <Nav.Item>
-                            <Nav.Link className={styles.loginNav} onClick={logIn}>Log in</Nav.Link>
+                            <Nav.Link href="/login" className={styles.loginNav}>Log in</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <p>|</p>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="#" className={styles.loginNav}>Sign up</Nav.Link>
+                            <Nav.Link href="/signup" className={styles.loginNav}>Sign up</Nav.Link>
                         </Nav.Item>
                     </Nav>
                 </div>
