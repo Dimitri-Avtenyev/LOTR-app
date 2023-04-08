@@ -8,12 +8,15 @@ router.get("/", userController.getUsersHighscore);
 router.get("/all", userController.getAllUsers);
 
 // POST
-router.post("/adduser", userController.addUser);
+router.post("/signup", userController.addUser);
+router.post("/login", userController.loginUser);
 router.post("/addusertohighscores", userController.addUserToHighscores)
 // PUT
 
 // DELETE
 router.delete("/highscores/emptyall", userController.emptyHighscoresCollection);
+router.delete("/all/empty", userController.emptyUsersCollection);
+
 
 export default {
   router

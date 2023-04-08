@@ -5,27 +5,30 @@ import { createBrowserRouter, RouterProvider, Route, NavLink } from "react-route
 import Root from './Root/Root';
 import Startpage from './Components/Startpage/Startpage';
 import { UserContext } from './Context/UserContext';
-import { Character, Movie, User } from './types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LoggedinContext } from './Context/LoggedinContext';
 import Quizpage from './Components/Quizpage/Quizpage';
 import EndQuizPage from './Components/EndQuizPage/EndQuizPage';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
-import LoginPage from './Components/LoginPage/LoginPage';
 import ResultPage from './Components/ResultPage/ResultPage';
 import AccountPage from './Components/AccountPage/AccountPage';
 import UserPreference from './Components/UserPreference/UserPreference';
+import Login from './Components/LoginPage/Login';
+import Signup from './Components/Signup/Signup';
+import { User } from './types';
 
 const App = () => {
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin")?? "false"));
-  const [user, setUser] = useState<User>({
-    _id: "123",
-    avatarID: 1,
-    userName: "Gandalf",
-    highscore: 10,
-    favorites: [],
-    blacklist: []
-  });
+  let user1:User =  {
+    _id:            "",
+    avatarID:       1,
+    userName:       "",
+    highscore:      0,
+    favorites:      [],
+    blacklist:      []
+  }
+  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user") ?? "user"));
+  console.log(user);
   useEffect(() => {
     localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
 }, [loggedin]);
@@ -41,11 +44,15 @@ const App = () => {
         },
         {
           path: "login",
-          element: <LoginPage />
+          element: <Login />
+        },
+        {
+          path: "signup",
+          element: <Signup />
         },
         {
           path: "account",
-          element: <AccountPage account={user}/>
+          element: <AccountPage />
         },
         {
           path: "account/favorites",
@@ -82,7 +89,7 @@ const App = () => {
   return (
     <div>
       <LoggedinContext.Provider value={{loggedin, setLoggedin}}>
-        <UserContext.Provider value={{ user: user }}>
+        <UserContext.Provider value={{ user: user, setUser: setUser }}>
           <RouterProvider router={router} />
         </UserContext.Provider>
       </LoggedinContext.Provider>

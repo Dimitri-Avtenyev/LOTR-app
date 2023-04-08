@@ -4,9 +4,14 @@ interface User {
   _id?:           ObjectId;
   username:       string;
   password:       string;
+  avatarID:       number;
   highscore:      number;
   favorites:      Favorite[];
   blacklist:      Blacklist[];
+}
+interface UserCredentials {
+  username:       string;
+  password:       string;
 }
 interface QuoteQuiz {
   id:           string;
@@ -64,6 +69,7 @@ interface UserHighscore {
 
 export {
   User,
+  UserCredentials,
   Quote,
   QuoteQuiz,
   WrongAnswer,
