@@ -1,7 +1,7 @@
 export interface User {
   _id?:           string;
   avatarID:       number;
-  userName:       string;
+  username:       string;
   highscore:      number;
   favorites:      Favorite[];
   blacklist:      Blacklist[];

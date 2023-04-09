@@ -64,7 +64,7 @@ const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
                         <Nav.Link href="/account/blacklisted">Blacklisted</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey="disabled" disabled>Hello, {user?.userName}</Nav.Link>
+                        <Nav.Link eventKey="disabled" disabled>Hello, {user?.username.substring(0, user?.username.indexOf("@"))}</Nav.Link>
                     </Nav.Item>
                     <NavDropdown title={userIcon} id="nav-dropdown">
                         <NavDropdown.Item eventKey="4.1" href="/account">

@@ -18,20 +18,22 @@ import Signup from './Components/Signup/Signup';
 import { User } from './types';
 
 const App = () => {
-  const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin")?? "false"));
-  let userDefault:User =  {
-    _id:            "",
-    avatarID:       1,
-    userName:       "",
-    highscore:      0,
-    favorites:      [],
-    blacklist:      []
-  }
-  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user") ?? JSON.stringify(userDefault)));
+  const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));
+  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user") ?? JSON.stringify(
+    {
+      _id: "",
+      avatarID: 1,
+      username: "",
+      highscore: 0,
+      favorites: [],
+      blacklist: []
+    }
+    )));
+
   console.log(user);
   useEffect(() => {
     localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
-}, [loggedin]);
+  }, [loggedin]);
 
   const router = createBrowserRouter([
     {
@@ -56,14 +58,14 @@ const App = () => {
         },
         {
           path: "account/favorites",
-          element: <UserPreference preference={"favorites"} user={user}/>
+          element: <UserPreference preference={"favorites"} user={user} />
         },
         {
           path: "account/blacklisted",
-          element: <UserPreference preference={"blacklisted"} user={user}/>
+          element: <UserPreference preference={"blacklisted"} user={user} />
         },
         {
-          path: "start/:project", 
+          path: "start/:project",
           element: <Startpage />
         },
         {
@@ -88,7 +90,7 @@ const App = () => {
 
   return (
     <div>
-      <LoggedinContext.Provider value={{loggedin, setLoggedin}}>
+      <LoggedinContext.Provider value={{ loggedin, setLoggedin }}>
         <UserContext.Provider value={{ user: user, setUser: setUser }}>
           <RouterProvider router={router} />
         </UserContext.Provider>

@@ -16,6 +16,7 @@ nav p {
 
 .userIcon {
     height: 28px;
+    mix-blend-mode: multiply;
 }
 
 .loginNav {

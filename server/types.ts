@@ -1,17 +1,23 @@
 import { ObjectId } from "mongodb";
 
-interface User {
-  _id?:           ObjectId;
+interface UserCredentials {
   username:       string;
   password:       string;
+}
+interface User extends UserCredentials {
+  _id?:           ObjectId;
   avatarID:       number;
   highscore:      number;
   favorites:      Favorite[];
   blacklist:      Blacklist[];
 }
-interface UserCredentials {
+interface UserBasic {
+  _id?:           ObjectId;
   username:       string;
-  password:       string;
+  avatarID:       number;
+  highscore:      number;
+  favorites:      Favorite[];
+  blacklist:      Blacklist[];
 }
 interface QuoteQuiz {
   id:           string;
@@ -70,6 +76,7 @@ interface UserHighscore {
 export {
   User,
   UserCredentials,
+  UserBasic,
   Quote,
   QuoteQuiz,
   WrongAnswer,
