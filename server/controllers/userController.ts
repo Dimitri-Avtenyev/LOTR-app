@@ -56,7 +56,17 @@ const addUserToHighscores = async (req:any, res:any) => {
 const getAllUsers = async (req:any, res:any) => {
   res.type("application/json");
   const users = await userService.getAllUsers();
-  res.status(200).json(users);
+  let userBasic:UserBasic[] = [];
+  for(let i:number = 0; i<users.length; i++) {
+    userBasic.push({
+      username: users[i].username,
+      avatarID: users[i].avatarID,
+      highscore: users[i].highscore,
+      favorites: users[i].favorites,
+      blacklist: users[i].blacklist
+    })
+  }
+  res.status(200).json(userBasic);
 }
 const emptyHighscoresCollection = async (req:any, res:any) => {
   await userService.emptyCollection(COLLECTION_HIGHSCORES);
