@@ -1,5 +1,5 @@
 import userService, { COLLECTION_HIGHSCORES, COLLECTION_USERS } from "../services/userService";
-import { User, UserCredentials } from "../types";
+import { User, UserBasic, UserCredentials } from "../types";
 
 const getUsersHighscore = async (req:any, res:any) => {
   res.type("application/json");
@@ -32,7 +32,14 @@ const loginUser = async (req:any, res:any) => {
 
   let foundUser:User|null = await userService.getUser(userCredentials.username);
   if (foundUser !== null && foundUser.password === userCredentials.password) {
-   res.status(200).json(foundUser);
+    let userBasic:UserBasic = {
+      username: foundUser.username,
+      avatarID: foundUser.avatarID,
+      highscore: foundUser.highscore,
+      favorites: foundUser.favorites,
+      blacklist: foundUser.blacklist
+    }
+   res.status(200).json(userBasic);
   } 
   res.status(404);
 

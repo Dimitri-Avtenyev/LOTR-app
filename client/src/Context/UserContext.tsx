@@ -10,7 +10,7 @@ export const UserContext = React.createContext<IUserContext>({
   user: {
     _id:            "",
     avatarID:       3,
-    userName:       "",
+    username:       "",
     highscore:      0,
     favorites:      [],
     blacklist:      []
