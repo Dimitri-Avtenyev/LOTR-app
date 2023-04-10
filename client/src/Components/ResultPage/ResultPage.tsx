@@ -4,20 +4,24 @@ import thumbsDown from "./assets/thumbs-up.svg";
 import frodo from "./assets/frodo.webp";
 import Button from 'react-bootstrap/Button';
 import { UserContext } from "../../Context/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { Quote } from "../../types";
 
 
-const ResultPage = () => {
+const ResultPage = (quote : Quote) => {
     const { user } = useContext(UserContext);
     const saveToFavorites = async ()=>{
         try{
             let response = await fetch("http://localhost:3000/api/users/updatefavorites", {
-            method: "POST",
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
             favorites : []
             }),
         });
+        if(response.status === 200){
+                
+        }
         }catch(err){
 
         }
