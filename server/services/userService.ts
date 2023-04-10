@@ -98,11 +98,30 @@ const getAllUsers = async () => { //dev env
   }
   return users;
 }
+
+const updateFavorites = async(user: User) =>{
+  try{ 
+    await dbClient.connect();
+    await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+      {username: user.username}, 
+      {
+        $set:{favorites: user.favorites}
+      }
+    )
+  }catch (err){
+    console.log(err);
+  } finally{
+    await dbClient.close();
+  }
+}
+
 export default {
   getUsersHighscore,
   createUser,
   getUser,
   addUserToHighscores,
   emptyCollection,
-  getAllUsers
+  getAllUsers, 
+  updateFavorites
 }
+
