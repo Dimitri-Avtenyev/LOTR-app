@@ -73,10 +73,6 @@ const App = () => {
           element: <Quizpage limit={1} />
         },
         {
-          path: "quiz/result",
-          element: <ResultPage />
-        },
-        {
           path: "quiz/endquiz",
           element: <EndQuizPage />
         }

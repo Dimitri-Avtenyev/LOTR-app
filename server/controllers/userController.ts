@@ -7,6 +7,20 @@ const getUsersHighscore = async (req:any, res:any) => {
   res.status(200).json(users);
  
 }
+const updateUserFavorites = async (req : any, res : any) =>{
+  res.type("application/json");
+  let user:User ={
+    username:       req.body.email,
+    password:       req.body.password, 
+    avatarID:       1,
+    highscore:      0,
+    favorites:      req.body.favorites,
+    blacklist:      []
+  }
+
+  await userService.updateFavorites(user);
+  res.sendStatus(200);
+}
 
 const addUser = async (req:any, res:any) => {
   res.type("application/json");
@@ -83,5 +97,6 @@ export default {
   addUserToHighscores,
   emptyHighscoresCollection,
   emptyUsersCollection,
-  getAllUsers
+  getAllUsers, 
+  updateUserFavorites
 }

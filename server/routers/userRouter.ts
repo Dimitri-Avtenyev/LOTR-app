@@ -11,7 +11,9 @@ router.get("/all", userController.getAllUsers);
 router.post("/signup", userController.addUser);
 router.post("/login", userController.loginUser);
 router.post("/addusertohighscores", userController.addUserToHighscores)
+
 // PUT
+router.put("/updatefavorites", userController.updateUserFavorites); 
 
 // DELETE
 router.delete("/highscores/emptyall", userController.emptyHighscoresCollection);
