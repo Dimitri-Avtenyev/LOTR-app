@@ -32,7 +32,10 @@ const addUser = async (req:any, res:any) => {
     favorites:      [],
     blacklist:      []
   }
-
+  let foundUser:User|null = await userService.getUser(user.username);
+  if (foundUser !== null) {
+    return res.status(400).send({error: "something went wrong."});
+  }
   await userService.createUser(user);
   res.status(201).json(user);
 }

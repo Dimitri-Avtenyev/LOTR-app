@@ -35,11 +35,14 @@ const Signup = () => {
       setEmail("");
       setPassword("");
       setMessage("Signed up successfully, please loging to continue.");
+    } else if (response.status === 400) {
+      setEmail("");
+      setPassword("");
+      setMessage("User already exist.");
     }
   } catch (err) {
     setMessage("Something went wrong signing up.");
   }
-
     setSubmitted(true);
   }
   
