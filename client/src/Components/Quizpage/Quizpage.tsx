@@ -22,8 +22,8 @@ const Quizpage = () => {
         setLoading(false);
         }
         loadQuotes();
-    }, [])
-    
+    }, []);
+
     const submitAnswerHandler = () => {
         setActiveQuestion((prev) => prev + 1)
     }
@@ -40,23 +40,22 @@ const Quizpage = () => {
     return (
         <main className={styles.main}>
             {loading && <LoadingIndicator/>}
-            
             <div>
                 <h3>{activeQuestion}/10</h3>
-                <h3>Quote: {quotes[activeQuestion].dialog}</h3>
+                <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
             </div>
                 
             <div className={styles.quizForm}>
                 <div className={styles.columnLeft}>
-                    <p>{quotes[activeQuestion].character.name}</p>
-                    <p>{quotes[activeQuestion].wrongAnswers.character[0].name}</p>
-                    <p>{quotes[activeQuestion].wrongAnswers.character[1].name}</p>
+                    <p>{quotes[activeQuestion]?.character.name}</p>
+                    <p>{quotes[activeQuestion]?.wrongAnswers.character[0].name}</p>
+                    <p>{quotes[activeQuestion]?.wrongAnswers.character[1].name}</p>
                 </div>
                 <div className={styles.line}></div>
                 <div className={styles.columnRight}>
-                    <p>{quotes[activeQuestion].movie.name}</p>
-                    <p>{quotes[activeQuestion].wrongAnswers.movie[0].name}</p>
-                    <p>{quotes[activeQuestion].wrongAnswers.movie[1].name}</p>
+                    <p>{quotes[activeQuestion]?.movie.name}</p>
+                    <p>{quotes[activeQuestion]?.wrongAnswers.movie[0].name}</p>
+                    <p>{quotes[activeQuestion]?.wrongAnswers.movie[1].name}</p>
                 </div>
             </div>
             <button className={styles.submitButton} onClick={submitAnswerHandler}>Submit Answer</button>
