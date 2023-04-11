@@ -70,7 +70,7 @@ const App = () => {
         },
         {
           path: "quiz/theone",
-          element: <Quizpage limit={1} />
+          element: <Quizpage />
         },
         {
           path: "quiz/endquiz",
