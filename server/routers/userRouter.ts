@@ -13,7 +13,7 @@ router.post("/login", userController.loginUser);
 router.post("/addusertohighscores", userController.addUserToHighscores)
 
 // PUT
-router.put("/updatefavorites", userController.updateUserFavorites); 
+router.put("/updatefavorites", userController.updateUser); 
 
 // DELETE
 router.delete("/highscores/emptyall", userController.emptyHighscoresCollection);
