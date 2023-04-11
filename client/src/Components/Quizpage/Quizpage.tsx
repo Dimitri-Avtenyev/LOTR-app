@@ -24,6 +24,22 @@ const Quizpage = () => {
         loadQuotes();
     }, []);
 
+    let characterArray = [quotes[activeQuestion]?.character.name, quotes[activeQuestion]?.wrongAnswers.character[0].name, quotes[activeQuestion]?.wrongAnswers.character[1].name];
+    
+    let movieArray = [quotes[activeQuestion]?.movie.name, quotes[activeQuestion]?.wrongAnswers.movie[0].name, quotes[activeQuestion]?.wrongAnswers.movie[1].name]
+
+    const shuffleArray = (array : string[]) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i+1));
+            const temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+
+    shuffleArray(characterArray);
+    shuffleArray(movieArray);
+
     const submitAnswerHandler = () => {
         setActiveQuestion((prev) => prev + 1)
     }
@@ -41,21 +57,25 @@ const Quizpage = () => {
         <main className={styles.main}>
             {loading && <LoadingIndicator/>}
             <div>
-                <h3>{activeQuestion}/10</h3>
+                <h3>{activeQuestion + 1}/10</h3>
                 <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
             </div>
                 
             <div className={styles.quizForm}>
                 <div className={styles.columnLeft}>
-                    <p>{quotes[activeQuestion]?.character.name}</p>
-                    <p>{quotes[activeQuestion]?.wrongAnswers.character[0].name}</p>
-                    <p>{quotes[activeQuestion]?.wrongAnswers.character[1].name}</p>
+                    {characterArray.map((character : string) => {
+                        return (
+                            <p>{character}</p>
+                        )
+                    })}
                 </div>
                 <div className={styles.line}></div>
                 <div className={styles.columnRight}>
-                    <p>{quotes[activeQuestion]?.movie.name}</p>
-                    <p>{quotes[activeQuestion]?.wrongAnswers.movie[0].name}</p>
-                    <p>{quotes[activeQuestion]?.wrongAnswers.movie[1].name}</p>
+                    {movieArray.map((movie : string) => {
+                        return (
+                            <p>{movie}</p>
+                        )
+                    })}
                 </div>
             </div>
             <button className={styles.submitButton} onClick={submitAnswerHandler}>Submit Answer</button>
