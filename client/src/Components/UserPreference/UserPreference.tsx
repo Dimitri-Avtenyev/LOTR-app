@@ -16,12 +16,15 @@ const UserPreference = ({ preference, user }: { preference: string, user: User }
           </thead>
           <tbody>
             {user.favorites.map(favorite => {
-              return (
-                <tr key={favorite.quote.id}>
-                  <td>{favorite.quote.dialog} - {favorite.quote.character.name}</td>
-                </tr>
-              )
+              if (favorite.quote !== undefined) {
+                return (
+                  <tr key={favorite.quote?.id}>
+                    <td>{favorite.quote?.dialog} - {favorite.quote?.character.name}</td>
+                  </tr>
+                )
+              }
             })}
+
           </tbody>
         </table>
       </div>
