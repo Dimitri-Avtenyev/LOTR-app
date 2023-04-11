@@ -5,18 +5,23 @@ import frodo from "./assets/frodo.webp";
 import Button from 'react-bootstrap/Button';
 import { UserContext } from "../../Context/UserContext";
 import { useContext, useState } from "react";
-import { Quote } from "../../types";
+import { Favorite, Quote } from "../../types";
 
 
-const ResultPage = (quote : Quote) => {
+const ResultPage = ({quote} : {quote: Quote}) => {
     const { user } = useContext(UserContext);
+   
     const saveToFavorites = async ()=>{
+        let favoriteQuote:Favorite = {} as Favorite;
+        favoriteQuote.quote = quote;
+        user.favorites.push(favoriteQuote);
         try{
             let response = await fetch("http://localhost:3000/api/users/updatefavorites", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-            favorites : []
+            username: user.username,
+            favorites : user.favorites
             }),
         });
         if(response.status === 200){

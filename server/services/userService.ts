@@ -1,19 +1,19 @@
 import { dbClient } from "../server"
-import { User, UserHighscore } from "../types";
+import { Favorite, Quote, User, UserBasic, UserHighscore } from "../types";
 
-const DB_NAME:string = "LOTR-app";
-export const COLLECTION_USERS:string= "Users";
-export const COLLECTION_HIGHSCORES:string = "Highscores";
+const DB_NAME: string = "LOTR-app";
+export const COLLECTION_USERS: string = "Users";
+export const COLLECTION_HIGHSCORES: string = "Highscores";
 
 
-const getUser = async (email:string):Promise<User|null> => {
-  let foundUser:User|null = null;
+const getUser = async (email: string): Promise<User | null> => {
+  let foundUser: User | null = null;
 
   try {
     await dbClient.connect();
-    foundUser = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).findOne<User>({username: email});
-    
-  }  catch (err) {
+    foundUser = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).findOne<User>({ username: email });
+
+  } catch (err) {
     console.log(err);
   } finally {
     await dbClient.close();
@@ -22,7 +22,7 @@ const getUser = async (email:string):Promise<User|null> => {
 }
 const getUsersHighscore = async () => {
 
-  let users:UserHighscore[] = [] ;
+  let users: UserHighscore[] = [];
 
   try {
     await dbClient.connect();
@@ -30,15 +30,15 @@ const getUsersHighscore = async () => {
     users = await cursor.toArray();
 
     if (users.length <= 0) {
-        // sample data 
+      // sample data 
       users = [
         {
-          userName:       "testUser",
-          score:      10
-        }, 
+          userName: "testUser",
+          score: 10
+        },
         {
-          userName:       "testUser_2",
-          score:      7
+          userName: "testUser_2",
+          score: 7
         }
       ]
     }
@@ -51,7 +51,7 @@ const getUsersHighscore = async () => {
   return users;
 }
 
-const addUserToHighscores = async (user:UserHighscore) => {
+const addUserToHighscores = async (user: UserHighscore) => {
   try {
     await dbClient.connect();
     await dbClient.db(DB_NAME).collection(COLLECTION_HIGHSCORES).insertOne(user);
@@ -62,7 +62,7 @@ const addUserToHighscores = async (user:UserHighscore) => {
     await dbClient.close();
   }
 }
-const emptyCollection = async (collection:string) => {
+const emptyCollection = async (collection: string) => {
   try {
     await dbClient.connect();
     await dbClient.db(DB_NAME).collection(collection).deleteMany({});
@@ -72,7 +72,7 @@ const emptyCollection = async (collection:string) => {
     await dbClient.close();
   }
 }
-const createUser = async (user:User) => {
+const createUser = async (user: User) => {
   try {
     await dbClient.connect();
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).insertOne(user);
@@ -85,7 +85,7 @@ const createUser = async (user:User) => {
 }
 
 const getAllUsers = async () => { //dev env
-  let users:User[] = [];
+  let users: User[] = [];
   try {
     await dbClient.connect();
     let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).find<User>({});
@@ -99,18 +99,24 @@ const getAllUsers = async () => { //dev env
   return users;
 }
 
-const updateFavorites = async(user: User) =>{
-  try{ 
+const updateUser = async (user: UserBasic) => {
+
+  try {
     await dbClient.connect();
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
-      {username: user.username}, 
+      { username: user.username },
       {
-        $set:{favorites: user.favorites}
+        $set: {
+          avatarID: user.avatarID,
+          highscore: user.highscore,
+          favorites: user.favorites,
+          blacklist: user.blacklist
+        }
       }
     )
-  }catch (err){
+  } catch (err) {
     console.log(err);
-  } finally{
+  } finally {
     await dbClient.close();
   }
 }
@@ -121,7 +127,7 @@ export default {
   getUser,
   addUserToHighscores,
   emptyCollection,
-  getAllUsers, 
-  updateFavorites
+  getAllUsers,
+  updateUser
 }
 
