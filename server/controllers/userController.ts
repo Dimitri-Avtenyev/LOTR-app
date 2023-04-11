@@ -1,5 +1,5 @@
 import userService, { COLLECTION_HIGHSCORES, COLLECTION_USERS } from "../services/userService";
-import { User, UserBasic, UserCredentials } from "../types";
+import { Quote, User, UserBasic, UserCredentials } from "../types";
 
 const getUsersHighscore = async (req:any, res:any) => {
   res.type("application/json");
@@ -7,19 +7,24 @@ const getUsersHighscore = async (req:any, res:any) => {
   res.status(200).json(users);
  
 }
-const updateUserFavorites = async (req : any, res : any) =>{
+const updateUser = async (req : any, res : any) =>{
   res.type("application/json");
-  let user:User ={
-    username:       req.body.email,
-    password:       req.body.password, 
-    avatarID:       1,
-    highscore:      0,
-    favorites:      req.body.favorites,
-    blacklist:      []
-  }
 
-  await userService.updateFavorites(user);
-  res.sendStatus(200);
+  let user:User|null = await userService.getUser(req.body.username);
+
+  if (user === null) {
+    return res.status(400).send({error: "something went wrong."});
+  }
+  let updatedUser:UserBasic ={
+    username:       user.username,
+    avatarID:       req.body.avatartid ?? user.avatarID,
+    highscore:      req.body.highscore ?? user.highscore,
+    favorites:      req.body.favorites ?? user.favorites,
+    blacklist:      req.body.blacklist ?? user.blacklist
+  }
+  await userService.updateUser(updatedUser);
+
+  return res.sendStatus(200);
 }
 
 const addUser = async (req:any, res:any) => {
@@ -101,5 +106,5 @@ export default {
   emptyHighscoresCollection,
   emptyUsersCollection,
   getAllUsers, 
-  updateUserFavorites
+  updateUser
 }

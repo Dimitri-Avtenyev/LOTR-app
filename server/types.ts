@@ -20,11 +20,11 @@ interface UserBasic {
   blacklist:      Blacklist[];
 }
 interface QuoteQuiz {
-  id:           string;
-  dialog:       string;
-  movie:        Movie;
-  character:    Character;
-  wrongAnswers: WrongAnswer;
+  id:             string;
+  dialog:         string;
+  movie:          Movie;
+  character:      Character;
+  wrongAnswers?:  WrongAnswer;
 }
 interface WrongAnswer {
   movie:      Movie[];
@@ -59,7 +59,6 @@ interface Movie {
   rottenTomatoesScore:        number;
 }
 interface Favorite {
-  character:  Character;
   quote:      Quote;
 }
 
