@@ -29,8 +29,7 @@ const App = () => {
       blacklist: []
     }
     )));
-
-  console.log(user);
+    
   useEffect(() => {
     localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
   }, [loggedin]);
