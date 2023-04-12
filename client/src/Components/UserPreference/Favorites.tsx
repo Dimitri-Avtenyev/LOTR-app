@@ -5,10 +5,10 @@ import styles from "./Favorites.module.css";
 const Favorites = ({ user }: { user: User }) => {
   const [favorites, setFavorites] = useState<Favorite[]>(user.favorites);
   const [downloadLink, setDownloadLink] = useState<string>("");
+
   const removeQuote = (id:string) => {
     let favoriteCpy:Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
     setFavorites(favoriteCpy);
-   
   }
 useEffect(() => {
   
