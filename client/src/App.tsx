@@ -10,7 +10,6 @@ import { LoggedinContext } from './Context/LoggedinContext';
 import Quizpage from './Components/Quizpage/Quizpage';
 import EndQuizPage from './Components/EndQuizPage/EndQuizPage';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
-import ResultPage from './Components/ResultPage/ResultPage';
 import AccountPage from './Components/AccountPage/AccountPage';
 import UserPreference from './Components/UserPreference/UserPreference';
 import Login from './Components/LoginPage/Login';
@@ -18,6 +17,7 @@ import Signup from './Components/Signup/Signup';
 import { User } from './types';
 
 const App = () => {
+  const [show, setShow] = useState(false);
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));
   const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user") ?? JSON.stringify(
     {
@@ -70,12 +70,12 @@ const App = () => {
         },
         {
           path: "quiz/theone",
-          element: <Quizpage />
+          element: <Quizpage/>
         },
         {
           path: "quiz/endquiz",
           element: <EndQuizPage />
-        }
+        },
       ]
     },
     {
