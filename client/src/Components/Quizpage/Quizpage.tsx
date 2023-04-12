@@ -1,17 +1,84 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import styles from "./Quizpage.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
-import ResultPage from "../ResultPage/ResultPage";
-import { Quote } from "../../types";
-import { act } from "react-dom/test-utils";
+import frodo from "./assets/frodo.webp";
+import thumbsUp from "./assets/thumbs-down.svg";
+import Button from 'react-bootstrap/Button';
+import Modal from "react-bootstrap/Modal";
+import { UserContext } from "../../Context/UserContext";
+import { Favorite, Quote } from "../../types";
+import { StringDecoder } from "string_decoder";
+
+const ResultPage = ({quote} : {quote: Quote}) => {
+    const { user } = useContext(UserContext);
+    const [show, setShow] = useState(true);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+   
+    const saveToFavorites = async ()=>{
+        let favoriteQuote:Favorite = {} as Favorite;
+        favoriteQuote.quote = quote;
+        user.favorites.push(favoriteQuote);
+        try{
+            let response = await fetch("http://localhost:3000/api/users/updatefavorites", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+            username: user.username,
+            favorites : user.favorites
+            }),
+        });
+        if(response.status === 200){
+                
+        }
+        }catch(err){
+
+        }
+    }
+    return(
+        <Modal
+            show={show}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}  
+            centered={true}  
+        >
+            <Modal.Header>
+                <Modal.Title>{quote.dialog}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <p>race: Hobbit</p>
+                <img className={styles.image} src={frodo} alt="frodo" width="" height=""></img>
+                <p>Character name</p>
+                <img className={styles.image}></img>
+                <p>Film name</p>
+                <h3>Liked or disliked the quote?</h3>
+                <button className={styles.thumb}><img src={thumbsUp} alt="thumbsUp"width="40" height="40"></img></button>
+                <button className={styles.thumbsUp} onClick={saveToFavorites}><img src={thumbsUp}alt="thumbsDown"width="40" height="40"></img>
+                </button>
+                    <div className ={styles.reason}>
+                        <p>
+                            <label htmlFor="bericht"></label>
+                            <textarea name="bericht"  cols={40} rows={5} required>Schrijf hier uw bericht</textarea>
+                        </p> 
+                    </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button href="" className={styles.saveButton} variant="primary" size="lg" onClick={handleClose}>Save</Button>
+            </Modal.Footer>
+        </Modal>
+    )
+}
 
 const Quizpage = () => {
     const [loading, setLoading] = useState(false);
     const [quotes, setQuotes] = useState<Quote[]>([]);
     const [activeQuestion, setActiveQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(false);
-    const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(0);
+    const [selectedAnswerCharacterIndex, setSelectedAnswerMovieIndex] = useState(0);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -41,11 +108,11 @@ const Quizpage = () => {
     shuffleArray(movieArray);
 
     const submitAnswerHandler = () => {
+        setShow(true);
         setActiveQuestion((prev) => prev + 1)
     }
 
-    const onAnswerSelected = (answer : string, index : number) => {
-        setSelectedAnswerIndex(index)
+    const onAnswerSelected = (answer : string) => {
         if(answer === quotes[activeQuestion].character.name) {
             setSelectedAnswer(true)
         } else {
@@ -55,6 +122,7 @@ const Quizpage = () => {
 
     return (
         <main className={styles.main}>
+            {show && <ResultPage quote={quotes[activeQuestion]}/>}
             {loading && <LoadingIndicator/>}
             <div>
                 <h3>{activeQuestion + 1}/10</h3>
