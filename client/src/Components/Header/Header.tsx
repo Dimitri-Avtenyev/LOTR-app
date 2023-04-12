@@ -61,7 +61,7 @@ const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
                         <Nav.Link href="/account/favorites">Favorites</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="/account/blacklisted">Blacklisted</Nav.Link>
+                        <Nav.Link href="/account/blacklisted">Blacklist</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="disabled" disabled>Hello, {user?.username.substring(0, user?.username.indexOf("@"))}</Nav.Link>

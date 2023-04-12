@@ -1,60 +1,17 @@
-import { useContext } from "react"
-import { UserContext } from "../../Context/UserContext"
-import { Quote, User } from "../../types"
+import {  User } from "../../types"
+import Blacklist from "./Blacklist"
+import Favorites from "./Favorites"
 
 
 const UserPreference = ({ preference, user }: { preference: string, user: User }) => {
 
-  if (preference === "favorites" && user.favorites.length > 0) {
-    return (
-      <div>
-        <h1>Favorites</h1>
-
-        <table>
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
-            {user.favorites.map(favorite => {
-              return (
-                <tr key={favorite.quote.id}>
-                  <td>{favorite.quote.dialog} - {favorite.quote.character.name}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    )
-  } else if (preference === "blacklisted" && user.favorites.length > 0) {
-    return (
-      <div>
-        <h1>Blacklisted</h1>
-
-        <table>
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
-            {user.blacklist.map(blacklist => {
-              return (
-                <tr key={blacklist.quote.id}>
-                  <td>{blacklist.quote.dialog}</td>
-                  <td>{blacklist.reasonForBlacklisting}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    )
+  switch(preference) {
+    default: 
+      case("favorites"):
+    return <Favorites user={user} />;
+      case(("blacklist")):
+    return <Blacklist user={user}/>;
   }
-
-  return (
-    <div>
-      <h1>Nothing to show, list is empty.</h1>
-    </div>
-  )
 }
 
 export default UserPreference;

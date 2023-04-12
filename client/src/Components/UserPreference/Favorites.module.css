@@ -1,0 +1,22 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
+}
+button {
+  color: red;
+  border-radius: 10%;
+  border: none;
+}
+.printBtn {
+  color: green;
+}
+.container a {
+  color: blue
+}
+.container a:hover {
+  color: purple;
+}
