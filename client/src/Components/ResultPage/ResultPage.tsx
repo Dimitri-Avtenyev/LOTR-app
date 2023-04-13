@@ -39,7 +39,7 @@ const ResultPage = ({ quote }: ResultPageProps) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             username: user.username,
-            favorites: user.favorites
+            favorites: userUpdated.favorites
           }),
         });
 
@@ -65,12 +65,13 @@ const ResultPage = ({ quote }: ResultPageProps) => {
       centered={true}
     >
       <Modal.Header>
-        <Modal.Title>{quote.dialog}</Modal.Title>
+        <Modal.Title><q>{quote.dialog}</q></Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div>{errorMessage || message}</div>
-        <p>race: Hobbit</p>
         <img className={styles.image} src={frodo} alt="frodo" width="" height=""></img>
+        <p>race: {quote.character.race}</p>
+        
         <p>Character name</p>
         <img className={styles.image}></img>
         <p>Film name</p>

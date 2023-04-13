@@ -6,23 +6,23 @@ const Favorites = ({ user }: { user: User }) => {
   const [favorites, setFavorites] = useState<Favorite[]>(user.favorites);
   const [downloadLink, setDownloadLink] = useState<string>("");
 
-  const removeQuote = (id:string) => {
-    let favoriteCpy:Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
+  const removeQuote = (id: string) => {
+    let favoriteCpy: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
     setFavorites(favoriteCpy);
   }
-useEffect(() => {
-  
-  let fileContent:string = "";
-  for(let i:number = 0; i<favorites.length; i++) {
-    if (favorites[i].quote !== undefined) {
-      fileContent += `"${favorites[i].quote.dialog}" - ${favorites[i].quote.character.name}\n`
+  useEffect(() => {
+
+    let fileContent: string = "";
+    for (let i: number = 0; i < favorites.length; i++) {
+      if (favorites[i].quote !== undefined) {
+        fileContent += `"${favorites[i].quote.dialog}" - ${favorites[i].quote.character.name}\n`
+      }
     }
-  }
- 
-  let favoritesBlob = new Blob([fileContent], {type: "text/plain"});
-  setDownloadLink(URL.createObjectURL(favoritesBlob));
-  console.log(fileContent);
-}, []);
+    
+    let favoritesBlob = new Blob([fileContent], { type: "text/plain" });
+    setDownloadLink(URL.createObjectURL(favoritesBlob));
+    console.log(fileContent);
+  }, []);
 
   if (favorites.length === 0) {
     return (
