@@ -17,7 +17,7 @@ interface HeaderChildProps {
     setLoggedin: (loggedin:boolean) => void
 }
 
-const HeaderNotLoggedIn = ({loggedin, setLoggedin}:HeaderChildProps) => {
+const HeaderNotLoggedIn = () => {
 
     return (
         <header>
@@ -55,21 +55,14 @@ const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
             <Link to="/" className={styles.logo}><img src={thering} className={styles.logo}/></Link>
             <Link to="/" className={styles.projectName}>The One</Link>
             <div className={styles.navs}>
-                {/* {defaultActiveKey="/Favorites"} */}
                 <Nav variant="pills" > 
-                    <Nav.Item>
-                        <Nav.Link href="/account/favorites">Favorites</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link href="/account/blacklisted">Blacklist</Nav.Link>
-                    </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="disabled" disabled>Hello, {user?.username.substring(0, user?.username.indexOf("@"))}</Nav.Link>
                     </Nav.Item>
                     <NavDropdown title={userIcon} id="nav-dropdown">
-                        <NavDropdown.Item eventKey="4.1" href="/account">
-                            Account
-                            </NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.1" href="/account">Account</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.1" href="/account/favorites">Favorites</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.1" href="/account/blacklist">Blacklist</NavDropdown.Item>
                         <NavDropdown.Item eventKey="4.2" onClick={logOut}>Log Out</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
@@ -85,7 +78,7 @@ const Header = () => {
     return (
         loggedin ? 
         <HeaderLoggedIn user={user} loggedin={loggedin} setLoggedin={setLoggedin}/> : 
-        <HeaderNotLoggedIn loggedin={loggedin} setLoggedin={setLoggedin}/>
+        <HeaderNotLoggedIn />
     )
 }
 
