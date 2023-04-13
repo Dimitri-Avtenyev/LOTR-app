@@ -1,6 +1,6 @@
 import {  User } from "../../types"
-import Blacklist from "./Blacklist"
-import Favorites from "./Favorites"
+import Blacklist from "./Blacklist/Blacklist"
+import Favorites from "./Favorites/Favorites"
 
 
 const UserPreference = ({ preference, user }: { preference: string, user: User }) => {

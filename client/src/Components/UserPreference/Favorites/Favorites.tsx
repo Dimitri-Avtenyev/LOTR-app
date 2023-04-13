@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Favorite, User } from "../../types";
 import styles from "./Favorites.module.css";
+import deleteBin from "../assets/deleteBin.svg";
+import { User, Favorite } from "../../../types";
 
 const Favorites = ({ user }: { user: User }) => {
   const [favorites, setFavorites] = useState<Favorite[]>(user.favorites);
@@ -35,9 +36,10 @@ const Favorites = ({ user }: { user: User }) => {
   return (
     <div className={styles.container}>
       <h1>Favorites</h1>
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr>
+            <th>Movie</th>
             <th>Quote</th>
             <th></th>
             <th>Character</th>
@@ -48,12 +50,13 @@ const Favorites = ({ user }: { user: User }) => {
             if (favorite.quote !== undefined) {
               return (
                 <tr key={favorite.quote?.id}>
+                  <td>{favorite.quote?.movie.name}</td>
                   <td><q>{favorite.quote?.dialog}</q></td>
                   <td>-</td>
                   <td>
                     <a href={favorite.quote?.character.wikiUrl} target="_blank">{favorite.quote?.character.name}</a>
                   </td>
-                  <td><button onClick={() => removeQuote(favorite.quote.id)}>X</button></td>
+                  <td><button className={styles.binBtn} onClick={() => removeQuote(favorite.quote.id)}><img src={deleteBin}></img></button></td>
                 </tr>
               );
             }
@@ -61,7 +64,7 @@ const Favorites = ({ user }: { user: User }) => {
           }
         </tbody>
       </table>
-      <button className={styles.printBtn}>
+      <button className={styles.downloadBtn}>
         <a href={downloadLink} download={"favorites.txt"}>Download quotes</a>
       </button>
     </div>
