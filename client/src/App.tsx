@@ -60,7 +60,7 @@ const App = () => {
           element: <UserPreference preference={"favorites"} user={user} />
         },
         {
-          path: "account/blacklisted",
+          path: "account/blacklist",
           element: <UserPreference preference={"blacklist"} user={user} />
         },
         {

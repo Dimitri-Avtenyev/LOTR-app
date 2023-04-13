@@ -52,27 +52,3 @@
     margin-top: 20px;
     border-radius: 5px;
 }
-
-/*
-Resultpage CSS
-*/
-
-.image{
-    margin: 2rem 2rem 2rem 2rem;
-    width: 100px;
-  }
-.thumb{
-    border: none;
-    background-color: white;
-}
-.thumbsUp{
-    transform: scaleY(-1);
-    border: none;
-    background-color: white;
-    padding-left: 20%;
-}
-.saveButton {
-    padding: 10px 40px;
-}
-
-
