@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
-import { Favorite, User } from "../../types";
+import { useContext, useEffect, useState } from "react";
 import styles from "./Favorites.module.css";
+import deleteBin from "../assets/deleteBin.svg";
+import { User, Favorite } from "../../../types";
+import { UserContext } from "../../../Context/UserContext";
 
 const Favorites = ({ user }: { user: User }) => {
   const [favorites, setFavorites] = useState<Favorite[]>(user.favorites);
   const [downloadLink, setDownloadLink] = useState<string>("");
+  const [updatedUser, setUpdatedUser] = useState<User>(user);
 
-  const removeQuote = (id: string) => {
-    let favoriteCpy: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
-    setFavorites(favoriteCpy);
-  }
   useEffect(() => {
 
     let fileContent: string = "";
@@ -21,9 +20,38 @@ const Favorites = ({ user }: { user: User }) => {
     
     let favoritesBlob = new Blob([fileContent], { type: "text/plain" });
     setDownloadLink(URL.createObjectURL(favoritesBlob));
-    console.log(fileContent);
   }, []);
 
+useEffect(() => {
+  updateUser();
+  localStorage.setItem("user", JSON.stringify(updatedUser));
+}, [favorites]);
+
+const removeQuote = async (id: string) => {
+  let favoriteCpy: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
+  setFavorites(favoriteCpy);
+}
+const updateUser = async () => {
+  let userUpdated: User = JSON.parse(JSON.stringify(user));
+  userUpdated.favorites = [...favorites];
+  setUpdatedUser(userUpdated);
+  
+  try {
+    let respose = await fetch("http://localhost:3000/api/users/update", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: user.username,
+        favorites: userUpdated.favorites
+      })
+    });
+    if (respose.status === 200) {
+      
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
   if (favorites.length === 0) {
     return (
       <div>
@@ -35,12 +63,14 @@ const Favorites = ({ user }: { user: User }) => {
   return (
     <div className={styles.container}>
       <h1>Favorites</h1>
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr>
+            <th>Movie</th>
             <th>Quote</th>
             <th></th>
             <th>Character</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -48,12 +78,13 @@ const Favorites = ({ user }: { user: User }) => {
             if (favorite.quote !== undefined) {
               return (
                 <tr key={favorite.quote?.id}>
+                  <td>{favorite.quote?.movie.name}</td>
                   <td><q>{favorite.quote?.dialog}</q></td>
                   <td>-</td>
                   <td>
                     <a href={favorite.quote?.character.wikiUrl} target="_blank">{favorite.quote?.character.name}</a>
                   </td>
-                  <td><button onClick={() => removeQuote(favorite.quote.id)}>X</button></td>
+                  <td><button className={styles.binBtn} onClick={() => removeQuote(favorite.quote.id)}><img src={deleteBin}></img></button></td>
                 </tr>
               );
             }
@@ -61,7 +92,7 @@ const Favorites = ({ user }: { user: User }) => {
           }
         </tbody>
       </table>
-      <button className={styles.printBtn}>
+      <button className={styles.downloadBtn}>
         <a href={downloadLink} download={"favorites.txt"}>Download quotes</a>
       </button>
     </div>

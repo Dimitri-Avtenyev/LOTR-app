@@ -16,7 +16,9 @@ const getUser = async (email: string): Promise<User | null> => {
   } catch (err) {
     console.log(err);
   } finally {
-    await dbClient.close();
+    setTimeout(async () => {
+      await dbClient.close();
+    }, 5000)
   }
   return foundUser;
 }
@@ -117,7 +119,9 @@ const updateUser = async (user: UserBasic) => {
   } catch (err) {
     console.log(err);
   } finally {
-    await dbClient.close();
+    setTimeout(async () => {
+      await dbClient.close();
+    }, 5000)  
   }
 }
 

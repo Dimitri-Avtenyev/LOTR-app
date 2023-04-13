@@ -1,6 +1,6 @@
-import {  User } from "../../types"
-import Blacklist from "./Blacklist"
-import Favorites from "./Favorites"
+import {  User } from "../../types";
+import Blacklisted from "./Blacklist/Blacklist";
+import Favorites from "./Favorites/Favorites";
 
 
 const UserPreference = ({ preference, user }: { preference: string, user: User }) => {
@@ -10,7 +10,7 @@ const UserPreference = ({ preference, user }: { preference: string, user: User }
       case("favorites"):
     return <Favorites user={user} />;
       case(("blacklist")):
-    return <Blacklist user={user}/>;
+    return <Blacklisted user={user}/>;
   }
 }
 

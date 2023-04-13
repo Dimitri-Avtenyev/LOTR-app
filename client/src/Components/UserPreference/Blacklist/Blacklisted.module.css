@@ -1,0 +1,40 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.table td:nth-child(2){
+  width: auto;
+  white-space: nowrap;
+  padding-right: 10px;
+}
+.table tr th {
+  text-align: left;
+  
+}
+.table td {
+  text-align: left; 
+}
+.table td:nth-child(1), .table td:nth-child(2) {
+  border-bottom: 1px solid rgb(190, 190, 78);
+}
+.binBtn {
+  color: red;
+  border-radius: 10%;
+  border: none;
+}
+.downloadBtn {
+  border: none;
+  margin-top: 1rem;
+}
+.container a {
+  color: blue
+}
+.container a:hover {
+  color: purple;
+}
