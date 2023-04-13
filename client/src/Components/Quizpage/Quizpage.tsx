@@ -8,8 +8,8 @@ import ResultPage from "../ResultPage/ResultPage";
 const Quizpage = () => {
   const [loading, setLoading] = useState(false);
   const [quotes, setQuotes] = useState<Quote[]>([]);
-  const [activeQuestion, setActiveQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(false);
+  const [activeQuestion, setActiveQuestion] = useState<number>(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<boolean>(false);
   const [selectedAnswerCharacterIndex, setSelectedAnswerMovieIndex] = useState(0);
   const [show, setShow] = useState(false);
 
@@ -26,7 +26,7 @@ const Quizpage = () => {
 
   let characterArray = [quotes[activeQuestion]?.character.name, quotes[activeQuestion]?.wrongAnswers.character[0].name, quotes[activeQuestion]?.wrongAnswers.character[1].name];
 
-  let movieArray = [quotes[activeQuestion]?.movie.name, quotes[activeQuestion]?.wrongAnswers.movie[0].name, quotes[activeQuestion]?.wrongAnswers.movie[1].name]
+  let movieArray = [quotes[activeQuestion]?.movie.name, quotes[activeQuestion]?.wrongAnswers.movie[0].name, quotes[activeQuestion]?.wrongAnswers?.movie[1]?.name]
 
   const shuffleArray = (array: string[]) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -42,7 +42,6 @@ const Quizpage = () => {
 
   const submitAnswerHandler = () => {
     setShow(true);
-    setActiveQuestion((prev) => prev + 1)
   }
 
   const onAnswerSelected = (answer: string) => {
@@ -52,10 +51,10 @@ const Quizpage = () => {
       setSelectedAnswer(false)
     }
   }
-
+  
   return (
     <main className={styles.main}>
-      {show && <ResultPage quote={quotes[activeQuestion]} />}
+      {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]}/>}
       {loading && <LoadingIndicator />}
       <div>
         <h3>{activeQuestion + 1}/10</h3>
@@ -64,17 +63,17 @@ const Quizpage = () => {
 
       <div className={styles.quizForm}>
         <div className={styles.columnLeft}>
-          {characterArray.map((character: string) => {
+          {characterArray.map((character: string, index:number) => {
             return (
-              <p>{character}</p>
+              <p key={index}>{character}</p>
             )
           })}
         </div>
         <div className={styles.line}></div>
         <div className={styles.columnRight}>
-          {movieArray.map((movie: string) => {
+          {movieArray.map((movie: string, index:number) => {
             return (
-              <p>{movie}</p>
+              <p key={index}>{movie}</p>
             )
           })}
         </div>

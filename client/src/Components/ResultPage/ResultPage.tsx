@@ -10,17 +10,23 @@ import { Modal } from "react-bootstrap";
 
 interface ResultPageProps {
   quote: Quote,
+  show: boolean,
+  setShow: (show:boolean) => void,
+  activeQuestion: number,
+  setActiveQuestion: (activeQuestion:number) => void
 }
 
-const ResultPage = ({ quote }: ResultPageProps) => {
+const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }: ResultPageProps) => {
   const { user, setUser } = useContext(UserContext);
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const [show, setShow] = useState(true);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    setActiveQuestion(activeQuestion + 1);
+  };
+  const handleShow = () => setShow(false);
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
