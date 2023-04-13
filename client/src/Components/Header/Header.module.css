@@ -50,8 +50,6 @@ nav p {
 }
 
 .projectName {
-    display: flex;
-    margin-left: 20%;
     font-size: 38px;
     font-weight: bold;
     text-decoration: none;

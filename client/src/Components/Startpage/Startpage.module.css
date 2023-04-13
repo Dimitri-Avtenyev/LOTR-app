@@ -1,5 +1,6 @@
 main {
     margin: 50px;
+    min-height: 80vh;
 }
 
 .startpage {
@@ -8,10 +9,6 @@ main {
     flex-direction: column;
     gap: 100px;
     margin-top: 100px;
-}
-
-h1 {
-    text-align: center;
 }
 
 .startButton {
