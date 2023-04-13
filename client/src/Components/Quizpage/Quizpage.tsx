@@ -9,9 +9,12 @@ const Quizpage = () => {
   const [loading, setLoading] = useState(false);
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [activeQuestion, setActiveQuestion] = useState<number>(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<boolean>(false);
-  const [selectedAnswerCharacterIndex, setSelectedAnswerMovieIndex] = useState(0);
-  const [show, setShow] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState<boolean>(false);
+  const [selectedMovie, setSelectedMovie] = useState<boolean>(false);
+  const [selectedCharacterIndex, setselectedCharacterIndex] = useState<number>(-1);
+  const [selectedMovieIndex, setSelectedMovieIndex] = useState<number>(-1);
+  const [show, setShow] = useState<boolean>(false);
+  const [score, setScore] = useState<number>(0);
 
   useEffect(() => {
     setLoading(true);
@@ -27,34 +30,42 @@ const Quizpage = () => {
   let characterArray = [quotes[activeQuestion]?.character.name, quotes[activeQuestion]?.wrongAnswers.character[0].name, quotes[activeQuestion]?.wrongAnswers.character[1].name];
 
   let movieArray = [quotes[activeQuestion]?.movie.name, quotes[activeQuestion]?.wrongAnswers.movie[0].name, quotes[activeQuestion]?.wrongAnswers?.movie[1]?.name]
+  
+  const submitAnswerHandler = () => {
+    setShow(true);
+    checkAnswer();
+  }
 
-  const shuffleArray = (array: string[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
+  const onCharacterSelected = (character : string, index : number) => {
+    setselectedCharacterIndex(index);
+    if (character === quotes[activeQuestion].character.name) {
+      setSelectedCharacter(true)
+    } else {
+      setSelectedCharacter(false)
     }
   }
 
-  shuffleArray(characterArray);
-  shuffleArray(movieArray);
-
-  const submitAnswerHandler = () => {
-    setShow(true);
+  const onMovieSelected = (movie : string, index : number) => {
+    setSelectedMovieIndex(index);
+    if (movie === quotes[activeQuestion].movie.name) {
+      setSelectedMovie(true)
+    } else {
+      setSelectedMovie(false)
+    }
   }
 
-  const onAnswerSelected = (answer: string) => {
-    if (answer === quotes[activeQuestion].character.name) {
-      setSelectedAnswer(true)
+  const checkAnswer = () => {
+    if (selectedCharacter === true && selectedMovie === true) {
+      setScore(score + 1);
+    } else if(selectedCharacter === true || selectedMovie === true) {
+      setScore(score + 0.5)
     } else {
-      setSelectedAnswer(false)
     }
   }
   
   return (
     <main className={styles.main}>
-      {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]}/>}
+      {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex}/>}
       {loading && <LoadingIndicator />}
       <div>
         <h3>{activeQuestion + 1}/10</h3>
@@ -65,7 +76,11 @@ const Quizpage = () => {
         <div className={styles.columnLeft}>
           {characterArray.map((character: string, index:number) => {
             return (
-              <p key={index}>{character}</p>
+              <button key={index} onClick={() => onCharacterSelected(character, index)}
+              style={{
+                backgroundColor: selectedCharacterIndex === index ? "#50695d" : ""
+              }}
+              >{character}</button>
             )
           })}
         </div>
@@ -73,12 +88,17 @@ const Quizpage = () => {
         <div className={styles.columnRight}>
           {movieArray.map((movie: string, index:number) => {
             return (
-              <p key={index}>{movie}</p>
+              <button key={index} onClick={() => onMovieSelected(movie, index)}
+              style={{
+                backgroundColor: selectedMovieIndex === index ? "#50695d" : ""
+              }}
+              >{movie}</button>
             )
           })}
         </div>
       </div>
       <button className={styles.submitButton} onClick={submitAnswerHandler}>Submit Answer</button>
+      <h3>Score: {score}</h3>
     </main>
   )
 }

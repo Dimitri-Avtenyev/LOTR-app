@@ -18,20 +18,24 @@
     margin-top: 100px;
 }
 
-.quizForm p {
+.quizForm button {
     padding: 10px;
+    margin: 10px;
     width: 200px;
     max-height: 65px;
+    color: black;
     border: 1px solid black;
     border-radius: 5px;
     background-color: #D5CEA3;
 }
 
-.quizForm p:hover {
+.quizForm button:hover {
     background-color: #696650;
 }
 
 .columnLeft {
+    display: flex;
+    flex-direction: column;
     align-self: center;
     margin-right: 50px;
 }
@@ -43,12 +47,25 @@
 }
 
 .columnRight {
+    display: flex;
+    flex-direction: column;
     align-self: center;
     margin-left: 50px;
 }
 
 .submitButton {
+    color: black;
+    border: 1px solid black;
     width: 200px;
     margin-top: 20px;
+    margin-bottom: 20px;;
     border-radius: 5px;
+}
+
+.submitButton:hover {
+    background-color: #50695d;
+}
+
+.selected-answer {
+    background-color: red;
 }

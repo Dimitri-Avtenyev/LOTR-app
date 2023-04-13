@@ -13,10 +13,14 @@ interface ResultPageProps {
   show: boolean,
   setShow: (show:boolean) => void,
   activeQuestion: number,
-  setActiveQuestion: (activeQuestion:number) => void
+  setActiveQuestion: (activeQuestion:number) => void,
+  selectedCharacterIndex : number,
+  setSelectedCharacterIndex: (index:number) => void,
+  selectedMovieIndex : number,
+  setSelectedMovieIndex: (index:number) => void
 }
 
-const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }: ResultPageProps) => {
+const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, selectedCharacterIndex, setSelectedCharacterIndex, selectedMovieIndex, setSelectedMovieIndex }: ResultPageProps) => {
   const { user, setUser } = useContext(UserContext);
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -25,9 +29,10 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }:
   const handleClose = () => {
     setShow(false);
     setActiveQuestion(activeQuestion + 1);
+    setSelectedCharacterIndex(-1);
+    setSelectedMovieIndex(-1);
   };
-  const handleShow = () => setShow(false);
-
+  
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -75,21 +80,23 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }:
       </Modal.Header>
       <Modal.Body>
         <div>{errorMessage || message}</div>
-        <img className={styles.image} src={frodo} alt="frodo" width="" height=""></img>
-        <p>race: {quote.character.race}</p>
-        
-        <p>Character name</p>
-        <img className={styles.image}></img>
-        <p>Film name</p>
-        <h3>Liked or disliked the quote?</h3>
-        <button className={styles.thumb}><img src={thumbsUp} alt="thumbsUp" width="40" height="40"></img></button>
-        <button className={styles.thumbsUp} onClick={saveToFavorites}><img src={thumbsUp} alt="thumbsDown" width="40" height="40"></img>
-        </button>
-        <div className={styles.reason}>
-          <p>
-            <label htmlFor="bericht"></label>
-            <textarea name="bericht" cols={40} rows={5} placeholder="reason ?" required></textarea>
-          </p>
+        <div className={styles.resultForm}>
+          <img className={styles.image} src={frodo} alt="frodo" width="" height=""></img>
+          <p>Race: {quote.character.race}</p>
+          
+          <p>Character Name: {quote.character.name}</p>
+          <img className={styles.image}></img>
+          <p>Movie Name: {quote.movie.name}</p>
+          <h3>Liked or disliked the quote?</h3>
+          <button className={styles.thumb}><img src={thumbsUp} alt="thumbsUp" width="40" height="40"></img></button>
+          <button className={styles.thumbsUp} onClick={saveToFavorites}><img src={thumbsUp} alt="thumbsDown" width="40" height="40"></img>
+          </button>
+          <div className={styles.reason}>
+            <p>
+              <label htmlFor="bericht"></label>
+              <textarea name="bericht" cols={40} rows={5} placeholder="reason ?" required></textarea>
+            </p>
+          </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
