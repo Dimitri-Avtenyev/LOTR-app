@@ -5,7 +5,7 @@ import frodo from "./assets/frodo.webp";
 import Button from 'react-bootstrap/Button';
 import { UserContext } from "../../Context/UserContext";
 import { useContext, useEffect, useState } from "react";
-import { Favorite, Quote, User } from "../../types";
+import { Blacklist, Favorite, Quote, User } from "../../types";
 import { Modal } from "react-bootstrap";
 
 interface ResultPageProps {
@@ -21,14 +21,19 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }:
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  const [like, setLike] = useState<boolean>(false);
+  const [dislike, setDislike] = useState<boolean>(false);
+  const [blacklistReason, setBlacklistReason] = useState<string>("");
 
-  const handleClose = () => {
+
+  const handleSave = () => {
     setShow(false);
     setActiveQuestion(activeQuestion + 1);
   };
   const handleShow = () => setShow(false);
 
   useEffect(() => {
+    saveToFavorites();
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
@@ -61,11 +66,39 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }:
       setMessage("");
     }
   }
+  const saveToBlacklist = async () => {
+    let blacklistQuote: Blacklist = { quote, reasonForBlacklisting: blacklistReason};
+    let userUpdated: User = JSON.parse(JSON.stringify(user));
 
+    if (!user.blacklist.some(blQuote => blQuote.quote?.id === blacklistQuote.quote?.id)) {
+      userUpdated.favorites.push(blacklistQuote);
+      setUser(userUpdated);
+      try {
+        let response = await fetch("http://localhost:3000/api/users/updateblacklist", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: user.username,
+            blacklist: userUpdated.blacklist
+          }),
+        });
+
+        if (response.status === 200) {
+          setMessage("Successfuly added to blacklist!");
+          setErrorMessage("");
+        }
+      } catch (err) {
+
+      }
+    } else {
+      setErrorMessage("Already added to blacklist!");
+      setMessage("");
+    }
+  }
+  
   return (
     <Modal
       show={show}
-      onHide={handleClose}
       backdrop="static"
       keyboard={false}
       centered={true}
@@ -82,8 +115,8 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }:
         <img className={styles.image}></img>
         <p>Film name</p>
         <h3>Liked or disliked the quote?</h3>
-        <button className={styles.thumb}><img src={thumbsUp} alt="thumbsUp" width="40" height="40"></img></button>
-        <button className={styles.thumbsUp} onClick={saveToFavorites}><img src={thumbsUp} alt="thumbsDown" width="40" height="40"></img>
+        <button className={styles.thumbsDown} onClick={() => setDislike(true)}><img src={thumbsUp} alt="thumbsDown" width="40" height="40"></img></button>
+        <button className={styles.thumbsUp} onClick={() => setLike(true)}><img src={thumbsUp} alt="thumbsUp" width="40" height="40"></img>
         </button>
         <div className={styles.reason}>
           <p>
@@ -93,7 +126,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }:
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button className={styles.saveButton} variant="primary" size="lg" onClick={handleClose}>Save</Button>
+        <Button className={styles.saveButton} variant="primary" size="lg" onClick={handleSave}>Save</Button>
       </Modal.Footer>
     </Modal>
   )
