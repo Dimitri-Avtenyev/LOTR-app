@@ -12,11 +12,23 @@
   background-color: white;
 }
 
+.thumbsDownClicked {
+  transform: scaleY(-1);
+  background-color: yellow;
+  border: none;
+  margin-left: 20%;
+}
+
+.thumbsUpClicked {
+  background-color: yellow;
+  border: none;
+}
+
 .thumbsUp {
   transform: scaleY(-1);
   border: none;
   background-color: white;
-  padding-left: 20%;
+  margin-left: 20%;
 }
 
 .saveButton {
