@@ -10,17 +10,23 @@ import { Modal } from "react-bootstrap";
 
 interface ResultPageProps {
   quote: Quote,
+  show: boolean,
+  setShow: (show:boolean) => void,
+  activeQuestion: number,
+  setActiveQuestion: (activeQuestion:number) => void
 }
 
-const ResultPage = ({ quote }: ResultPageProps) => {
+const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote }: ResultPageProps) => {
   const { user, setUser } = useContext(UserContext);
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const [show, setShow] = useState(true);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    setActiveQuestion(activeQuestion + 1);
+  };
+  const handleShow = () => setShow(false);
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
@@ -39,7 +45,7 @@ const ResultPage = ({ quote }: ResultPageProps) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             username: user.username,
-            favorites: user.favorites
+            favorites: userUpdated.favorites
           }),
         });
 
@@ -65,12 +71,13 @@ const ResultPage = ({ quote }: ResultPageProps) => {
       centered={true}
     >
       <Modal.Header>
-        <Modal.Title>{quote.dialog}</Modal.Title>
+        <Modal.Title><q>{quote.dialog}</q></Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div>{errorMessage || message}</div>
-        <p>race: Hobbit</p>
         <img className={styles.image} src={frodo} alt="frodo" width="" height=""></img>
+        <p>race: {quote.character.race}</p>
+        
         <p>Character name</p>
         <img className={styles.image}></img>
         <p>Film name</p>
