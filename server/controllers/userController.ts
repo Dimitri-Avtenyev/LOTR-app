@@ -13,7 +13,7 @@ const updateUser = async (req : any, res : any) =>{
   let user:User|null = await userService.getUser(req.body.username);
 
   if (user === null) {
-    return res.status(400).send({error: "something went wrong."});
+    return res.status(400).send({error: "User not found."});
   }
   let updatedUser:UserBasic ={
     username:       user.username,

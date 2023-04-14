@@ -7,24 +7,21 @@ import { UserContext } from "../../../Context/UserContext";
 const Favorites = ({ user }: { user: User }) => {
   const [favorites, setFavorites] = useState<Favorite[]>(user.favorites);
   const [downloadLink, setDownloadLink] = useState<string>("");
-  const [updatedUser, setUpdatedUser] = useState<User>(user);
+  const {setUser} = useContext(UserContext);
 
   useEffect(() => {
-
     let fileContent: string = "";
     for (let i: number = 0; i < favorites.length; i++) {
       if (favorites[i].quote !== undefined) {
         fileContent += `"${favorites[i].quote.dialog}" - ${favorites[i].quote.character.name}\n`
       }
     }
-    
     let favoritesBlob = new Blob([fileContent], { type: "text/plain" });
     setDownloadLink(URL.createObjectURL(favoritesBlob));
   }, []);
 
 useEffect(() => {
   updateUser();
-  localStorage.setItem("user", JSON.stringify(updatedUser));
 }, [favorites]);
 
 const removeQuote = async (id: string) => {
@@ -34,7 +31,7 @@ const removeQuote = async (id: string) => {
 const updateUser = async () => {
   let userUpdated: User = JSON.parse(JSON.stringify(user));
   userUpdated.favorites = [...favorites];
-  setUpdatedUser(userUpdated);
+  setUser(userUpdated);
   
   try {
     let respose = await fetch("http://localhost:3000/api/users/update", {

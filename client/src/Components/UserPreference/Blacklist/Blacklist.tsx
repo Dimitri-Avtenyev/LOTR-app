@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Blacklist, User } from "../../../types";
 import styles from "../Blacklist/Blacklisted.module.css";
 import deleteBin from "../assets/deleteBin.svg";
+import { UserContext } from "../../../Context/UserContext";
 
 
 const Blacklisted = ({ user }: { user: User }) => {
   const [blacklist, setBlacklist] = useState<Blacklist[]>(user.blacklist);
   const [updatedUser, setUpdatedUser] = useState<User>(user);
-  
+  const {setUser} = useContext(UserContext);
+
   useEffect(() => {
     updateUser();
-    localStorage.setItem("user", JSON.stringify(updatedUser));
   }, [blacklist]);
   
   const removeQuote = async (id: string) => {
@@ -20,7 +21,7 @@ const Blacklisted = ({ user }: { user: User }) => {
   const updateUser = async () => {
     let userUpdated: User = JSON.parse(JSON.stringify(user));
     userUpdated.blacklist = [...blacklist];
-    setUpdatedUser(userUpdated);
+    setUser(userUpdated);
     
     try {
       let respose = await fetch("http://localhost:3000/api/users/update", {

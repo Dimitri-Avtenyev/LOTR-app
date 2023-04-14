@@ -17,7 +17,6 @@ import Signup from './Components/Signup/Signup';
 import { User } from './types';
 
 const App = () => {
-  const [show, setShow] = useState(false);
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));
   const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user") ?? JSON.stringify(
     {
@@ -33,7 +32,9 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
   }, [loggedin]);
-
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
   const router = createBrowserRouter([
     {
       path: "/",
