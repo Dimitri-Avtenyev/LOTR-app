@@ -1,12 +1,11 @@
 import styles from "./ResultPage.module.css";
 import thumbsUp from "./assets/thumbs-down.svg";
-import thumbsDown from "./assets/thumbs-up.svg";
-import frodo from "./assets/frodo.webp";
 import Button from 'react-bootstrap/Button';
 import { UserContext } from "../../Context/UserContext";
 import { useContext, useEffect, useState } from "react";
 import { Blacklist, Favorite, Quote, User } from "../../types";
 import { Modal } from "react-bootstrap";
+import Movie from "../Movie/Movie";
 
 interface ResultPageProps {
   quote: Quote,
@@ -121,13 +120,9 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
       <Modal.Body>
         <div>{errorMessage || message}</div>
         <div className={styles.resultForm}>
-          <img className={styles.image} src={frodo} alt="frodo" width="" height=""></img>
-          <p>Race: {quote.character.race}</p>
-
-          <p>Character Name: {quote.character.name}</p>
-          <img className={styles.image}></img>
-          <p>Movie Name: {quote.movie.name}</p>
-          <h3>Liked or disliked the quote?</h3>
+          <Movie movie={quote.movie}/>
+          <p>Character: <b>{quote.character.name}</b></p>
+          <h3>What do you think of the quote?</h3>
           <button className={dislike ? styles.thumbsUpClicked : styles.thumbsDown}
             onClick={() => setDislike(true)}
             disabled={like}
