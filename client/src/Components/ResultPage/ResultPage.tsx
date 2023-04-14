@@ -33,12 +33,12 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
-  const handleSave = async () => {
+  const handleSave =  () => {
 
     if (like) {
-      await saveToFavorites();
+      saveToFavorites();
     } else if (dislike) {
-      await saveToBlacklist();
+      saveToBlacklist();
     }
     setShow(false);
     setActiveQuestion(activeQuestion + 1);
