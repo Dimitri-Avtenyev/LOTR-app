@@ -17,7 +17,7 @@ const updateUser = async (req : any, res : any) =>{
   }
   let updatedUser:UserBasic ={
     username:       user.username,
-    avatarID:       req.body.avatartid ?? user.avatarID,
+    avatarID:       req.body.avatarID ?? user.avatarID,
     highscore:      req.body.highscore ?? user.highscore,
     favorites:      req.body.favorites ?? user.favorites,
     blacklist:      req.body.blacklist ?? user.blacklist

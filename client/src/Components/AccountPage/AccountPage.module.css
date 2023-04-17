@@ -6,7 +6,23 @@
   align-items: center;
   text-align: center;
 }
-.profile img {
-  width: 70px;
 
+.container img {
+  width: 70px;
+}
+
+.container button {
+  border: none;
+  border-radius: 10%;
+  
+}
+.changeAvatar {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  overflow: auto;
+  max-width: 100%;
+}
+.changeAvatar>:hover {
+  scale: 2;
 }
