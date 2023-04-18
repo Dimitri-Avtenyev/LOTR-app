@@ -54,7 +54,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
       userUpdated.favorites.push(favorite);
 
       try {
-        let response = await fetch("http://localhost:3000/api/users/update", {
+        let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -84,7 +84,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
       userUpdated.blacklist.push(blacklistQuote);
 
       try {
-        let response = await fetch("http://localhost:3000/api/users/update", {
+        let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

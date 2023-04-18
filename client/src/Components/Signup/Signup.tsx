@@ -5,9 +5,8 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
-import Login from "../LoginPage/Login";
 
-const FORM_ENDPOINT:string = "http://localhost:3000/api/users/signup";
+const FORM_ENDPOINT:string = `${process.env.REACT_APP_API_URL}users/login`;
 
 const Signup = () => {
   const [show, setShow] = useState(true);

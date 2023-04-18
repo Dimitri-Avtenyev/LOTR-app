@@ -29,7 +29,7 @@ const AccountPage = () => {
     setUser(updatedUser);
 
     try {
-      let response = await fetch("http://localhost:3000/api/users/update", {
+      let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify ({
