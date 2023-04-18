@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import { MongoClient, MongoCursorInUseError, ObjectId} from "mongodb";
+import { MongoClient } from "mongodb";
 import userRoutes from "./routers/userRouter";
 import quoteRoutes from "./routers/quoteRouter";
 import movieRoutes from "./routers/movieRouter";
