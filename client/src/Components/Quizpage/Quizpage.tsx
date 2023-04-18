@@ -15,11 +15,11 @@ const Quizpage = () => {
   const [selectedMovieIndex, setSelectedMovieIndex] = useState<number>(-1);
   const [show, setShow] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
-
+  
   useEffect(() => {
     setLoading(true);
     const loadQuotes = async () => {
-      let response = await fetch("http://localhost:3000/api/quiz");
+      let response = await fetch(`${process.env.REACT_APP_API_URL}api/quiz`);
       let data: Quote[] = await response.json();
       setQuotes(data);
       setLoading(false);

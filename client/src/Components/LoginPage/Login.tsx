@@ -10,7 +10,7 @@ import CommonPage from "../CommonPage/CommonPage";
 import { UserContext } from "../../Context/UserContext";
 import { User } from "../../types";
 
-const FORM_ENDPOINT: string = "http://localhost:3000/api/users/login";
+const FORM_ENDPOINT: string = `${process.env.REACT_APP_API_URL}users/login`;
 
 const Login = () => {
   const [show, setShow] = useState(true);

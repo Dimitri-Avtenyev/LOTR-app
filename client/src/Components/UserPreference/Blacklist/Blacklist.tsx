@@ -24,7 +24,7 @@ const Blacklisted = ({ user }: { user: User }) => {
     setUser(userUpdated);
     
     try {
-      let respose = await fetch("http://localhost:3000/api/users/update", {
+      let respose = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
