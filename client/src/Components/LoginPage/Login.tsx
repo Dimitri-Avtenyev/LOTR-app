@@ -69,7 +69,7 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com" required />
             </FloatingLabel>
-            <FloatingLabel controlId="floatingPassword" label="Create password">
+            <FloatingLabel controlId="floatingPassword" label="Your password">
               <Form.Control type="password" value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password" required />
