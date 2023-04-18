@@ -23,14 +23,32 @@ const Quizpage = () => {
       let data: Quote[] = await response.json();
       setQuotes(data);
       setLoading(false);
+      
     }
     loadQuotes();
+    
   }, []);
 
   let characterArray = [quotes[activeQuestion]?.character.name, quotes[activeQuestion]?.wrongAnswers.character[0].name, quotes[activeQuestion]?.wrongAnswers.character[1].name];
 
-  let movieArray = [quotes[activeQuestion]?.movie.name, quotes[activeQuestion]?.wrongAnswers.movie[0].name, quotes[activeQuestion]?.wrongAnswers?.movie[1]?.name]
-  
+  let movieArray = [quotes[activeQuestion]?.movie.name, quotes[activeQuestion]?.wrongAnswers.movie[0].name, quotes[activeQuestion]?.wrongAnswers?.movie[1]?.name];
+
+  /*
+  const shuffleArray = (array : string[]) => {
+    let oldElement;
+    for (let i = array.length - 1; i > 0; i--) {
+      let random = Math.floor(Math.random() * (i+1));
+      oldElement = array[i];
+      array[i] = array[random];
+      array[random] = oldElement;
+    }
+    return array;
+  }
+
+  shuffleArray(characterArray);
+  shuffleArray(movieArray);
+  */
+
   const submitAnswerHandler = () => {
     setShow(true);
     checkAnswer();
