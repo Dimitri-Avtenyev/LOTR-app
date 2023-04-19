@@ -5,7 +5,6 @@ const router = express.Router();
 
 // GET
 router.get("/", characterController.getCharacters);
-
 // POST
 
 // PUT

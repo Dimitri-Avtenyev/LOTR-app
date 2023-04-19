@@ -31,13 +31,14 @@ interface WrongAnswer {
   character:  Character[];
 }
 interface Quote {
-  id:         string;
+  _id:        ObjectId;
   dialog:     string;
   movie:      string;
   character:  string;
+  id:         string
 }
 interface Character {
-  _id:         string;
+  _id:        ObjectId;
   height:     string;
   race:       string;
   gender:     string;
@@ -49,7 +50,7 @@ interface Character {
   wikiUrl:    string;
 }
 interface Movie {
-  _id:                        string;
+  _id:                        ObjectId;
   name:                       string;
   runtimeInMinutes:           number;
   budgetInMillions:           number;
