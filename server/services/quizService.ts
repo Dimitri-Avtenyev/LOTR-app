@@ -11,7 +11,7 @@ const getQuiz = async (amountQuotes: number) => {
     movieService.getMovies(), 
     characterService.getCharacters()
   ]);
-    
+
   for (var quote of randomQuotes) {
     let foundMovie: Movie = {} as Movie;
     let foundCharacter: Character = {} as Character;
@@ -37,6 +37,7 @@ const getQuiz = async (amountQuotes: number) => {
     }
     quoteQuiz.push(quoteQuizElement);
   }
+
   return quoteQuiz;
 }
 const randomizeWrongAnswers = (numberOfAnswers: number = 2, movies: Movie[], characters: Character[], randomQuotes:Quote[], min: number = 0): WrongAnswer => {
@@ -46,11 +47,11 @@ const randomizeWrongAnswers = (numberOfAnswers: number = 2, movies: Movie[], cha
   for (let i: number = 0; i < numberOfAnswers; i++) {
     let randomIndexMovies: number = Math.floor(Math.random() * (movies.length - min)) + min;
     let randomIndexCharacters: number = Math.floor(Math.random() * (characters.length - min)) + min;
-
-    if (!wrongMovies.find(movie => movie._id === movies[randomIndexMovies]._id)) {
+   
+    if (!wrongMovies.find(movie => movie._id.toString() === movies[randomIndexMovies]._id.toString())) {
       wrongMovies.push(movies[randomIndexMovies]);
     }
-    if (!wrongCharacters.find(character => character._id === characters[randomIndexMovies]._id)) {
+    if (!wrongCharacters.find(character => character._id.toString() === characters[randomIndexMovies]._id.toString())) {
       wrongCharacters.push(characters[randomIndexCharacters]);
     }
   }
@@ -61,6 +62,7 @@ const randomizeWrongAnswers = (numberOfAnswers: number = 2, movies: Movie[], cha
 
   return wrongAnswers;
 }
+
 export default {
   getQuiz
 }
