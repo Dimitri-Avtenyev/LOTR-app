@@ -15,7 +15,7 @@ const getMovies = async () => {
       await failsafeService.populateDbMovies(movies);
     }
   } catch (err) {
-    console.log(`${err}: fetching from db`);
+    console.log(`${err}: (movies) fetching from db`);
     movies = await failsafeService.getDbMovies();
   }
   

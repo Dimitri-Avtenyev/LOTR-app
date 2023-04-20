@@ -19,7 +19,7 @@ const getCharacters = async () => {
       await failsafeService.populateDbCharacters(characters);
     }
   } catch (err) {
-    console.log(`${err}: fetching from db`);
+    console.log(`${err}: (characters) fetching from db`);
     characters = await failsafeService.getDbCharacters();
   }
 
