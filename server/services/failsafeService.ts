@@ -1,5 +1,8 @@
+import axios from "axios";
 import { dbClient } from "../server"
 import { Character, Movie, Quote } from "../types";
+
+const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN}` } };
 
 const DB_NAME: string = "LOTR-app";
 const COLLECTION_CHARACTERS: string = "Characters";
@@ -112,9 +115,28 @@ const populateDbQuotes = async (quotes:Quote[]) => {
     }, 5000)
   }
 }
+const populateDb = async() => {
+  
+  let [responseCharacters, responseMovies, responseQuotes] = await Promise.all([
+    axios.get(`${process.env.API_URL}/character`, API_HEADER), 
+    axios.get(`${process.env.API_URL}/movie`, API_HEADER),
+    axios.get(`${process.env.API_URL}/quote`, API_HEADER)
+  ]);
+  let [characters, movies, quotes] = await Promise.all([
+    responseCharacters.data.docs,
+    responseMovies.data.docs,
+    responseQuotes.data.docs
+  ]);
 
-
+  await Promise.all([
+    populateDbCharacters(characters),
+    populateDbMovies(movies),
+    populateDbQuotes(quotes)
+  ]);
+}
 export default {
+  populateDb,
+
   getDbCharacters,
   populateDbCharacters,
 

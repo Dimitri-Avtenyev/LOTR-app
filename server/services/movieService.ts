@@ -12,7 +12,6 @@ const getMovies = async () => {
 
     if (response.status === 200) {
       movies = await response.data.docs;
-      await failsafeService.populateDbMovies(movies);
     }
   } catch (err) {
     console.log(`${err}: (movies) fetching from db`);

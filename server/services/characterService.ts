@@ -16,7 +16,6 @@ const getCharacters = async () => {
 
     if (response.status === 200) {
       characters = await response.data.docs;
-      await failsafeService.populateDbCharacters(characters);
     }
   } catch (err) {
     console.log(`${err}: (characters) fetching from db`);
