@@ -16,7 +16,6 @@ const getQuotes = async (amountQuotes: number = 10) => {
 
     if (response.status === 200) {
       data = await response.data.docs;
-      await failsafeService.populateDbQuotes(data);
     }
   } catch (err) {
     console.log(`${err}: (quotes) fetching from db`);

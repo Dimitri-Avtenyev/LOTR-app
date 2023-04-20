@@ -9,6 +9,7 @@ import quoteRoutes from "./routers/quoteRouter";
 import movieRoutes from "./routers/movieRouter";
 import characterRouter from "./routers/characterRouter";
 import quizRouter from "./routers/quizRouter";
+import failsafeService from "./services/failsafeService";
 
 const uri:string = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PSW}@lotr-cluster.l9mo3yk.mongodb.net/?retryWrites=true&w=majority`;
 export const dbClient = new MongoClient(uri);
@@ -31,5 +32,6 @@ app.use(`${prefixUrl}characters`, characterRouter.router);
 app.use(`${prefixUrl}quiz`, quizRouter.router);
 
 app.listen(app.get("port"), async () => {
+  await failsafeService.populateDb();
   console.log(`Local url: http://localhost:${app.get("port")}`);
 })
