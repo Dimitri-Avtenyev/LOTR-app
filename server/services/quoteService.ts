@@ -19,7 +19,7 @@ const getQuotes = async (amountQuotes: number = 10) => {
       await failsafeService.populateDbQuotes(data);
     }
   } catch (err) {
-    console.log(`${err}: fetching from db`);
+    console.log(`${err}: (quotes) fetching from db`);
     data = await failsafeService.getDbQuotes(); 
   }
 

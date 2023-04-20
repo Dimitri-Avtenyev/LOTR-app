@@ -35,7 +35,10 @@ const populateDbCharacters = async (characters:Character[]) => {
   } catch (err) {
     console.log(err);
   } finally {
-    await dbClient.close();
+    console.log("closing  populateDbCharacters");
+    setTimeout(async () => {
+      await dbClient.close();
+    }, 5000)
   }
 }
 
@@ -67,7 +70,10 @@ const populateDbMovies = async (movies:Movie[]) => {
   } catch (err) {
     console.log(err);
   } finally {
-    await dbClient.close();
+    console.log("closing  populateDbMovies");
+    setTimeout(async () => {
+      await dbClient.close();
+    }, 5000)
   }
 }
 
@@ -92,14 +98,18 @@ const populateDbQuotes = async (quotes:Quote[]) => {
     await dbClient.connect();
     let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_QUOTES).find<Quote>({});
     let quotesDb = await cursor.toArray();
-    //await dbClient.db(DB_NAME).collection(COLLECTION_QUOTES).deleteMany({});
+
     if (quotesDb.length === 0) {
+      console.log("populating db");
       await dbClient.db(DB_NAME).collection(COLLECTION_QUOTES).insertMany(quotes); 
     }
   } catch (err) {
     console.log(err);
   } finally {
-    await dbClient.close();
+    console.log("closing  populateDbQuotes");
+    setTimeout(async () => {
+      await dbClient.close();
+    }, 5000)
   }
 }
 

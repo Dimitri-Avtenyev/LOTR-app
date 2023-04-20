@@ -11,7 +11,7 @@ const getQuiz = async (amountQuotes: number) => {
     movieService.getMovies(), 
     characterService.getCharacters()
   ]);
-
+  
   for (var quote of randomQuotes) {
     let foundMovie: Movie = {} as Movie;
     let foundCharacter: Character = {} as Character;
