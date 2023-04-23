@@ -12,7 +12,7 @@ import EndQuizPage from './Components/EndQuizPage/EndQuizPage';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import AccountPage from './Components/AccountPage/AccountPage';
 import UserPreference from './Components/UserPreference/UserPreference';
-import Login from './Components/LoginPage/Login';
+import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import { User } from './types';
 

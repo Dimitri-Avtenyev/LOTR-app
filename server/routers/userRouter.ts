@@ -4,19 +4,17 @@ import userController from "../controllers/userController";
 const router = express.Router();
 
 // GET
-router.get("/", userController.getUsersHighscore);
-router.get("/all", userController.getAllUsers);
+router.get("/", userController.getAllUsers);
+router.get("/highscores", userController.getUsersHighscore);
 
 // POST
-router.post("/signup", userController.addUser);
-router.post("/login", userController.loginUser);
 router.post("/addusertohighscores", userController.addUserToHighscores)
 
 // PUT
 router.put("/update", userController.updateUser); 
 
 // DELETE
-router.delete("/highscores/emptyall", userController.emptyHighscoresCollection);
+router.delete("/highscores/empty", userController.emptyHighscoresCollection);
 router.delete("/all/empty", userController.emptyUsersCollection);
 
 
