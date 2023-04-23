@@ -10,10 +10,10 @@ import movieRoutes from "./routers/movieRouter";
 import characterRouter from "./routers/characterRouter";
 import quizRouter from "./routers/quizRouter";
 import failsafeService from "./services/failsafeService";
+import authRouter from "./routers/authRouter";
 
 const uri:string = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PSW}@lotr-cluster.l9mo3yk.mongodb.net/?retryWrites=true&w=majority`;
 export const dbClient = new MongoClient(uri);
-
 
 const app = express();
 
@@ -25,6 +25,7 @@ app.set("port", process.env.PORT || 3000);
 
 const prefixUrl:string = "/api/";
 
+app.use(authRouter.router);
 app.use(`${prefixUrl}users`, userRoutes.router);
 app.use(`${prefixUrl}quotes`, quoteRoutes.router);
 app.use(`${prefixUrl}movies`, movieRoutes.router);

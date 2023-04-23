@@ -6,7 +6,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
 
-const FORM_ENDPOINT:string = `${process.env.REACT_APP_API_URL}api/users/signup`;
+const FORM_ENDPOINT:string = `${process.env.REACT_APP_API_URL}signup`;
 
 const Signup = () => {
   const [show, setShow] = useState(true);
