@@ -12,7 +12,7 @@ const Favorites = ({ user }: { user: User }) => {
   const [filterActive, setFilterActive] = useState<boolean>(false);
   const [characterFilterId, setCharacterFilterId] = useState<string>("");
   const [characters, setCharacters] = useState<Character[]>([]);
-  const {setUser} = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
     let fileContent: string = "";
@@ -28,43 +28,43 @@ const Favorites = ({ user }: { user: User }) => {
 
   }, []);
 
-const removeQuote = async (id: string) => {
-  let favoritesFiltered: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
-  setFavorites(favoritesFiltered);
-  updateUser();
-}
-
-const handleFilterOff = async () => {
-  setFilterActive(false);
-  setCharacterFilterId("");
-}
-
-const handleFilterOn = async (id:string) => {
-  setCharacterFilterId(id);
-  setFilterActive(true);
-}
-
-const updateUser = async () => {
-  let userUpdated: User = JSON.parse(JSON.stringify(user));
-  userUpdated.favorites = [...favorites];
-  setUser(userUpdated);
-  
-  try {
-    let respose = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: user.username,
-        favorites: userUpdated.favorites
-      })
-    });
-    if (respose.status === 200) {
-      
-    }
-  } catch (err) {
-    console.log(err);
+  const removeQuote = async (id: string) => {
+    let favoritesFiltered: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
+    setFavorites(favoritesFiltered);
+    updateUser();
   }
-}
+
+  const handleFilterOff = async () => {
+    setFilterActive(false);
+    setCharacterFilterId("");
+  }
+
+  const handleFilterOn = async (id: string) => {
+    setCharacterFilterId(id);
+    setFilterActive(true);
+  }
+
+  const updateUser = async () => {
+    let userUpdated: User = JSON.parse(JSON.stringify(user));
+    userUpdated.favorites = [...favorites];
+    setUser(userUpdated);
+
+    try {
+      let respose = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: user.username,
+          favorites: userUpdated.favorites
+        })
+      });
+      if (respose.status === 200) {
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   if (favorites.length === 0) {
     return (
       <div>
@@ -98,10 +98,12 @@ const updateUser = async () => {
                   <td>
                     <a href={favorite.quote?.character.wikiUrl} target="_blank">{favorite.quote?.character.name}</a>
                   </td>
-                  <td>{characters.filter(character => character._id === favorite.quote.character._id).length}</td>
-                  <td>{filterActive ? 
-                    <button onClick={handleFilterOff}> <img src={filterOff}/></button> : 
-                    <button onClick={() => handleFilterOn(favorite.quote.character._id)}><img src={filterOn}/></button>}
+                  <td hidden={filterActive}>
+                    {characters.filter(character => character._id === favorite.quote.character._id).length}
+                  </td>
+                  <td>{filterActive ?
+                    <button onClick={handleFilterOff}> <img src={filterOff} /></button> :
+                    <button onClick={() => handleFilterOn(favorite.quote.character._id)}><img src={filterOn} /></button>}
                   </td>
                   <td><button onClick={() => removeQuote(favorite.quote.id)}><img src={deleteBin}></img></button></td>
                 </tr>
