@@ -29,10 +29,25 @@ const getQuotes = async (amountQuotes: number = 10) => {
       quotes.push(data[randomIndex]);
     }
   }
-  
   return quotes;
 }
 
+const getCharacterQuotes = async (id:string) => {
+  let characterQuotes:Quote[] = [];
+
+  try {
+    let response = await axios.get(`${process.env.API_URL}/character/${id}/quote`, API_HEADER);
+
+     if (response.status === 200) {
+      characterQuotes = await response.data.docs;
+    }
+  } catch (err) {
+    console.log(`${err}: (quotes) fetching from db`);
+    characterQuotes = await failsafeService.getDbQuotes(); 
+  }
+  return characterQuotes;
+}
 export default {
-  getQuotes
+  getQuotes,
+  getCharacterQuotes
 }
