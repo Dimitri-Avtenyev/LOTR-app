@@ -18,16 +18,16 @@ export interface WrongAnswer {
   character:  Character[];
 }
 export interface Character {
-  id:         string;
-  height:     string;
-  race:       string;
-  gender:     string;
-  spouse:     string;
-  death:      string;
-  realm:      string;
-  hair:       string;
-  name:       string;
-  wikiUrl:    string;
+  _id:         string;
+  height:      string;
+  race:        string;
+  gender:      string;
+  spouse:      string;
+  death:       string;
+  realm:       string;
+  hair:        string;
+  name:        string;
+  wikiUrl:     string;
 }
 export interface Movie {
   _id:                        string;

@@ -1,12 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./Favorites.module.css";
 import deleteBin from "../assets/deleteBin.svg";
-import { User, Favorite } from "../../../types";
+import filterOn from "../assets/filterOn.svg";
+import filterOff from "../assets/filterOff.svg";
+import { User, Favorite, Character } from "../../../types";
 import { UserContext } from "../../../Context/UserContext";
 
 const Favorites = ({ user }: { user: User }) => {
   const [favorites, setFavorites] = useState<Favorite[]>(user.favorites);
   const [downloadLink, setDownloadLink] = useState<string>("");
+  const [filterActive, setFilterActive] = useState<boolean>(false);
+  const [characterFilterId, setCharacterFilterId] = useState<string>("");
+  const [characters, setCharacters] = useState<Character[]>([]);
   const {setUser} = useContext(UserContext);
 
   useEffect(() => {
@@ -18,16 +23,27 @@ const Favorites = ({ user }: { user: User }) => {
     }
     let favoritesBlob = new Blob([fileContent], { type: "text/plain" });
     setDownloadLink(URL.createObjectURL(favoritesBlob));
+
+    setCharacters(user.favorites.map(fav => fav.quote.character));
+
   }, []);
 
-useEffect(() => {
-  updateUser();
-}, [favorites]);
-
 const removeQuote = async (id: string) => {
-  let favoriteCpy: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
-  setFavorites(favoriteCpy);
+  let favoritesFiltered: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
+  setFavorites(favoritesFiltered);
+  updateUser();
 }
+
+const handleFilterOff = async () => {
+  setFilterActive(false);
+  setCharacterFilterId("");
+}
+
+const handleFilterOn = async (id:string) => {
+  setCharacterFilterId(id);
+  setFilterActive(true);
+}
+
 const updateUser = async () => {
   let userUpdated: User = JSON.parse(JSON.stringify(user));
   userUpdated.favorites = [...favorites];
@@ -67,11 +83,12 @@ const updateUser = async () => {
             <th>Quote</th>
             <th></th>
             <th>Character</th>
+            <th colSpan={2} hidden={filterActive}>n_quotes</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {favorites.map(favorite => {
+          {favorites.filter(fav => !filterActive || fav.quote.character._id === characterFilterId).map(favorite => {
             if (favorite.quote !== undefined) {
               return (
                 <tr key={favorite.quote?.id}>
@@ -81,7 +98,12 @@ const updateUser = async () => {
                   <td>
                     <a href={favorite.quote?.character.wikiUrl} target="_blank">{favorite.quote?.character.name}</a>
                   </td>
-                  <td><button className={styles.binBtn} onClick={() => removeQuote(favorite.quote.id)}><img src={deleteBin}></img></button></td>
+                  <td>{characters.filter(character => character._id === favorite.quote.character._id).length}</td>
+                  <td>{filterActive ? 
+                    <button onClick={handleFilterOff}> <img src={filterOff}/></button> : 
+                    <button onClick={() => handleFilterOn(favorite.quote.character._id)}><img src={filterOn}/></button>}
+                  </td>
+                  <td><button onClick={() => removeQuote(favorite.quote.id)}><img src={deleteBin}></img></button></td>
                 </tr>
               );
             }
