@@ -3,7 +3,7 @@ import styles from "./Favorites.module.css";
 import deleteBin from "../assets/deleteBin.svg";
 import filterOn from "../assets/filterOn.svg";
 import filterOff from "../assets/filterOff.svg";
-import { User, Favorite } from "../../../types";
+import { User, Favorite, Character } from "../../../types";
 import { UserContext } from "../../../Context/UserContext";
 
 const Favorites = ({ user }: { user: User }) => {
@@ -11,7 +11,7 @@ const Favorites = ({ user }: { user: User }) => {
   const [downloadLink, setDownloadLink] = useState<string>("");
   const [filterActive, setFilterActive] = useState<boolean>(false);
   const [characterFilterId, setCharacterFilterId] = useState<string>("");
-  const [characters, setCharacters] = useState();
+  const [characters, setCharacters] = useState<Character[]>([]);
   const {setUser} = useContext(UserContext);
 
   useEffect(() => {
@@ -24,19 +24,16 @@ const Favorites = ({ user }: { user: User }) => {
     let favoritesBlob = new Blob([fileContent], { type: "text/plain" });
     setDownloadLink(URL.createObjectURL(favoritesBlob));
 
-    //let response = fetch(`${process.env.REACT_APP_API_URL}`)
-  }, []);
+    setCharacters(user.favorites.map(fav => fav.quote.character));
 
-useEffect(() => {
- 
-}, []);
+  }, []);
 
 const removeQuote = async (id: string) => {
   let favoritesFiltered: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
   setFavorites(favoritesFiltered);
   updateUser();
 }
-console.log(characterFilterId);
+
 const handleFilterOff = async () => {
   setFilterActive(false);
   setCharacterFilterId("");
@@ -86,7 +83,7 @@ const updateUser = async () => {
             <th>Quote</th>
             <th></th>
             <th>Character</th>
-            <th colSpan={2}>n_quotes</th>
+            <th colSpan={2} hidden={filterActive}>n_quotes</th>
             <th></th>
           </tr>
         </thead>
@@ -101,7 +98,7 @@ const updateUser = async () => {
                   <td>
                     <a href={favorite.quote?.character.wikiUrl} target="_blank">{favorite.quote?.character.name}</a>
                   </td>
-                  <td>{1}</td>
+                  <td>{characters.filter(character => character._id === favorite.quote.character._id).length}</td>
                   <td>{filterActive ? 
                     <button onClick={handleFilterOff}> <img src={filterOff}/></button> : 
                     <button onClick={() => handleFilterOn(favorite.quote.character._id)}><img src={filterOn}/></button>}
