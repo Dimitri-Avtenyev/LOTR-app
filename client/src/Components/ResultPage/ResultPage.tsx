@@ -16,10 +16,14 @@ interface ResultPageProps {
   selectedCharacterIndex: number,
   setSelectedCharacterIndex: (index: number) => void,
   selectedMovieIndex: number,
-  setSelectedMovieIndex: (index: number) => void
+  setSelectedMovieIndex: (index: number) => void,
+  selectedCharacter: boolean,
+  setSelectedCharacter: (selectedCharacter: boolean) => void,
+  selectedMovie: boolean,
+  setSelectedMovie: (selectedMovie: boolean) => void
 }
 
-const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, selectedCharacterIndex, setSelectedCharacterIndex, selectedMovieIndex, setSelectedMovieIndex }: ResultPageProps) => {
+const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, selectedCharacterIndex, setSelectedCharacterIndex, selectedMovieIndex, setSelectedMovieIndex, selectedCharacter, setSelectedCharacter, selectedMovie, setSelectedMovie }: ResultPageProps) => {
   const { user, setUser } = useContext(UserContext);
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -45,6 +49,13 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
     setSelectedMovieIndex(-1);
 
   };
+
+  const handleClose = () => {
+    setShow(false);
+    setActiveQuestion(activeQuestion + 1);
+    setSelectedCharacterIndex(-1);
+    setSelectedMovieIndex(-1);
+  }
 
   const saveToFavorites = async () => {
     let favorite: Favorite = { quote };
@@ -107,6 +118,26 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
     }
   }
 
+  const checkAnswer = () => {
+    if (selectedCharacter === true && selectedMovie === true) {
+      return (
+        <Modal.Title>Both answers are correct!</Modal.Title>
+      )
+    } else if(selectedCharacter === true && selectedMovie === false) {
+      return (
+        <Modal.Title>You guessed the character correctly!</Modal.Title>
+      )
+    } else if(selectedCharacter === false && selectedMovie === true){
+      return (
+        <Modal.Title>You guessed the movie correctly!</Modal.Title>
+      )
+    } else {
+      return (
+        <Modal.Title>Both guesses are incorrect...</Modal.Title>
+      )
+    }
+  }
+
   return (
     <Modal
       show={show}
@@ -114,7 +145,8 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
       keyboard={false}
       centered={true}
     >
-      <Modal.Header>
+      <Modal.Header className={styles.resultPageHeader}>
+        {checkAnswer()}
         <Modal.Title><q>{quote.dialog}</q></Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -152,7 +184,14 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button className={styles.saveButton} variant="primary" size="lg" onClick={handleSave} disabled={!like && !dislike}>Save</Button>
+        {
+          activeQuestion === 2 ? <Button className={styles.footerButtons} variant="primary" size="lg" href="/quiz/endquiz">End Quiz</Button> :
+          <div>
+            <Button className={styles.footerButtons} variant="primary" size="lg" onClick={handleSave} disabled={!like && !dislike}>Save</Button> 
+            <Button className={styles.footerButtons} variant="primary" size="lg" onClick={handleClose}>Close</Button>
+          </div>
+        }
+        
       </Modal.Footer>
     </Modal>
   )

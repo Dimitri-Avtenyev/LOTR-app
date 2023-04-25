@@ -33,21 +33,21 @@ const Quizpage = () => {
 
   let movieArray = [quotes[activeQuestion]?.movie.name, quotes[activeQuestion]?.wrongAnswers.movie[0].name, quotes[activeQuestion]?.wrongAnswers?.movie[1]?.name];
 
-  /*
-  const shuffleArray = (array : string[]) => {
-    let oldElement;
-    for (let i = array.length - 1; i > 0; i--) {
-      let random = Math.floor(Math.random() * (i+1));
-      oldElement = array[i];
-      array[i] = array[random];
-      array[random] = oldElement;
-    }
-    return array;
-  }
+  
+  // const shuffleArray = (array : string[]) => {
+  //   let oldElement;
+  //   for (let i = array.length - 1; i > 0; i--) {
+  //     let random = Math.floor(Math.random() * (i+1));
+  //     oldElement = array[i];
+  //     array[i] = array[random];
+  //     array[random] = oldElement;
+  //   }
+  //   return array;
+  // }
 
-  shuffleArray(characterArray);
-  shuffleArray(movieArray);
-  */
+  // shuffleArray(characterArray);
+  // shuffleArray(movieArray);
+  
 
   const submitAnswerHandler = () => {
     setShow(true);
@@ -80,10 +80,14 @@ const Quizpage = () => {
     } else {
     }
   }
+
+  const endQuiz = () => {
+    
+  }
   
   return (
     <main className={styles.main}>
-      {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex}/>}
+      {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex} selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie}/>}
       {loading && <LoadingIndicator />}
       <div>
         <h3>{activeQuestion + 1}/10</h3>
