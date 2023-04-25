@@ -4,9 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import styles from "./Login.module.css";
-import { Link, NavLink, redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { LoggedinContext } from "../../Context/LoggedinContext";
-import CommonPage from "../CommonPage/CommonPage";
 import { UserContext } from "../../Context/UserContext";
 import { User } from "../../types";
 
@@ -23,7 +22,7 @@ const Login = () => {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
 
   useEffect(() => {
@@ -48,20 +47,24 @@ const Login = () => {
         setShow(false);
         setEmail("");
         setPassword("");
-        setMessage("Logged in successfully.");
+        setErrorMessage("");
+      } else if (response.status === 401) {
+        
+        setErrorMessage(`${response.statusText}, please try again.`);
       }
     } catch (err) {
-      setMessage("Wrong email, password or credentials do not exist. Please try again.");
+      console.log(err);
     }
-
     setSubmitted(true);
   }
 
   return (
     <div>
-      {loggedin && <CommonPage />}
+      {loggedin &&  <Navigate to={"/"}/>}
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton><h1>Login</h1></Modal.Header>
+        <Modal.Header closeButton>
+          <h1>Login</h1>
+        </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body >
             <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
@@ -81,6 +84,7 @@ const Login = () => {
               Login
             </Button>
           </Modal.Footer>
+          <div>{errorMessage}</div>
           <div>
             Dont't have an account? <Link to={"/signup"}> Sign up.</Link>
           </div>
