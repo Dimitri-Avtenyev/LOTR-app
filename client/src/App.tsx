@@ -15,6 +15,8 @@ import UserPreference from './Components/UserPreference/UserPreference';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import { User } from './types';
+import './index.css';
+import './Fonts/aniron.regular.ttf';
 
 const App = () => {
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));

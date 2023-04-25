@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: "LOTR";   /*Can be any text*/
+  src: local("aniron.regular"),
+    url("./Fonts/aniron.regular.ttf") format("truetype");
+}
