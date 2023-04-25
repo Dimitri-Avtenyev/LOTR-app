@@ -1,17 +1,24 @@
 nav {
     display: flex;
     justify-content: space-between;
-    background-color: #D5CEA3;
+    background-color: #6B492B;
 }
 
 nav p {
     margin-top: 6px;
+}
+nav :link{
+    color: rgb(233, 233, 222);
 }
 
 .navs {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    color:rgb(233, 233, 222);
+}
+.navs:hover{
+    color:rgb(233, 233, 222);
 }
 
 .userIcon {
@@ -21,11 +28,11 @@ nav p {
 
 .loginNav {
     text-decoration: none;
-    color: black;
+    color: rgb(233, 233, 222);
 }
 
 .loginNav:hover {
-    color: black;
+    color: rgb(233, 233, 222);
 }
 
 .logo {
@@ -36,28 +43,26 @@ nav p {
 }
 
 .title {
-    display: flex;
-    margin-left: 42%;
-    align-items: center;
+    /*Nog aanpassen voor kleiner --> groter scherm en omgekeerd !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+    margin-left: 30%;
     font-size: 38px;
     font-weight: bold;
     text-decoration: none;
-    color: black;
+    color: rgb(233, 233, 222);
 }
-
-.title:hover {
-    color: black;
-}
-
 .projectName {
     font-size: 38px;
     font-weight: bold;
     text-decoration: none;
-    color: black;
+    color: rgb(233, 233, 222);
+    margin-left:7%;
 }
 
 .projectName:hover {
-    color: black;
+    color: rgb(233, 233, 222);
+}
+.greetings {
+    color: rgb(233, 233, 222);
 }
 
 

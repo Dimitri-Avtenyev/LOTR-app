@@ -56,9 +56,11 @@ const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
             <Link to="/" className={styles.projectName}>The One</Link>
             <div className={styles.navs}>
                 <Nav variant="pills" > 
-                    <Nav.Item>
-                        <Nav.Link eventKey="disabled" disabled>Hello, {user?.username.substring(0, user?.username.indexOf("@"))}</Nav.Link>
-                    </Nav.Item>
+                    <div >
+                        <Nav.Item>
+                            <Nav.Link><p className="greetings">Hello, {user?.username.substring(0, user?.username.indexOf("@"))}</p></Nav.Link>
+                        </Nav.Item>
+                    </div>
                     <NavDropdown title={userIcon} id="nav-dropdown">
                         <NavDropdown.Item eventKey="4.1" href="/account">Account</NavDropdown.Item>
                         <NavDropdown.Item eventKey="4.1" href="/account/favorites">Favorites</NavDropdown.Item>
