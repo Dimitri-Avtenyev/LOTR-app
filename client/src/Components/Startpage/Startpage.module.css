@@ -10,7 +10,13 @@ main {
     gap: 100px;
     margin-top: 100px;
 }
+.info{
+    text-align: center;
+    width: 50%;
+}
 
 .startButton {
     padding: 20px 110px;
+    background-color: rgb(57, 121, 57);
+    border-color: rgb(57, 121, 57);
 }
