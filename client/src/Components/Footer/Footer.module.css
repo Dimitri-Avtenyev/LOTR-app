@@ -1,5 +1,22 @@
 .footer {
-    background-color: #D5CEA3;
+    background-color: #6B492B;
     text-align: center;
-    height: 30px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    color:rgb(233, 233, 222);
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+a{
+    color:rgb(233, 233, 222);
+    padding-top: 10px;
+}
+
+p{
+    margin-bottom:5px; 
+    display: inline;
+    padding-top: 10px;
 }
