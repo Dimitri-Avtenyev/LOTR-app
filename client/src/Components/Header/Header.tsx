@@ -1,6 +1,6 @@
 import styles from "./Header.module.css";
 import Nav from 'react-bootstrap/Nav';
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import icon from "./assets/user.png";
@@ -63,7 +63,7 @@ const HeaderLoggedIn = ({user, loggedin, setLoggedin}:HeaderChildProps) => {
                         <NavDropdown.Item eventKey="4.1" href="/account">Account</NavDropdown.Item>
                         <NavDropdown.Item eventKey="4.1" href="/account/favorites">Favorites</NavDropdown.Item>
                         <NavDropdown.Item eventKey="4.1" href="/account/blacklist">Blacklist</NavDropdown.Item>
-                        <NavDropdown.Item eventKey="4.2" onClick={logOut}>Log Out</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="4.2" href="/" onClick={logOut}>Log Out</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             </div>
