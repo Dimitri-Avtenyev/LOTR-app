@@ -5,7 +5,6 @@
   justify-content: center;
   border-collapse: collapse;
 }
-
 .main img {
   width: 200px;
   height: 200px;
@@ -16,11 +15,16 @@
 }
 .theone img {
   filter: none;
+  width: 500px;
+  height: 200px;
 }
 .others img {
   filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
+  width: 500px;
+  height: 200px;
 }
+
 .card .others, .theone {
   transition: all 0.2s ease-in-out;
 }
@@ -28,6 +32,9 @@
   transform: scale(1.1);
   border-radius: 10%;
   box-shadow: 5px 7px rgba(17, 12, 46, 0.15);
+}
+.card{
+  width: auto;
 }
 
 .others{
