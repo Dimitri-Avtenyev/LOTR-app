@@ -10,12 +10,12 @@
     align-content: center;
 }
 
-a{
+.footer a{
     color:rgb(233, 233, 222);
     padding-top: 10px;
 }
 
-p{
+.footer p{
     margin-bottom:5px; 
     display: inline;
     padding-top: 10px;
