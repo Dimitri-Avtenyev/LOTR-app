@@ -48,14 +48,24 @@ const randomizeWrongAnswers = (movies: Movie[], foundMovie: Movie, characters: C
    
     while(wrongMovies.length !== numberOfAnswers) {
       let randomIndexMovies: number = Math.floor(Math.random() * (movies.length - min)) + min;
-      if (!wrongMovies.find(movie => movie._id.toString() === (movies[randomIndexMovies]._id.toString() || foundMovie._id.toString()))) {
+      if (!wrongMovies.find(movie => {
+        return (
+          movie._id.toString() ===  movies[randomIndexMovies]._id.toString() &&
+          movie._id.toString() === foundMovie._id.toString()
+        );
+      })) {
         wrongMovies.push(movies[randomIndexMovies]);
       }
     }
    
     while(wrongCharacters.length !== numberOfAnswers) {
       let randomIndexCharacters: number = Math.floor(Math.random() * (characters.length - min)) + min;
-      if (!wrongCharacters.find(character => character._id.toString() === (characters[randomIndexCharacters]._id.toString() || foundCharacter._id.toString()))) {
+      if (!wrongCharacters.find(character => {
+        return (
+          character._id.toString() === characters[randomIndexCharacters]._id.toString() && 
+          character._id.toString() === foundCharacter._id.toString()
+        );
+        })) {
         wrongCharacters.push(characters[randomIndexCharacters]);
       }
     }
