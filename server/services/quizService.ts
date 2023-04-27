@@ -25,7 +25,7 @@ const getQuiz = async (amountQuotes: number) => {
       console.log(err);
     }
 
-    let wrongAnswers: WrongAnswer = randomizeWrongAnswers(movies, characters);
+    let wrongAnswers: WrongAnswer = randomizeWrongAnswers(movies, foundMovie, characters, foundCharacter);
 
     let quoteQuizElement: QuoteQuiz =
     {
@@ -40,7 +40,7 @@ const getQuiz = async (amountQuotes: number) => {
 
   return quoteQuiz;
 }
-const randomizeWrongAnswers = (movies: Movie[], characters: Character[], numberOfAnswers: number = 2, min: number = 0): WrongAnswer => {
+const randomizeWrongAnswers = (movies: Movie[], foundMovie: Movie, characters: Character[], foundCharacter: Character, numberOfAnswers: number = 2, min: number = 0): WrongAnswer => {
   let wrongMovies:Movie[] = [];
   let wrongCharacters:Character[] = [];
 
@@ -48,14 +48,14 @@ const randomizeWrongAnswers = (movies: Movie[], characters: Character[], numberO
    
     while(wrongMovies.length !== numberOfAnswers) {
       let randomIndexMovies: number = Math.floor(Math.random() * (movies.length - min)) + min;
-      if (!wrongMovies.find(movie => movie._id.toString() === movies[randomIndexMovies]._id.toString())) {
+      if (!wrongMovies.find(movie => movie._id.toString() === (movies[randomIndexMovies]._id.toString() || foundMovie._id.toString()))) {
         wrongMovies.push(movies[randomIndexMovies]);
       }
     }
    
     while(wrongCharacters.length !== numberOfAnswers) {
       let randomIndexCharacters: number = Math.floor(Math.random() * (characters.length - min)) + min;
-      if (!wrongCharacters.find(character => character._id.toString() === characters[randomIndexCharacters]._id.toString())) {
+      if (!wrongCharacters.find(character => character._id.toString() === (characters[randomIndexCharacters]._id.toString() || foundCharacter._id.toString()))) {
         wrongCharacters.push(characters[randomIndexCharacters]);
       }
     }
