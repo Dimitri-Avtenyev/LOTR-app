@@ -25,7 +25,7 @@ const getQuiz = async (amountQuotes: number) => {
       console.log(err);
     }
 
-    let wrongAnswers: WrongAnswer = randomizeWrongAnswers(2, movies, characters, randomQuotes);
+    let wrongAnswers: WrongAnswer = randomizeWrongAnswers(movies, characters);
 
     let quoteQuizElement: QuoteQuiz =
     {
@@ -40,20 +40,26 @@ const getQuiz = async (amountQuotes: number) => {
 
   return quoteQuiz;
 }
-const randomizeWrongAnswers = (numberOfAnswers: number = 2, movies: Movie[], characters: Character[], randomQuotes:Quote[], min: number = 0): WrongAnswer => {
+const randomizeWrongAnswers = (movies: Movie[], characters: Character[], numberOfAnswers: number = 2, min: number = 0): WrongAnswer => {
   let wrongMovies:Movie[] = [];
   let wrongCharacters:Character[] = [];
 
   for (let i: number = 0; i < numberOfAnswers; i++) {
-    let randomIndexMovies: number = Math.floor(Math.random() * (movies.length - min)) + min;
-    let randomIndexCharacters: number = Math.floor(Math.random() * (characters.length - min)) + min;
    
-    if (!wrongMovies.find(movie => movie._id.toString() === movies[randomIndexMovies]._id.toString())) {
-      wrongMovies.push(movies[randomIndexMovies]);
+    while(wrongMovies.length !== numberOfAnswers) {
+      let randomIndexMovies: number = Math.floor(Math.random() * (movies.length - min)) + min;
+      if (!wrongMovies.find(movie => movie._id.toString() === movies[randomIndexMovies]._id.toString())) {
+        wrongMovies.push(movies[randomIndexMovies]);
+      }
     }
-    if (!wrongCharacters.find(character => character._id.toString() === characters[randomIndexMovies]._id.toString())) {
-      wrongCharacters.push(characters[randomIndexCharacters]);
+   
+    while(wrongCharacters.length !== numberOfAnswers) {
+      let randomIndexCharacters: number = Math.floor(Math.random() * (characters.length - min)) + min;
+      if (!wrongCharacters.find(character => character._id.toString() === characters[randomIndexCharacters]._id.toString())) {
+        wrongCharacters.push(characters[randomIndexCharacters]);
+      }
     }
+ 
   }
   let wrongAnswers: WrongAnswer = {
     movie:      wrongMovies,

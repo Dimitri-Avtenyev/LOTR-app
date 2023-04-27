@@ -23,8 +23,7 @@ const getQuotes = async (amountQuotes: number = 10) => {
   }
 
   for (let i: number = 0; i < amountQuotes; i++) {
-    let randomIndex: number = Math.floor(Math.random() * data.length) + 1;
-
+    let randomIndex: number = Math.floor(Math.random() * data.length + 1);
     if (!quotes.find(quote => quote._id === data[randomIndex]._id)) {
       quotes.push(data[randomIndex]);
     }
