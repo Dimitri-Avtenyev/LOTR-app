@@ -20,3 +20,8 @@ main {
     background-color: rgb(57, 121, 57);
     border-color: rgb(57, 121, 57);
 }
+
+.startButton:hover {
+    background-color: rgb(27, 50, 27);
+    border-color: rgb(57, 121, 57);
+}

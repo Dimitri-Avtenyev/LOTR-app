@@ -1,5 +1,6 @@
 import styles from "./ResultPage.module.css";
-import thumbsUp from "./assets/thumbs-down.svg";
+import thumbsUp from "./assets/thumbs-up.svg";
+import thumbsDown from "./assets/thumbs-down.svg"
 import Button from 'react-bootstrap/Button';
 import { UserContext } from "../../Context/UserContext";
 import { useContext, useEffect, useState } from "react";
@@ -30,6 +31,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
 
   const [like, setLike] = useState<boolean>(false);
   const [dislike, setDislike] = useState<boolean>(false);
+  const [activeButton, setActiveButton] = useState<string>("none");
   const [blacklistReason, setBlacklistReason] = useState<string>("");
 
   useEffect(() => {
@@ -138,6 +140,18 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
     }
   }
 
+  const handleLikeClick = () => {
+    setActiveButton("like");
+    setLike(true);
+    setDislike(false);
+  }
+
+  const handleDislikeClick = () => {
+    setActiveButton("dislike");
+    setDislike(true);
+    setLike(false);
+  }
+
   return (
     <Modal
       show={show}
@@ -155,18 +169,18 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
           <Movie movie={quote.movie}/>
           <p>Character: <b>{quote.character.name}</b></p>
           <h3>What do you think of the quote?</h3>
-          <button className={dislike ? styles.thumbsUpClicked : styles.thumbsDown}
-            onClick={() => setDislike(true)}
-            disabled={like}
-          >
-            <img src={thumbsUp} alt="thumbsDown" width="40" height="40"></img>
-          </button>
-          <button className={like ? styles.thumbsDownClicked : styles.thumbsUp}
-            onClick={() => setLike(true)}
-            disabled={dislike}
-          >
-            <img src={thumbsUp} alt="thumbsUp" width="40" height="40"></img>
-          </button>
+          <div className={styles.thumbButtons}>
+            <button style={{backgroundColor : like ? "rgb(27, 50, 27)" : ""}}
+              onClick={handleLikeClick}
+            >
+              <img className={styles.thumbsUp} src={thumbsUp} alt="thumbsUp" width="40" height="40"></img>
+            </button>
+            <button style={{backgroundColor : dislike ? "rgb(27, 50, 27)" : ""}}
+              onClick={handleDislikeClick}
+            >
+              <img className={styles.thumbsDown} src={thumbsDown} alt="thumbsDown" width="40" height="40"></img>
+            </button>
+          </div>
           <div className={styles.reason}>
             <p>
               <label htmlFor="message"></label>
