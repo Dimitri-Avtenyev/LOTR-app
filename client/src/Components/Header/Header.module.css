@@ -76,12 +76,11 @@ nav :link{
     color: rgb(233, 233, 222);
 }
 @media all and (max-width:500px) {
-    /* stijlregels voor schermen > 500px breed */
     .title{
         font-size: x-large;
-      margin-left: auto;
-      text-align: center;
-      margin-top: 1rem;
+        margin-left: auto;
+        text-align: center;
+        margin-top: 1rem;
     }
     .navs{
         margin-top: 1rem;
