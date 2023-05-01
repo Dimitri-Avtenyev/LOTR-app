@@ -2,7 +2,7 @@ nav {
     display: flex;
     justify-content: space-between;
     background-color: #6B492B;
-    padding-bottom: 1rem;
+    padding: 1rem;
 }
 
 nav p {
@@ -76,6 +76,11 @@ nav :link{
     color: rgb(233, 233, 222);
 }
 @media all and (max-width:500px) {
+    .projectName{
+        font-size: large;
+        text-align: center;
+        line-height: 100px;
+    }
     .title{
         font-size: x-large;
         margin-left: auto;
@@ -85,5 +90,8 @@ nav :link{
     .navs{
         margin-top: 1rem;
         margin-right: 1rem;
+    }
+    .logo{
+        margin-top: 15px;
     }
 }
