@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Spinner from "react-bootstrap/Spinner";
 import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
 
@@ -11,6 +12,7 @@ const FORM_ENDPOINT:string = `${process.env.REACT_APP_API_URL}signup`;
 const Signup = () => {
   const [show, setShow] = useState(true);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -20,6 +22,7 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
     let response = await fetch(FORM_ENDPOINT, {
       method: "POST",
@@ -43,6 +46,7 @@ const Signup = () => {
     setMessage("Something went wrong signing up.");
   }
     setSubmitted(true);
+    setLoading(false);
   }
   
   return (
@@ -64,10 +68,23 @@ const Signup = () => {
 
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" type="submit" disabled={submitted}>
-              Signup
-            </Button>
-          </Modal.Footer>
+          <div>
+              {!loading ?
+                <Button variant="primary" type="submit" disabled={false}>
+                  Signup
+                </Button> :
+                <Button variant="primary" disabled>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  <span >Loading...</span>
+                </Button>}
+            </div>
+            </Modal.Footer>
           <div>
             Already have an account? <Link to={"/login"}> Log in.</Link>
           </div>
