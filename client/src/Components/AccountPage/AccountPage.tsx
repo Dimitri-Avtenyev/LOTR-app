@@ -50,15 +50,17 @@ const AccountPage = () => {
   return (
     <div className={styles.container}>
       <img src={require(`./assets/avatar_${user?.avatarID}.png`)} />
-      <button onClick={() => setHideAvatars((prevState) => !prevState )}>Change avatar</button>
+      <a><button onClick={() => setHideAvatars((prevState) => !prevState )}>Change avatar</button></a>
       <div className={styles.changeAvatar} hidden={hideAvatars}>
         {avatars.map(i => {
           return <div key={i} onClick={() => setAvatarId(i)}><img src={require(`./assets/avatar_${i}.png`)} /></div>
         })}
       </div>
       <h1>- {user.username.substring(0, atIndex)} -</h1>
-      <h2>Highscore</h2>
-      <p>{user.highscore}</p>
+      <div className={styles.highscore}>
+        <h2>Highscore</h2>
+        <p>{user.highscore}</p>
+      </div>
     </div>
   );
 }

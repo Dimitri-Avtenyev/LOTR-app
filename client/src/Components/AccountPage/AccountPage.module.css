@@ -1,28 +1,55 @@
-
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
-
 .container img {
   width: 70px;
+  margin: 5px;
+  margin-bottom: 10px;
 }
-
 .container button {
+  margin-top: 5px;
   border: none;
-  border-radius: 10%;
-  
+  border-radius: 15px;
+  padding: 10px;
+}
+.container button:hover{
+  color: rgb(233, 233, 222);
+  background-color: rgb(57, 121, 57);
+}
+.container button:active{
+  color: rgb(233, 233, 222);
+  background-color: rgb(57, 121, 57);
 }
 .changeAvatar {
   display: flex;
-  flex: 1;
-  flex-direction: row;
-  overflow: auto;
-  max-width: 100%;
+  margin-top: 2rem;
+  margin: 10%;
 }
 .changeAvatar>:hover {
-  scale: 2;
+  background-color: rgb(57, 121, 57, 0.5);
+}
+
+.highscore{
+  background-color: rgb(57, 121, 57, 0.3);
+  border-radius: 15px;
+  padding: 15px;
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-top: 20px;
+}
+@media all and (max-width:500px) {
+  /* stijlregels voor schermen > 500px breed */
+  .container{
+    margin-bottom: 15px;
+  }
+  .changeAvatar{
+    display: flex;
+    flex-direction: column;
+  }
 }
