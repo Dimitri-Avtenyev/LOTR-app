@@ -26,7 +26,7 @@ const getDbCharacters = async ():Promise<Character[]> => {
   return characters;
 }
 
-const populateDbCharacters = async (characters:Character[]) => {
+const populateDbCharacters = async (characters:Character[]):Promise<void> => {
   try {
     await dbClient.connect();
     let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_CHARACTERS).find<Character>({});
@@ -61,7 +61,7 @@ const getDbMovies = async ():Promise<Movie[]> => {
   return movies;
 }
 
-const populateDbMovies = async (movies:Movie[]) => {
+const populateDbMovies = async (movies:Movie[]):Promise<void> => {
   try {
     await dbClient.connect();
     let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_MOVIES).find<Movie>({});
@@ -96,7 +96,7 @@ const getDbQuotes = async ():Promise<Quote[]> => {
   return quotes;
 }
 
-const populateDbQuotes = async (quotes:Quote[]) => {
+const populateDbQuotes = async (quotes:Quote[]):Promise<void> => {
   try {
     await dbClient.connect();
     let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_QUOTES).find<Quote>({});
@@ -115,7 +115,7 @@ const populateDbQuotes = async (quotes:Quote[]) => {
     }, 5000)
   }
 }
-const populateDb = async() => {
+const populateDb = async():Promise<void> => {
   
   let [responseCharacters, responseMovies, responseQuotes] = await Promise.all([
     axios.get(`${process.env.API_URL}/character`, API_HEADER), 

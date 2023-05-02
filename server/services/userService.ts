@@ -22,7 +22,7 @@ const getUser = async (email: string): Promise<User | null> => {
   return foundUser;
 }
 
-const createUser = async (user: User) => {
+const createUser = async (user: User):Promise<void> => {
   try {
     await dbClient.connect();
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).insertOne(user);
@@ -49,7 +49,7 @@ const getAllUsers = async ():Promise<User[]> => {
   return users;
 }
 
-const updateUser = async (user: UserBasic) => {
+const updateUser = async (user: UserBasic):Promise<void> => {
 
   try {
     await dbClient.connect();
@@ -103,7 +103,7 @@ const getUsersHighscore = async ():Promise<UserHighscore[]> => {
   return users;
 }
 
-const addUserToHighscores = async (user: UserHighscore) => {
+const addUserToHighscores = async (user: UserHighscore):Promise<void> => {
   try {
     await dbClient.connect();
     await dbClient.db(DB_NAME).collection(COLLECTION_HIGHSCORES).insertOne(user);
@@ -114,7 +114,7 @@ const addUserToHighscores = async (user: UserHighscore) => {
     await dbClient.close();
   }
 }
-const emptyCollection = async (collection: string) => {
+const emptyCollection = async (collection: string):Promise<void> => {
   try {
     await dbClient.connect();
     await dbClient.db(DB_NAME).collection(collection).deleteMany({});

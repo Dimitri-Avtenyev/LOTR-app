@@ -3,7 +3,7 @@ import movieService from "../services/movieService";
 import characterService from "./characterService";
 import quoteService from "./quoteService";
 
-const getQuiz = async (amountQuotes: number) => {
+const getQuiz = async (amountQuotes: number):Promise<QuoteQuiz[]> => {
   let quoteQuiz: QuoteQuiz[] = [];
 
   let [randomQuotes, movies, characters] = await Promise.all([
@@ -37,14 +37,7 @@ const getQuiz = async (amountQuotes: number) => {
     }
     quoteQuiz.push(quoteQuizElement);
   }
-  let counter:number = 0;
-  quoteQuiz.forEach(x => {
-    
-    console.log(`- ${counter} -`);
-    console.log(x.movie._id);
-    x.wrongAnswers?.movie.forEach( x => console.log(x._id));
-    counter++;
-  })
+
   return quoteQuiz;
 }
 const randomizeWrongAnswers = (movies: Movie[], foundMovie: Movie, characters: Character[], foundCharacter: Character, numberOfAnswers: number = 2, min: number = 0): WrongAnswer => {

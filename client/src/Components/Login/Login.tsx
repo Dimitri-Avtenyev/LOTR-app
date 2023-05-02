@@ -3,11 +3,13 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Spinner from "react-bootstrap/Spinner";
 import styles from "./Login.module.css";
 import { Link, Navigate } from "react-router-dom";
 import { LoggedinContext } from "../../Context/LoggedinContext";
 import { UserContext } from "../../Context/UserContext";
 import { User } from "../../types";
+
 
 const FORM_ENDPOINT: string = `${process.env.REACT_APP_API_URL}login`;
 
@@ -15,7 +17,7 @@ const Login = () => {
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const { loggedin, setLoggedin } = useContext(LoggedinContext)
   const { user, setUser } = useContext(UserContext);
 
@@ -31,6 +33,7 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       let response = await fetch(FORM_ENDPOINT, {
         method: "POST",
@@ -48,8 +51,9 @@ const Login = () => {
         setEmail("");
         setPassword("");
         setErrorMessage("");
+        setLoading(false);
       } else if (response.status === 401) {
-        
+
         setErrorMessage(`${response.statusText}, please try again.`);
       }
     } catch (err) {
@@ -60,7 +64,7 @@ const Login = () => {
 
   return (
     <div>
-      {loggedin &&  <Navigate to={"/"}/>}
+      {loggedin && <Navigate to={"/"} />}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <h1>Login</h1>
@@ -80,9 +84,22 @@ const Login = () => {
 
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" type="submit" disabled={false}>
-              Login
-            </Button>
+            <div>
+              {!loading ?
+                <Button variant="primary" type="submit" disabled={false}>
+                  Login
+                </Button> :
+                <Button variant="primary" disabled>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  <span >Loading...</span>
+                </Button>}
+            </div>
           </Modal.Footer>
           <div>{errorMessage}</div>
           <div>
