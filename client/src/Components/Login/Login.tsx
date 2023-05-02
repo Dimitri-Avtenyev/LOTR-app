@@ -51,7 +51,6 @@ const Login = () => {
         setEmail("");
         setPassword("");
         setErrorMessage("");
-        setLoading(false);
       } else if (response.status === 401) {
 
         setErrorMessage(`${response.statusText}, please try again.`);
@@ -60,6 +59,7 @@ const Login = () => {
       console.log(err);
     }
     setSubmitted(true);
+    setLoading(false);
   }
 
   return (
