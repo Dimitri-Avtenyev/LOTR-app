@@ -149,7 +149,7 @@ const Quizpage = () => {
           })}
         </div>
       </div>
-      <button className={styles.submitButton} onClick={submitAnswerHandler}>Submit Answer</button>
+      <button className={styles.submitButton} onClick={submitAnswerHandler}disabled={selectedCharacterIndex > -1 && selectedMovieIndex > -1 ? false : true}>Submit Answer</button>
       <h3>Score: {score}</h3>
     </main>
   )
