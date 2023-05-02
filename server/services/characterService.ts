@@ -8,7 +8,7 @@ const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN
 const DB_NAME: string = "LOTR-app";
 const COLLECTION_CHARACTERS: string = "Characters";
 
-const getCharacters = async () => {
+const getCharacters = async ():Promise<Character[]> => {
   let characters: Character[] = [];
   
   try {
@@ -25,7 +25,7 @@ const getCharacters = async () => {
   return characters;
 }
 
-const getDbCharacters = async () => {
+const getDbCharacters = async ():Promise<Character[]> => {
   let characters: Character[] = [];
   try {
     await dbClient.connect();
@@ -40,7 +40,7 @@ const getDbCharacters = async () => {
   return characters;
 }
 
-const getCharacter = async (characters: Character[], id: string) => {
+const getCharacter = async (characters: Character[], id: string):Promise<Character> => {
   let foundCharacter: Character | null = characters.find(character => character._id.toString() === id) || null;
   if (foundCharacter === null) {
     throw "Character not found";

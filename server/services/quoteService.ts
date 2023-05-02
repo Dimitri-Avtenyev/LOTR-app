@@ -7,7 +7,7 @@ const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN
 // get 10 or x random quotes
 // todo -> 10 or x random quotes excl. blacklisted bij user
 
-const getQuotes = async (amountQuotes: number = 10) => {
+const getQuotes = async (amountQuotes: number = 10):Promise<Quote[]> => {
   let quotes: Quote[] = [];
   let data: Quote[] = [];
 
@@ -31,7 +31,7 @@ const getQuotes = async (amountQuotes: number = 10) => {
   return quotes;
 }
 
-const getCharacterQuotes = async (id:string) => {
+const getCharacterQuotes = async (id:string):Promise<Quote[]> => {
   let characterQuotes:Quote[] = [];
 
   try {
