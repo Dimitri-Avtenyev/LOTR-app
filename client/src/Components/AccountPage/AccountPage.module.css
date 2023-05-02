@@ -15,7 +15,7 @@
 .container button {
   margin-top: 5px;
   border: none;
-  border-radius: 50%;
+  border-radius: 15px;
   padding: 10px;
 }
 .container button:hover{
@@ -33,11 +33,11 @@
 }
 .changeAvatar>:hover {
   background-color: rgb(57, 121, 57, 0.5);
-  border-radius: 15%;
 }
+
 .highscore{
   background-color: rgb(57, 121, 57, 0.3);
-  border-radius: 15%;
+  border-radius: 15px;
   padding: 15px;
   padding-left: 40px;
   padding-right: 40px;
