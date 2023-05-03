@@ -32,7 +32,26 @@ app.use(`${prefixUrl}movies`, movieRoutes.router);
 app.use(`${prefixUrl}characters`, characterRouter.router);
 app.use(`${prefixUrl}quiz`, quizRouter.router);
 
+const connectDb = async () => {
+  try {
+    await dbClient.connect();
+    console.log("Db connection has been opened.")
+    process.on("SIGINT", closeDb);
+    await failsafeService.populateDb();
+  } catch (err) {
+    console.log(err);
+  }
+}
+const closeDb = async () => {
+  try {
+    await dbClient.close();
+    console.log("Db connection has been closed.");
+  } catch (err) {
+    console.log(err);
+  }
+  process.exit(0);
+}
 app.listen(app.get("port"), async () => {
-  await failsafeService.populateDb();
-  console.log(`Local url: http://localhost:${app.get("port")}`);
+  await connectDb();
+  console.log(`Server started at port: ${app.get("port")}`);
 })
