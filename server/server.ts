@@ -3,6 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { MongoClient } from "mongodb";
 import userRoutes from "./routers/userRouter";
 import quoteRoutes from "./routers/quoteRouter";
@@ -19,7 +20,9 @@ const app = express();
 
 app.use(express.json({limit: '1mb' }));
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
 app.use(cors());
+
 
 app.set("port", process.env.PORT || 3000);
 
