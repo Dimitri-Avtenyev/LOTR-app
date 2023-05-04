@@ -1,5 +1,10 @@
 import { ObjectId } from "mongodb";
 
+interface TokenPayload {
+  _id?:           string;
+  username:       string;
+  avatarID:       number;
+}
 interface UserCredentials {
   username:       string;
   password:       string;
@@ -74,6 +79,7 @@ interface UserHighscore {
 }
 
 export {
+  TokenPayload,
   User,
   UserCredentials,
   UserBasic,

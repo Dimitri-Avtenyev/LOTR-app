@@ -1,6 +1,7 @@
+import * as jwt from "jsonwebtoken";
 import { hash, salt } from "../auth/auth";
 import userService from "../services/userService";
-import { UserCredentials, User, UserBasic } from "../types";
+import { UserCredentials, User, UserBasic, TokenPayload } from "../types";
 
 const signup = async (req: any, res: any) => {
   res.type("application/json");
@@ -18,14 +19,13 @@ const signup = async (req: any, res: any) => {
   }
   let foundUser: User | null = await userService.getUser(user.username);
   if (foundUser !== null) {
-    return res.status(400).send({ error: "something went wrong." });
+    return res.status(400).send({ error: "User already exists." });
   }
   await userService.createUser(user);
   res.status(201).json(user);
 }
 
 const login = async (req: any, res: any) => {
-  res.type("application/json");
 
   let password: string = req.body.password;
 
@@ -40,6 +40,18 @@ const login = async (req: any, res: any) => {
     let hashedPass:string = hash(userCredentials.password, addedSalt);
 
     if (foundUser.password === `${addedSalt}.${hashedPass}`) {
+      let payload:TokenPayload = {
+        _id:      foundUser._id?.toString(),
+        username: foundUser.username,
+        avatarID: foundUser.avatarID
+      }
+      let token:string = "";
+      if (process.env.JWT_SECRET) {
+         token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h"});
+      } else {
+        console.log("Secretkey not found.");
+      }
+      
       let userBasic: UserBasic = {
         username: foundUser.username,
         avatarID: foundUser.avatarID,
@@ -47,6 +59,7 @@ const login = async (req: any, res: any) => {
         favorites: foundUser.favorites,
         blacklist: foundUser.blacklist
       }
+      res.cookie("jwt", token, {httpOnly: true, sameSite: "lax", secure: true});
       return res.status(200).json(userBasic);
     } else {
       return res.status(401).json({ "error": "credentials with wrong combination." })
