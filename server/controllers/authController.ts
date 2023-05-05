@@ -1,7 +1,7 @@
 import * as jwt from "jsonwebtoken";
 import { hash, salt } from "../auth/auth";
 import userService from "../services/userService";
-import { UserCredentials, User, UserBasic, TokenPayload } from "../types";
+import { UserCredentials, User, UserBasic, TokenPayload, TokenPayloadDecoded } from "../types";
 
 const signup = async (req: any, res: any) => {
   res.type("application/json");
@@ -69,7 +69,24 @@ const login = async (req: any, res: any) => {
   return res.status(404).json({ "error": "user does not exist." });
 }
 
+const authenticateToken = (req:any, res:any, next:any) => {
+  let token:string = req.cookies.jwt;
+
+  if (token === undefined) {
+    return res.status(401).send();
+  }
+  try {
+    jwt.verify(token, process.env.JWT_SECRET!);
+    return next();
+
+  } catch (err) {
+    console.log(err);
+    return res.status(403).send()
+  }
+}
+
 export default {
   login,
-  signup
+  signup,
+  authenticateToken
 }
