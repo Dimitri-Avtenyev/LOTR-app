@@ -21,7 +21,10 @@ const Quizpage = () => {
   useEffect(() => {
     setLoading(true);
     const loadQuotes = async () => {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}api/quiz`);
+      let response = await fetch(`${process.env.REACT_APP_API_URL}api/quiz`, {
+        headers: {"Content-Type" : "application/json"},
+        credentials: "include"
+      });
       let data: Quote[] = await response.json();
       setQuotes(data);
 

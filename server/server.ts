@@ -35,11 +35,11 @@ app.set("port", process.env.PORT || 3000);
 const prefixUrl:string = "/api/";
 
 app.use(authRouter.router);
-app.use(`${prefixUrl}users`, authController.authenticateToken, userRoutes.router);
+app.use(`${prefixUrl}users`, authController.authorize, userRoutes.router);
 app.use(`${prefixUrl}quotes`, quoteRoutes.router);
 app.use(`${prefixUrl}movies`, movieRoutes.router);
 app.use(`${prefixUrl}characters`, characterRouter.router);
-app.use(`${prefixUrl}quiz`, quizRouter.router);
+app.use(`${prefixUrl}quiz`, authController.authorize, quizRouter.router);
 
 const connectDb = async () => {
   try {

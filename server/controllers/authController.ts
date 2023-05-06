@@ -69,7 +69,7 @@ const login = async (req: any, res: any) => {
   return res.status(404).json({ "error": "user does not exist." });
 }
 
-const authenticateToken = (req:any, res:any, next:any) => {
+const authorize = async (req:any, res:any, next:any) => {
   let token:string = req.cookies.jwt;
 
   if (token === undefined) {
@@ -88,5 +88,5 @@ const authenticateToken = (req:any, res:any, next:any) => {
 export default {
   login,
   signup,
-  authenticateToken
+  authorize
 }
