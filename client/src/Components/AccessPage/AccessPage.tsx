@@ -1,4 +1,5 @@
 import { Button, Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 interface AccessPageProps {
   message: string,
@@ -19,7 +20,7 @@ const AccessPage = ({message, show, setShow}:AccessPageProps) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" type="button" onClick={handleClose}>
-            Close
+            <Link to={"/"}>Close</Link>
           </Button>
         </Modal.Footer>
 
