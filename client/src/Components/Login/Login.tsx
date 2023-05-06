@@ -29,6 +29,14 @@ const Login = () => {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
+    const test = async () => {
+      let respose = await fetch(`${process.env.REACT_APP_API_URL}api/users/user/favorites`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        });
+    }
+    test();
   }, [user]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
