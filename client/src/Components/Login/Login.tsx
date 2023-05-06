@@ -38,6 +38,7 @@ const Login = () => {
       let response = await fetch(FORM_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           email: email,
           password: password,

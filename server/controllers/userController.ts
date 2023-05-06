@@ -1,6 +1,12 @@
 import userService, { COLLECTION_HIGHSCORES, COLLECTION_USERS } from "../services/userService";
 import { User, UserBasic } from "../types";
 
+const getUserFavorites = async (req:any, res:any) => {
+  let userId:string = req.params.id;
+  let user:User|null = await userService.getUser(userId);
+  return res.status(200).json({"test": "test"});
+}
+
 const getUsersHighscore = async (req:any, res:any) => {
   res.type("application/json");
   const  users  = await userService.getUsersHighscore();
@@ -11,11 +17,11 @@ const updateUser = async (req : any, res : any) =>{
   res.type("application/json");
 
   let user:User|null = await userService.getUser(req.body.username);
-
+  
   if (user === null) {
     return res.status(400).send({error: "User not found."});
   }
-  let updatedUser:UserBasic ={
+  let updatedUser:UserBasic = {
     username:       user.username,
     avatarID:       req.body.avatarID ?? user.avatarID,
     highscore:      req.body.highscore ?? user.highscore,
@@ -40,13 +46,14 @@ const getAllUsers = async (req:any, res:any) => {
   res.type("application/json");
   const users = await userService.getAllUsers();
   let userBasic:UserBasic[] = [];
+  
   for(let i:number = 0; i<users.length; i++) {
     userBasic.push({
-      username: users[i].username,
-      avatarID: users[i].avatarID,
-      highscore: users[i].highscore,
-      favorites: users[i].favorites,
-      blacklist: users[i].blacklist
+      username:   users[i].username,
+      avatarID:   users[i].avatarID,
+      highscore:  users[i].highscore,
+      favorites:  users[i].favorites,
+      blacklist:  users[i].blacklist
     })
   }
   res.status(200).json(userBasic);
@@ -62,6 +69,7 @@ const emptyUsersCollection = async (req:any, res:any) => {
   res.send("Collection deleted");
 }
 export default {
+  getUserFavorites,
   getUsersHighscore,
   addUserToHighscores,
   emptyHighscoresCollection,

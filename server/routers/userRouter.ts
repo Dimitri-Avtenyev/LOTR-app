@@ -5,6 +5,7 @@ const router = express.Router();
 
 // GET
 router.get("/", userController.getAllUsers);
+router.get("/user/favorites", userController.getUserFavorites);
 router.get("/highscores", userController.getUsersHighscore);
 
 // POST
@@ -15,7 +16,7 @@ router.put("/update", userController.updateUser);
 
 // DELETE
 router.delete("/highscores/empty", userController.emptyHighscoresCollection);
-router.delete("/all/empty", userController.emptyUsersCollection);
+router.delete("/empty", userController.emptyUsersCollection);
 
 
 export default {

@@ -12,6 +12,7 @@ import characterRouter from "./routers/characterRouter";
 import quizRouter from "./routers/quizRouter";
 import failsafeService from "./services/failsafeService";
 import authRouter from "./routers/authRouter";
+import authController from "./controllers/authController";
 
 const uri:string = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PSW}@lotr-cluster.l9mo3yk.mongodb.net/?retryWrites=true&w=majority`;
 export const dbClient = new MongoClient(uri);
@@ -21,7 +22,12 @@ const app = express();
 app.use(express.json({limit: '1mb' }));
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(
+  {
+    origin: [`http://localhost:3005`, `${process.env.CLIENT_URL}`],
+    credentials: true
+  }
+));
 
 
 app.set("port", process.env.PORT || 3000);
@@ -29,11 +35,11 @@ app.set("port", process.env.PORT || 3000);
 const prefixUrl:string = "/api/";
 
 app.use(authRouter.router);
-app.use(`${prefixUrl}users`, userRoutes.router);
+app.use(`${prefixUrl}users`, authController.authorize, userRoutes.router);
 app.use(`${prefixUrl}quotes`, quoteRoutes.router);
 app.use(`${prefixUrl}movies`, movieRoutes.router);
 app.use(`${prefixUrl}characters`, characterRouter.router);
-app.use(`${prefixUrl}quiz`, quizRouter.router);
+app.use(`${prefixUrl}quiz`, authController.authorize, quizRouter.router);
 
 const connectDb = async () => {
   try {
