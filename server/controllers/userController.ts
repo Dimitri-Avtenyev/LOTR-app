@@ -4,7 +4,7 @@ import { User, UserBasic } from "../types";
 const getUserFavorites = async (req:any, res:any) => {
   let userId:string = req.params.id;
   let user:User|null = await userService.getUser(userId);
-  res.cookie("testCookie", "nomnom", {httpOnly: true, sameSite: "none", secure: true});
+  
   return res.status(200).json({"test": "test"});
 }
 

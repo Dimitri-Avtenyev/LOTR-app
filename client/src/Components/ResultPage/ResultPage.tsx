@@ -70,6 +70,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
         let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             username: user.username,
             favorites: userUpdated.favorites
@@ -100,6 +101,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
         let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             username: user.username,
             blacklist: userUpdated.blacklist
