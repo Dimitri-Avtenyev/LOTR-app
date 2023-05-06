@@ -49,6 +49,7 @@ const Blacklisted = ({ user }: { user: User }) => {
       let respose = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials:"include",
         body: JSON.stringify({
           username: user.username,
           blacklist: userUpdated.blacklist
