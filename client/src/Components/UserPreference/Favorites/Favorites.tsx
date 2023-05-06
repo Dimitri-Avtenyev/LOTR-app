@@ -28,10 +28,13 @@ const Favorites = ({ user }: { user: User }) => {
 
   }, []);
 
+  useEffect(() => {
+    updateUser();
+  }, [favorites]);
+
   const removeQuote = async (id: string) => {
     let favoritesFiltered: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
     setFavorites(favoritesFiltered);
-    updateUser();
   }
 
   const handleFilterOff = async () => {
