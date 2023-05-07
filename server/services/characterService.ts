@@ -1,7 +1,7 @@
 import axios from "axios";
 import failsafeService from "./failsafeService";
 import { Character } from "../types";
-import { dbClient } from "../server";
+import { dbClient } from "../db";
 
 const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN}` } };
 

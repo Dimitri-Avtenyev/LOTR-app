@@ -1,4 +1,4 @@
-import { dbClient } from "../server"
+import { dbClient } from "../db";
 import { User, UserBasic, UserHighscore } from "../types";
 
 const DB_NAME: string = "LOTR-app";

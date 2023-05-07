@@ -4,18 +4,14 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { MongoClient } from "mongodb";
 import userRoutes from "./routers/userRouter";
 import quoteRoutes from "./routers/quoteRouter";
 import movieRoutes from "./routers/movieRouter";
 import characterRouter from "./routers/characterRouter";
 import quizRouter from "./routers/quizRouter";
-import failsafeService from "./services/failsafeService";
 import authRouter from "./routers/authRouter";
 import authController from "./controllers/authController";
-
-const uri:string = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PSW}@lotr-cluster.l9mo3yk.mongodb.net/?retryWrites=true&w=majority`;
-export const dbClient = new MongoClient(uri);
+import { connectDb } from "./db";
 
 const app = express();
 
@@ -29,7 +25,6 @@ app.use(cors(
   }
 ));
 
-
 app.set("port", process.env.PORT || 3000);
 
 const prefixUrl:string = "/api/";
@@ -41,25 +36,7 @@ app.use(`${prefixUrl}movies`, movieRoutes.router);
 app.use(`${prefixUrl}characters`, characterRouter.router);
 app.use(`${prefixUrl}quiz`, authController.authorize, quizRouter.router);
 
-const connectDb = async () => {
-  try {
-    await dbClient.connect();
-    console.log("Db connection has been opened.")
-    process.on("SIGINT", closeDb);
-    await failsafeService.populateDb();
-  } catch (err) {
-    console.log(err);
-  }
-}
-const closeDb = async () => {
-  try {
-    await dbClient.close();
-    console.log("Db connection has been closed.");
-  } catch (err) {
-    console.log(err);
-  }
-  process.exit(0);
-}
+
 app.listen(app.get("port"), async () => {
   await connectDb();
   console.log(`Server started at port: ${app.get("port")}`);
