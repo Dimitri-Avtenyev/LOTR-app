@@ -1,5 +1,5 @@
 import axios from "axios";
-import { dbClient } from "../server"
+import { dbClient } from "../db";
 import { Character, Movie, Quote } from "../types";
 
 const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN}` } };
