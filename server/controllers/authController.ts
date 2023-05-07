@@ -59,7 +59,8 @@ const login = async (req: any, res: any) => {
         favorites: foundUser.favorites,
         blacklist: foundUser.blacklist
       }
-      res.cookie("jwt", token, {httpOnly: true, sameSite: "none", secure: true});
+     
+      res.cookie("jwt", token, {httpOnly: true, sameSite: "none"});
       return res.status(200).json(userBasic);
     } else {
       return res.status(401).json({ "error": "credentials with wrong combination." })
@@ -71,7 +72,7 @@ const login = async (req: any, res: any) => {
 
 const authorize = async (req:any, res:any, next:any) => {
   let token:string = req.cookies.jwt;
-
+  console.log(token);
   if (token === undefined) {
     return res.status(401).send();
   }
