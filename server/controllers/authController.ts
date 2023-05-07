@@ -47,7 +47,7 @@ const login = async (req: any, res: any) => {
       }
       let token:string = "";
       if (process.env.JWT_SECRET) {
-         token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h"});
+         token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "4h"});
       } else {
         console.log("Secretkey not found.");
       }
@@ -60,7 +60,7 @@ const login = async (req: any, res: any) => {
         blacklist: foundUser.blacklist
       }
      
-      res.cookie("jwt", token, {secure:true});
+      res.cookie("jwt", token, {httpOnly:true, sameSite:"none"});
       return res.status(200).json(userBasic);
     } else {
       return res.status(401).json({ "error": "credentials with wrong combination." })
