@@ -59,7 +59,7 @@ const login = async (req: any, res: any) => {
         favorites: foundUser.favorites,
         blacklist: foundUser.blacklist
       }
-      if(process.env.NODE_ENV) {
+      if(process.env.NODE_ENV === "development") {
         res.cookie("jwt", token, {httpOnly:true, sameSite:"none", secure: true, domain: "localhost"});
       } else {
         res.cookie("jwt", token, {httpOnly:true, sameSite:"none", secure: true, domain: `${process.env.CLIENT_DOMAIN}`});
