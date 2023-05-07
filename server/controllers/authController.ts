@@ -59,8 +59,12 @@ const login = async (req: any, res: any) => {
         favorites: foundUser.favorites,
         blacklist: foundUser.blacklist
       }
-     
-      res.cookie("jwt", token, {httpOnly:true, sameSite:"none"});
+      if(process.env.NODE_ENV) {
+        res.cookie("jwt", token, {httpOnly:true, sameSite:"none", secure: true, domain: "localhost"});
+      } else {
+        res.cookie("jwt", token, {httpOnly:true, sameSite:"none", secure: true, domain: `${process.env.CLIENT_DOMAIN}`});
+      }
+      
       return res.status(200).json(userBasic);
     } else {
       return res.status(401).json({ "error": "credentials with wrong combination." })

@@ -25,7 +25,6 @@ app.use(cors(
   }
 ));
 
-app.set("trust proxy", 1);
 app.set("port", process.env.PORT || 3000);
 
 const prefixUrl:string = "/api/";
