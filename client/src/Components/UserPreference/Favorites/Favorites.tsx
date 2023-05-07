@@ -98,7 +98,7 @@ const Favorites = ({ user }: { user: User }) => {
                 <tr key={favorite.quote?.id}>
                   <td>{favorite.quote?.movie.name}</td>
                   <td><q>{favorite.quote?.dialog}</q></td>
-                  <td className={styles.test}>-</td>
+                  <td>-</td>
                   <td>
                     <a href={favorite.quote?.character.wikiUrl} target="_blank">{favorite.quote?.character.name}</a>
                   </td>
