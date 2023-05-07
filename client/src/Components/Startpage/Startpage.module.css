@@ -26,7 +26,13 @@ main {
     border-color: rgb(57, 121, 57);
 }
 
-@media only screen and (max-width: 500px) {
+
+@media only screen and (max-width: 800px) {
+    .info{
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 550px) {
     .info{
         width: 80%;
     }

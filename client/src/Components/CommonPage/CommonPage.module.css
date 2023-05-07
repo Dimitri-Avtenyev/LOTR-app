@@ -60,7 +60,18 @@ h1 {
   text-align: center;
   padding-top: 2rem;
 }
-@media all and (max-width:500px) {
+
+@media all and (max-width:800px) {
+  .theone img{
+    width: 380px;
+    height: 120px;
+  }
+  .others img {
+    width: 380px;
+    height: 120px;
+  }
+}
+@media all and (max-width:550px) {
   .theone img{
     width: 250px;
     height: 120px;
