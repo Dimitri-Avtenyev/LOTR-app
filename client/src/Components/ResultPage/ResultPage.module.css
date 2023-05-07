@@ -23,3 +23,7 @@
   padding: 10px 40px;
   margin: 5px;
 }
+
+@media only screen and (max-width: 550px) {
+  /* img movie kleiner maken*/
+}
