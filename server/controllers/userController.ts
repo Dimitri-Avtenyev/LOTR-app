@@ -1,20 +1,21 @@
+import { Request, Response } from "express";
 import userService, { COLLECTION_HIGHSCORES, COLLECTION_USERS } from "../services/userService";
 import { User, UserBasic } from "../types";
 
-const getUserFavorites = async (req:any, res:any) => {
+const getUserFavorites = async (req:Request, res:Response):Promise<Response> => {
   let userId:string = req.params.id;
   let user:User|null = await userService.getUser(userId);
   
   return res.status(200).json({"test": "test"});
 }
 
-const getUsersHighscore = async (req:any, res:any) => {
+const getUsersHighscore = async (req:Request, res:Response):Promise<Response> => {
   res.type("application/json");
   const  users  = await userService.getUsersHighscore();
-  res.status(200).json(users);
+  return res.status(200).json(users);
  
 }
-const updateUser = async (req : any, res : any) =>{
+const updateUser = async (req : Request, res : Response):Promise<Response> =>{
   res.type("application/json");
 
   let user:User|null = await userService.getUser(req.body.username);
@@ -34,16 +35,16 @@ const updateUser = async (req : any, res : any) =>{
   return res.sendStatus(200);
 }
 
-const addUserToHighscores = async (req:any, res:any) => {
+const addUserToHighscores = async (req:Request, res:Response):Promise<Response> => {
   let username:string = req.body.username;
   let score:number = parseInt(req.body.score);
   
   await userService.addUserToHighscores({userName:username, score: score});
 
-  res.sendStatus(200);
+  return res.sendStatus(200);
 
 }
-const getAllUsers = async (req:any, res:any) => {
+const getAllUsers = async (req:Request, res:Response):Promise<Response> => {
   res.type("application/json");
   const users = await userService.getAllUsers();
   let userBasic:UserBasic[] = [];
@@ -57,17 +58,17 @@ const getAllUsers = async (req:any, res:any) => {
       blacklist:  users[i].blacklist
     })
   }
-  res.status(200).json(userBasic);
+  return res.status(200).json(userBasic);
 }
 
-const emptyHighscoresCollection = async (req:any, res:any) => {
+const emptyHighscoresCollection = async (req:Request, res:Response):Promise<Response> => {
   await userService.emptyCollection(COLLECTION_HIGHSCORES);
-  res.send("Collection deleted");
+  return res.send("Collection deleted");
 }
 
-const emptyUsersCollection = async (req:any, res:any) => {
+const emptyUsersCollection = async (req:Request, res:Response):Promise<Response> => {
   await userService.emptyCollection(COLLECTION_USERS);
-  res.send("Collection deleted");
+  return res.send("Collection deleted");
 }
 export default {
   getUserFavorites,

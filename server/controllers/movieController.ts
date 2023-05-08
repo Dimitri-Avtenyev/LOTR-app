@@ -1,9 +1,10 @@
+import { Request, Response } from "express";
 import movieService from "../services/movieService";
 
-const getMovies = async (req:any, res:any) => {
+const getMovies = async (req:Request, res:Response):Promise<Response> => {
   res.type("application/json");
   const movies = await movieService.getMovies();
-  res.status(200).json(movies);
+  return res.status(200).json(movies);
 }
 
 export default {
