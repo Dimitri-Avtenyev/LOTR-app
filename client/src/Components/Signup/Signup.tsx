@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Spinner from "react-bootstrap/Spinner";
+import Login from "../Login/Login";
 import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
 
@@ -17,9 +19,16 @@ const Signup = () => {
   const [password, setPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const navigate = useNavigate();
 
+  const handleClose = () => {
+    setShow(false);
+  }
+
+  const navigateLogin = () => {
+    navigate("/login");
+  }
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -36,7 +45,8 @@ const Signup = () => {
     if (response.status === 201) {
       setEmail("");
       setPassword("");
-      setMessage("Signed up successfully, please loging to continue.");
+      setMessage("Signed up successfully, please log in to continue.");
+      navigateLogin();
     } else if (response.status === 400) {
       setEmail("");
       setPassword("");
@@ -50,6 +60,7 @@ const Signup = () => {
   }
   
   return (
+    <div>
       <Modal show={show} onHide={handleClose}>
         
         <Modal.Header closeButton><h1>{submitted ? message : "Signup"}</h1></Modal.Header>
@@ -90,6 +101,11 @@ const Signup = () => {
           </div>
         </Form>
       </Modal>
+
+      <Routes>
+        <Route path="/login" element={<Login />}/>
+      </Routes>
+    </div>
   );
 };
 
