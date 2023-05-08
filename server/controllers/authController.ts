@@ -1,13 +1,14 @@
 import * as jwt from "jsonwebtoken";
 import { hash, salt } from "../auth/auth";
 import userService from "../services/userService";
-import { UserCredentials, User, UserBasic, TokenPayload, TokenPayloadDecoded } from "../types";
+import { UserCredentials, User, UserBasic, TokenPayload } from "../types";
+import { NextFunction, Request, Response } from "express";
 
-const signup = async (req: any, res: any) => {
+const signup = async (req: Request, res: Response):Promise<Response> => {
   res.type("application/json");
 
   let password: string = req.body.password;
-  let addedSalt = salt();
+  let addedSalt: string = salt();
 
   let user: User = {
     username: req.body.email,
@@ -22,10 +23,10 @@ const signup = async (req: any, res: any) => {
     return res.status(400).send({ error: "User already exists." });
   }
   await userService.createUser(user);
-  res.status(201).json(user);
+  return res.status(201).json(user);
 }
 
-const login = async (req: any, res: any) => {
+const login = async (req: Request, res: Response):Promise<Response> => {
 
   let password: string = req.body.password;
 
@@ -74,9 +75,9 @@ const login = async (req: any, res: any) => {
   return res.status(404).json({ "error": "user does not exist." });
 }
 
-const authorize = async (req:any, res:any, next:any) => {
+const authorize = async (req:Request, res:Response, next:NextFunction):Promise<void | Response> => {
   let token:string = req.cookies.jwt;
-  console.log(token);
+  
   if (token === undefined) {
     return res.status(401).send();
   }

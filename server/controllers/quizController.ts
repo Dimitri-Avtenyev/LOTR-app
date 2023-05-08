@@ -1,12 +1,20 @@
+import { Request, Response } from "express";
 import quizService from "../services/quizService";
+import { QuoteQuiz } from "../types";
 
-const getQuiz = async (req:any, res:any) => {
+const getQuiz = async (req: Request, res: Response): Promise<Response> => {
   res.type("application/json");
 
-  let amountQuotes:number = req.params.randomamount;
-  const quiz = await quizService.getQuiz(amountQuotes);
+  let quiz: QuoteQuiz[] = [];
+  let amountQuotes: number = parseInt(req.params.randomamount);
 
-  res.status(200).json(quiz);
+  if (!isNaN(amountQuotes)) {
+    quiz = await quizService.getQuiz(amountQuotes);
+  } else {
+    quiz = await quizService.getQuiz();
+  }
+
+  return res.status(200).json(quiz);
 }
 
 export default {
