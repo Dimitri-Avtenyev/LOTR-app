@@ -200,14 +200,10 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
         </div>
       </Modal.Body>
       <Modal.Footer>
-        {
-          activeQuestion === 2 ? <Button className={styles.footerButtons} variant="primary" size="lg" href="/quiz/endquiz">End Quiz</Button> :
           <div>
             <Button className={styles.footerButtons} variant="primary" size="lg" onClick={handleSave} disabled={!like && !dislike}>Save</Button> 
             <Button className={styles.footerButtons} variant="primary" size="lg" onClick={handleClose}>Close</Button>
           </div>
-        }
-        
       </Modal.Footer>
     </Modal>
   )

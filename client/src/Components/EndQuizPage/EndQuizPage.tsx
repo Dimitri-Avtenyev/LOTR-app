@@ -1,18 +1,34 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./EndQuizPage.module.css";
 import { Link } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 
+interface EndQuizPageProps {
+    score: number;
+}
 
-const EndQuizPage = () => {
+const EndQuizPage = ({score} : EndQuizPageProps) => {
+    const [show, setShow] = useState<boolean>(true);
+
     return (
-        <main>
-            <div className={styles.container}>
+        <Modal className={styles.container}
+            show={show}
+            backdrop="static"
+            keyboard={false}
+            centered={true}
+        >
+            <Modal.Header className={styles.header}>
                 <h1>End Quiz</h1>
-                <p>Your score: X/10</p>
+            </Modal.Header>
+            <Modal.Body>
+                <p>Your score: {score}/10</p>
                 <p>Your highscore: X/10</p>
+                
+            </Modal.Body>
+            <Modal.Footer className={styles.footer}>
                 <Link to="/start/:project">Try again?</Link>
-            </div>
-        </main>
+            </Modal.Footer>
+        </Modal>
        ) 
 }
 

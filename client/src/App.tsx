@@ -75,10 +75,6 @@ const App = () => {
           path: "quiz/theone",
           element: <ProtectedRoutes element={ <Quizpage/>} loggedin={loggedin}/>
         },
-        {
-          path: "quiz/endquiz",
-          element:<ProtectedRoutes element={ <EndQuizPage />} loggedin={loggedin}/>
-        },
       ]
     },
     {

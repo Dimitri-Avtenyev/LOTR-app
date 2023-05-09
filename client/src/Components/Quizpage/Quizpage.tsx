@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 import { Quote } from "../../types";
 import ResultPage from "../ResultPage/ResultPage";
+import EndQuizPage from "../EndQuizPage/EndQuizPage";
+import { act } from "react-dom/test-utils";
 
 const Quizpage = () => {
   const [loading, setLoading] = useState(false);
@@ -17,6 +19,7 @@ const Quizpage = () => {
   const [selectedMovieIndex, setSelectedMovieIndex] = useState<number>(-1);
   const [show, setShow] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
+  const [showEndQuiz, setShowEndQuiz] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
@@ -114,46 +117,48 @@ const Quizpage = () => {
     }
   }
 
-  const endQuiz = () => {
-
-  }
-
   return (
     <main className={styles.main}>
       {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex} selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />}
       {loading && <LoadingIndicator />}
+      {
+      activeQuestion === 3 ? <EndQuizPage score={score}/> :
       <div>
-        <h3>{activeQuestion + 1}/10</h3>
-        <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
-      </div>
+        <div>
+          <h3>{activeQuestion + 1}/10</h3>
+          <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
+        </div>
 
-      <div className={styles.quizForm}>
-        <div className={styles.columnLeft}>
-          {characters.map((character: string, index: number) => {
-            return (
-              <button key={index} onClick={() => onCharacterSelected(character, index)}
-                style={{
-                  backgroundColor: selectedCharacterIndex === index ? "#50695d" : ""
-                }}
-              >{character}</button>
-            )
-          })}
+        <div className={styles.quizForm}>
+          <div className={styles.columnLeft}>
+            {characters.map((character: string, index: number) => {
+              return (
+                <button key={index} onClick={() => onCharacterSelected(character, index)}
+                  style={{
+                    backgroundColor: selectedCharacterIndex === index ? "#50695d" : ""
+                  }}
+                >{character}</button>
+              )
+            })}
+          </div>
+          <div className={styles.line}></div>
+          <div className={styles.columnRight}>
+            {movies.map((movie: string, index: number) => {
+              return (
+                <button key={index} onClick={() => onMovieSelected(movie, index)}
+                  style={{
+                    backgroundColor: selectedMovieIndex === index ? "#50695d" : ""
+                  }}
+                >{movie}</button>
+              )
+            })}
+          </div>
         </div>
-        <div className={styles.line}></div>
-        <div className={styles.columnRight}>
-          {movies.map((movie: string, index: number) => {
-            return (
-              <button key={index} onClick={() => onMovieSelected(movie, index)}
-                style={{
-                  backgroundColor: selectedMovieIndex === index ? "#50695d" : ""
-                }}
-              >{movie}</button>
-            )
-          })}
-        </div>
+        <button className={styles.submitButton} onClick={submitAnswerHandler}disabled={selectedCharacterIndex > -1 && selectedMovieIndex > -1 ? false : true}>Submit Answer</button>
+        <h3>Score: {score}</h3>
       </div>
-      <button className={styles.submitButton} onClick={submitAnswerHandler}disabled={selectedCharacterIndex > -1 && selectedMovieIndex > -1 ? false : true}>Submit Answer</button>
-      <h3>Score: {score}</h3>
+      }
+      
     </main>
   )
 }
