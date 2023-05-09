@@ -13,8 +13,10 @@ const getQuiz = async (amountQuotes?: number): Promise<QuoteQuiz[]> => {
   ]);
 
   for (var quote of randomQuotes) {
+
     let foundMovie: Movie = {} as Movie;
     let foundCharacter: Character = {} as Character;
+    
     try {
       [foundMovie, foundCharacter] = await Promise.all([
         movieService.getMovie(movies, quote.movie),
@@ -24,9 +26,9 @@ const getQuiz = async (amountQuotes?: number): Promise<QuoteQuiz[]> => {
     } catch (err) {
       console.log(err);
     }
-
+    
     let wrongAnswers: WrongAnswer = randomizeWrongAnswers(movies, foundMovie, characters, foundCharacter);
-
+    
     let quoteQuizElement: QuoteQuiz =
     {
       id: quote.id,
@@ -40,7 +42,7 @@ const getQuiz = async (amountQuotes?: number): Promise<QuoteQuiz[]> => {
 
   return quoteQuiz;
 }
-const randomizeWrongAnswers = (movies: Movie[], foundMovie: Movie, characters: Character[], foundCharacter: Character, numberOfAnswers: number = 2, min: number = 0): WrongAnswer => {
+const randomizeWrongAnswers = (movies: Movie[], foundMovie: Movie, characters: Character[], foundCharacter: Character, numberOfAnswers: number = 2): WrongAnswer => {
   let wrongMovies: Movie[] = [];
   let wrongCharacters: Character[] = [];
 
@@ -52,8 +54,9 @@ const randomizeWrongAnswers = (movies: Movie[], foundMovie: Movie, characters: C
   moviesCpy.splice(movieIndex, 1);
   charactersCpy.splice(characterIndex, 1);
   for (let i: number = 0; i < numberOfAnswers; i++) {
-    let randomIndexMovies: number = Math.floor(Math.random() * (moviesCpy.length - min)) + min;
-    let randomIndexCharacters: number = Math.floor(Math.random() * (charactersCpy.length - min)) + min;
+    
+    let randomIndexMovies: number = Math.floor(Math.random() * (moviesCpy.length - i));
+    let randomIndexCharacters: number = Math.floor(Math.random() * (charactersCpy.length - i));
 
     wrongMovies.push(moviesCpy[randomIndexMovies]);
     wrongCharacters.push(charactersCpy[randomIndexCharacters]);
