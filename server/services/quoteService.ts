@@ -23,10 +23,11 @@ const getQuotes = async (amountQuotes: number = 10, user?: UserBasic): Promise<Q
   }
 
   for (let i: number = 0; i < amountQuotes; i++) {
-    let randomIndex: number = Math.floor(Math.random() * data.length-i + 1);
+    let randomIndex: number = Math.floor(Math.random() * data.length );
     quotes.push(data[randomIndex]);
     data.splice(randomIndex, 1);
   }
+  
   return quotes;
 }
 
