@@ -1,18 +1,30 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Favorites.module.css";
 import deleteBin from "../assets/deleteBin.svg";
 import filterOn from "../assets/filterOn.svg";
 import filterOff from "../assets/filterOff.svg";
-import { User, Favorite, Character } from "../../../types";
-import { UserContext } from "../../../Context/UserContext";
+import {  Favorite, Character } from "../../../types";
+import { deleteUserData, getUserDataFavorites } from "../../../utils/fetchHandlers";
+import LoadingIndicator from "../../LoadingIndicator/LoadingIndicator";
 
-const Favorites = ({ user }: { user: User }) => {
-  const [favorites, setFavorites] = useState<Favorite[]>(user.favorites);
+const Favorites = () => {
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [downloadLink, setDownloadLink] = useState<string>("");
   const [filterActive, setFilterActive] = useState<boolean>(false);
   const [characterFilterId, setCharacterFilterId] = useState<string>("");
   const [characters, setCharacters] = useState<Character[]>([]);
-  const { setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    const getFavorites = async () => {
+      setLoading(true);
+      let favorites: Favorite[] = await getUserDataFavorites(`${process.env.REACT_APP_API_URL}api/users/user/favorites`);
+      setFavorites(favorites);
+      setCharacters(favorites.map(fav => fav.quote.character));
+      setLoading(false);
+    }
+    getFavorites();
+  }, []);
 
   useEffect(() => {
     let fileContent: string = "";
@@ -23,51 +35,27 @@ const Favorites = ({ user }: { user: User }) => {
     }
     let favoritesBlob = new Blob([fileContent], { type: "text/plain" });
     setDownloadLink(URL.createObjectURL(favoritesBlob));
-
-    setCharacters(user.favorites.map(fav => fav.quote.character));
-
   }, []);
-
-  useEffect(() => {
-    updateUser();
-  }, [favorites]);
 
   const removeQuote = async (id: string) => {
     let favoritesFiltered: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
     setFavorites(favoritesFiltered);
+    await deleteUserData(`${process.env.REACT_APP_API_URL}api/users/user/favorites/${id}`);
   }
 
-  const handleFilterOff = async () => {
+  const handleFilterOff = () => {
     setFilterActive(false);
     setCharacterFilterId("");
   }
 
-  const handleFilterOn = async (id: string) => {
+  const handleFilterOn = (id: string) => {
     setCharacterFilterId(id);
     setFilterActive(true);
   }
 
-  const updateUser = async () => {
-    let userUpdated: User = JSON.parse(JSON.stringify(user));
-    userUpdated.favorites = [...favorites];
-    setUser(userUpdated);
 
-    try {
-      let respose = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          username: user.username,
-          favorites: userUpdated.favorites
-        })
-      });
-      if (respose.status === 200) {
-
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  if (loading) {
+    return <LoadingIndicator />
   }
   if (favorites.length === 0) {
     return (

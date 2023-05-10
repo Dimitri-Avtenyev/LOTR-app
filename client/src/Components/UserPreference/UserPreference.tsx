@@ -1,16 +1,14 @@
-import {  User } from "../../types";
 import Blacklisted from "./Blacklist/Blacklist";
 import Favorites from "./Favorites/Favorites";
 
-
-const UserPreference = ({ preference, user }: { preference: string, user: User }) => {
+const UserPreference = ({ preference }: { preference: string }) => {
 
   switch(preference) {
     default: 
       case("favorites"):
-    return <Favorites user={user} />;
+    return <Favorites />;
       case(("blacklist")):
-    return <Blacklisted user={user}/>;
+    return <Blacklisted />;
   }
 }
 
