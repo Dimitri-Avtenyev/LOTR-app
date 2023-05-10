@@ -5,17 +5,15 @@ const router = express.Router();
 
 // GET
 router.get("/", userController.getAllUsers);
-router.get("/user/favorites", userController.getUserFavorites);
-router.get("/highscores", userController.getUsersHighscore);
+router.get("/user/:typelist", userController.getUserList);
 
 // POST
-router.post("/addusertohighscores", userController.addUserToHighscores)
 
 // PUT
 router.put("/update", userController.updateUser); 
 
 // DELETE
-router.delete("/highscores/empty", userController.emptyHighscoresCollection);
+router.delete("/user/:typelist/:id", userController.deleteListItem);
 router.delete("/empty", userController.emptyUsersCollection);
 
 

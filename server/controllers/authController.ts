@@ -1,7 +1,7 @@
 import * as jwt from "jsonwebtoken";
 import { hash, salt } from "../auth/auth";
 import userService from "../services/userService";
-import { UserCredentials, User, UserBasic, TokenPayload } from "../types";
+import { UserCredentials, User, UserBasic, TokenPayload, TokenPayloadDecoded } from "../types";
 import { NextFunction, Request, Response } from "express";
 
 const signup = async (req: Request, res: Response):Promise<Response> => {
@@ -40,9 +40,9 @@ const login = async (req: Request, res: Response):Promise<Response> => {
     let addedSalt:string = foundUser.password.substring(0, foundUser.password.indexOf("."));
     let hashedPass:string = hash(userCredentials.password, addedSalt);
 
-    if (foundUser.password === `${addedSalt}.${hashedPass}`) {
+    if (foundUser.password === `${addedSalt}.${hashedPass}` && foundUser._id) {
       let payload:TokenPayload = {
-        _id:      foundUser._id?.toString(),
+        _id:      foundUser._id.toString(),
         username: foundUser.username,
         avatarID: foundUser.avatarID
       }
@@ -82,11 +82,12 @@ const authorize = async (req:Request, res:Response, next:NextFunction):Promise<v
     return res.status(401).send();
   }
   try {
-    jwt.verify(token, process.env.JWT_SECRET!);
+    let payload:TokenPayloadDecoded = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayloadDecoded;
+    req.body.payload = payload;
     return next();
 
   } catch (err) {
-    console.log(err);
+    console.log(`${err}`);
     return res.status(403).send()
   }
 }

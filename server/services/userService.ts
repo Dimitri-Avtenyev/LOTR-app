@@ -1,33 +1,32 @@
+import { ObjectId } from "mongodb";
 import { dbClient } from "../db";
-import { User, UserBasic, UserHighscore } from "../types";
+import { User, UserBasic } from "../types";
 
 const DB_NAME: string = "LOTR-app";
 export const COLLECTION_USERS: string = "Users";
-export const COLLECTION_HIGHSCORES: string = "Highscores";
 
-const getUser = async (email: string): Promise<User | null> => {
+const getUser = async (username: string): Promise<User | null> => {
   let foundUser: User | null = null;
 
   try {
-    foundUser = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).findOne<User>({ username: email });
-
+    if (username) {
+      foundUser = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).findOne<User>({ username: username });
+    }
   } catch (err) {
     console.log(err);
-  } 
+  }
   return foundUser;
 }
 
-const createUser = async (user: User):Promise<void> => {
+const createUser = async (user: User): Promise<void> => {
   try {
-
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).insertOne(user);
-
   } catch (err) {
     console.log(err);
-  } 
+  }
 }
 
-const getAllUsers = async ():Promise<User[]> => { 
+const getAllUsers = async (): Promise<User[]> => {
   let users: User[] = [];
   try {
     let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).find<User>({});
@@ -35,15 +34,15 @@ const getAllUsers = async ():Promise<User[]> => {
 
   } catch (err) {
     console.log(err);
-  } 
+  }
   return users;
 }
 
-const updateUser = async (user: UserBasic):Promise<void> => {
+const updateUser = async (user: UserBasic): Promise<void> => {
 
   try {
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
-      { username: user.username },
+      { username: user.username},
       {
         $set: {
           avatarID: user.avatarID,
@@ -57,57 +56,51 @@ const updateUser = async (user: UserBasic):Promise<void> => {
     console.log(err);
   }
 }
+const deleteItemFromUserList = async (userId: string, typelist: string, itemId: string) => {
 
-const getUsersHighscore = async ():Promise<UserHighscore[]> => {
-
-  let users: UserHighscore[] = [];
-
-  try {
-    let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_HIGHSCORES).find<UserHighscore>({});
-    users = await cursor.toArray();
-
-    if (users.length <= 0) {
-      // sample data 
-      users = [
+  if (typelist === "favorites") {
+    try {
+      //console.log(`deleting favorite..${itemId} from user: ${userId}`);
+      await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+        { _id: new ObjectId(userId) },
         {
-          userName: "testUser",
-          score: 10
-        },
-        {
-          userName: "testUser_2",
-          score: 7
+        $pull: {favorites: {"quote.id": itemId}}
         }
-      ]
+      )
+      
+    } catch (err) {
+      console.log(err);
     }
-  } catch (err) {
-    console.log(err);
-  } 
-  return users;
-}
+  } else if (typelist === "blacklist") {
+    try {
+    
+      await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+        {
+          _id: new ObjectId(userId)
+        }, {
+          $pull: {blacklist: { "quote.id":  itemId} }
+      }
+      )
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-const addUserToHighscores = async (user: UserHighscore):Promise<void> => {
-  try {
-    await dbClient.db(DB_NAME).collection(COLLECTION_HIGHSCORES).insertOne(user);
-
-  } catch (err) {
-    console.log(err);
-  } 
 }
-const emptyCollection = async (collection: string):Promise<void> => {
+const emptyCollection = async (collection: string): Promise<void> => {
   try {
     await dbClient.db(DB_NAME).collection(collection).deleteMany({});
   } catch (err) {
     console.log(err);
-  } 
+  }
 }
 
 export default {
-  getUsersHighscore,
   createUser,
   getUser,
-  addUserToHighscores,
   emptyCollection,
   getAllUsers,
-  updateUser
+  updateUser,
+  deleteItemFromUserList
 }
 

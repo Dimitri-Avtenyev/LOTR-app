@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Quote } from "../types";
+import { Blacklist, Quote } from "../types";
 import failsafeService from "./failsafeService";
 import { UserBasic } from "../types";
 
@@ -7,7 +7,7 @@ const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN
 
 // todo -> 10 or x random quotes excl. blacklisted bij user
 
-const getQuotes = async (amountQuotes: number = 10, user?: UserBasic): Promise<Quote[]> => {
+const getQuotes = async (amountQuotes: number = 10): Promise<Quote[]> => {
   let quotes: Quote[] = [];
   let data: Quote[] = [];
 

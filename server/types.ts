@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 interface TokenPayload {
-  _id?:           string;
+  _id:            string;
   username:       string;
   avatarID:       number;
 }

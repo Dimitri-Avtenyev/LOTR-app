@@ -61,11 +61,11 @@ const App = () => {
         },
         {
           path: "account/favorites",
-          element: <ProtectedRoutes element={<UserPreference preference={"favorites"} user={user} />} loggedin={loggedin} />
+          element: <ProtectedRoutes element={<UserPreference preference={"favorites"}/>} loggedin={loggedin} />
         },
         {
           path: "account/blacklist",
-          element: <ProtectedRoutes element={<UserPreference preference={"blacklist"} user={user} />} loggedin={loggedin} />
+          element: <ProtectedRoutes element={<UserPreference preference={"blacklist"}/>} loggedin={loggedin} />
         },
         {
           path: "start/:project",
