@@ -4,8 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 import { Quote } from "../../types";
 import ResultPage from "../ResultPage/ResultPage";
+import wallppaper from "./assets/wallpaper.jpg";
 import EndQuizPage from "../EndQuizPage/EndQuizPage";
 import { act } from "react-dom/test-utils";
+
 
 const Quizpage = () => {
   const [loading, setLoading] = useState(false);
@@ -119,11 +121,13 @@ const Quizpage = () => {
 
   return (
     <main className={styles.main}>
+        <img className={styles.wallpaper} src={wallppaper}/>
       {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex} selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />}
       {loading && <LoadingIndicator />}
       {
       activeQuestion === 3 ? <EndQuizPage score={score}/> :
       <div>
+
         <div>
           <h3>{activeQuestion + 1}/10</h3>
           <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
@@ -154,11 +158,11 @@ const Quizpage = () => {
             })}
           </div>
         </div>
+
         <button className={styles.submitButton} onClick={submitAnswerHandler}disabled={selectedCharacterIndex > -1 && selectedMovieIndex > -1 ? false : true}>Submit Answer</button>
         <h3>Score: {score}</h3>
       </div>
       }
-      
     </main>
   )
 }
