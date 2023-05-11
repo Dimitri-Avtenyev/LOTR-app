@@ -35,7 +35,7 @@ const Favorites = () => {
     }
     let favoritesBlob = new Blob([fileContent], { type: "text/plain" });
     setDownloadLink(URL.createObjectURL(favoritesBlob));
-  }, []);
+  }, [favorites]);
 
   const removeQuote = async (id: string) => {
     let favoritesFiltered: Favorite[] = favorites.filter(favorite => favorite.quote?.id !== id);
