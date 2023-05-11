@@ -57,7 +57,7 @@ nav :link{
     text-align: center;
     display: block;
     margin-left: auto;
-    margin-right: auto 
+    margin-right: auto;
 }
 .title:hover{
     color:rgb(233, 233, 222);
@@ -83,18 +83,31 @@ nav :link{
 }
 
 
-@media only screen and (max-width:700px) {
-
+@media only screen and (max-width:800px) {
+    /*The One*/
+    .projectName{
+        font-size: 30px ;
+        margin-left: 3rem;
+        margin-top: 0.5rem;
+    }
     .greeting{
         display: none;
     }
-    
+    .logo{
+        display: none;
+    }
+    /*The projects*/
+    .title{
+        font-size: 30px;
+        margin-left: 3rem;
+    }  
 }
-@media only screen and (max-width:500px) {
+@media only screen and (max-width:550px) {
+     /*The One*/
     .projectName{
-        font-size: large;
+        font-size: 30px ;
         text-align: center;
-        margin-top: 23px;
+        margin-top: 0.5rem;
     }
     .navs{
         margin-top: 1rem;
@@ -105,4 +118,22 @@ nav :link{
         display: none;
     }
     
+
+    /*The projects*/
+    nav p{ 
+        padding: 0px;
+    }
+    .title{
+        font-size: 20px;
+        margin-top: 1.1rem;
+        margin-left: 1rem;
+    }
+
+    nav{
+        padding:0.5rem;
+    }
+
+    .loginNav{
+        padding: 0.4rem;
+    }
 }

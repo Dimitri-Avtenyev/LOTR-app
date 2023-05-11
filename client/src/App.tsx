@@ -17,6 +17,7 @@ import Signup from './Components/Signup/Signup';
 import { User } from './types';
 import './index.css';
 import './Fonts/aniron.regular.ttf';
+import ProtectedRoutes from './ProtectedRoutes';
 
 const App = () => {
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));
@@ -29,8 +30,8 @@ const App = () => {
       favorites: [],
       blacklist: []
     }
-    )));
-    
+  )));
+
   useEffect(() => {
     localStorage.setItem("loggedin", JSON.parse(loggedin.toString()));
   }, [loggedin]);
@@ -56,27 +57,23 @@ const App = () => {
         },
         {
           path: "account",
-          element: <AccountPage />
+          element: <ProtectedRoutes element={<AccountPage />} loggedin={loggedin} />
         },
         {
           path: "account/favorites",
-          element: <UserPreference preference={"favorites"} user={user} />
+          element: <ProtectedRoutes element={<UserPreference preference={"favorites"}/>} loggedin={loggedin} />
         },
         {
           path: "account/blacklist",
-          element: <UserPreference preference={"blacklist"} user={user} />
+          element: <ProtectedRoutes element={<UserPreference preference={"blacklist"}/>} loggedin={loggedin} />
         },
         {
           path: "start/:project",
-          element: <Startpage />
+          element: <ProtectedRoutes element={<Startpage />} loggedin={loggedin}/>
         },
         {
           path: "quiz/theone",
-          element: <Quizpage/>
-        },
-        {
-          path: "quiz/endquiz",
-          element: <EndQuizPage />
+          element: <ProtectedRoutes element={ <Quizpage/>} loggedin={loggedin}/>
         },
       ]
     },

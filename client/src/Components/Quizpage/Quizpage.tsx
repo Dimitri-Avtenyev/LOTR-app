@@ -5,6 +5,8 @@ import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 import { Quote } from "../../types";
 import ResultPage from "../ResultPage/ResultPage";
 import wallppaper from "./assets/wallpaper.jpg";
+import EndQuizPage from "../EndQuizPage/EndQuizPage";
+import { act } from "react-dom/test-utils";
 
 
 const Quizpage = () => {
@@ -19,11 +21,15 @@ const Quizpage = () => {
   const [selectedMovieIndex, setSelectedMovieIndex] = useState<number>(-1);
   const [show, setShow] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
+  const [showEndQuiz, setShowEndQuiz] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
     const loadQuotes = async () => {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}api/quiz`);
+      let response = await fetch(`${process.env.REACT_APP_API_URL}api/quiz`, {
+        headers: {"Content-Type" : "application/json"},
+        credentials: "include"
+      });
       let data: Quote[] = await response.json();
       setQuotes(data);
 
@@ -113,15 +119,15 @@ const Quizpage = () => {
     }
   }
 
-  const endQuiz = () => {
-
-  }
-
   return (
     <main className={styles.main}>
         <img className={styles.wallpaper} src={wallppaper}/>
-        {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex} selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />}
-        {loading && <LoadingIndicator />}
+      {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex} selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />}
+      {loading && <LoadingIndicator />}
+      {
+      activeQuestion === 3 ? <EndQuizPage score={score}/> :
+      <div>
+
         <div>
           <h3>{activeQuestion + 1}/10</h3>
           <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
@@ -152,8 +158,11 @@ const Quizpage = () => {
             })}
           </div>
         </div>
-        <button className={styles.submitButton} onClick={submitAnswerHandler}>Submit Answer</button>
+
+        <button className={styles.submitButton} onClick={submitAnswerHandler}disabled={selectedCharacterIndex > -1 && selectedMovieIndex > -1 ? false : true}>Submit Answer</button>
         <h3>Score: {score}</h3>
+      </div>
+      }
     </main>
   )
 }

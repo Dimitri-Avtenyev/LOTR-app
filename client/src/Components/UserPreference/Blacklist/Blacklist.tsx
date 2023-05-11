@@ -1,26 +1,32 @@
-import { useContext, useEffect, useState } from "react";
-import { Blacklist, User } from "../../../types";
+import { useEffect, useState } from "react";
+import { Blacklist } from "../../../types";
 import styles from "../Blacklist/Blacklisted.module.css";
 import deleteBin from "../assets/deleteBin.svg";
 import editIcon from "../assets/editIcon.svg";
-import { UserContext } from "../../../Context/UserContext";
+import { deleteUserData, getUserDataBlackList } from "../../../utils/fetchHandlers";
+import LoadingIndicator from "../../LoadingIndicator/LoadingIndicator";
 
-
-const Blacklisted = ({ user }: { user: User }) => {
-  const [blacklist, setBlacklist] = useState<Blacklist[]>(user.blacklist);
-  const [updatedUser, setUpdatedUser] = useState<User>(user);
+const Blacklisted = () => {
+  const [blacklist, setBlacklist] = useState<Blacklist[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [reason, setReason] = useState<string>("");
   const [indexSelector, setIndexSelector] = useState<number>(-1);
   const [show, setShow] = useState<boolean>(false);
-  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
-    updateUser();
-  }, [blacklist, updatedUser]);
+    const getBlacklist = async () => {
+      setLoading(true);
+      let blacklist: Blacklist[] = await getUserDataBlackList(`${process.env.REACT_APP_API_URL}api/users/user/blacklist`);
+      setBlacklist(blacklist);
+      setLoading(false);
+    }
+    getBlacklist();
+  }, []);
 
   const removeQuote = async (id: string) => {
     let blacklistCpy: Blacklist[] = blacklist.filter(blacklistItem => blacklistItem.quote?.id !== id);
     setBlacklist(blacklistCpy);
+    await deleteUserData(`${process.env.REACT_APP_API_URL}api/users/user/blacklist/${id}`);
   }
 
   const modifyReason = (index: number) => {
@@ -40,26 +46,9 @@ const Blacklisted = ({ user }: { user: User }) => {
       handleEdit();
     }
   }
-  const updateUser = async () => {
-    let userUpdated: User = JSON.parse(JSON.stringify(user));
-    userUpdated.blacklist = [...blacklist];
-    setUser(userUpdated);
 
-    try {
-      let respose = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: user.username,
-          blacklist: userUpdated.blacklist
-        })
-      });
-      if (respose.status === 200) {
-
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  if (loading) {
+    return <LoadingIndicator />
   }
   if (blacklist.length === 0) {
     return (

@@ -70,6 +70,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
         let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             username: user.username,
             favorites: userUpdated.favorites
@@ -100,6 +101,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
         let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             username: user.username,
             blacklist: userUpdated.blacklist
@@ -198,14 +200,10 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
         </div>
       </Modal.Body>
       <Modal.Footer>
-        {
-          activeQuestion === 2 ? <Button className={styles.footerButtons} variant="primary" size="lg" href="/quiz/endquiz">End Quiz</Button> :
           <div>
             <Button className={styles.footerButtons} variant="primary" size="lg" onClick={handleSave} disabled={!like && !dislike}>Save</Button> 
             <Button className={styles.footerButtons} variant="primary" size="lg" onClick={handleClose}>Close</Button>
           </div>
-        }
-        
       </Modal.Footer>
     </Modal>
   )

@@ -1,7 +1,7 @@
 import axios from "axios";
 import failsafeService from "./failsafeService";
 import { Character } from "../types";
-import { dbClient } from "../server";
+import { dbClient } from "../db";
 
 const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN}` } };
 
@@ -28,15 +28,12 @@ const getCharacters = async ():Promise<Character[]> => {
 const getDbCharacters = async ():Promise<Character[]> => {
   let characters: Character[] = [];
   try {
-    await dbClient.connect();
     let cursor = await dbClient.db(DB_NAME).collection(COLLECTION_CHARACTERS).find<Character>({})
     characters = await cursor.toArray();
 
   } catch (err) {
     console.log(err);
-  } finally {
-    await dbClient.close();
-  }
+  } 
   return characters;
 }
 
