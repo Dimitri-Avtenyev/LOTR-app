@@ -63,17 +63,34 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
     let favorite: Favorite = { quote };
     let userUpdated: User = JSON.parse(JSON.stringify(user));
 
-    if (!user.favorites.some(fav => fav.quote?.id === favorite.quote?.id)) {
-      userUpdated.favorites.push(favorite);
+ 
+      // try {
+      //   let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
+      //     method: "PUT",
+      //     headers: { "Content-Type": "application/json" },
+      //     credentials: "include",
+      //     body: JSON.stringify({
+      //       username: user.username,
+      //       favorites: [favorite]
+      //     }),
+      //   });
+
+      //   if (response.status === 200) {
+      //     setUser(userUpdated);
+      //     setMessage("Successfuly added to favorites!");
+      //     setErrorMessage("");
+      //   }
+      // } catch (err) {
+      //   console.log(err);
+      // }
 
       try {
-        let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
+        let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/user/favorites/${favorite.quote.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({
-            username: user.username,
-            favorites: userUpdated.favorites
+            typeitem: favorite
           }),
         });
 
@@ -85,26 +102,19 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
       } catch (err) {
         console.log(err);
       }
-    } else {
-      setErrorMessage("Already added to favorites!");
-      setMessage("");
-    }
-  }
+    } 
   const saveToBlacklist = async () => {
+
     let blacklistQuote: Blacklist = { quote, reasonForBlacklisting: blacklistReason };
     let userUpdated: User = JSON.parse(JSON.stringify(user));
 
-    if (!user.blacklist.some(blQuote => blQuote.quote?.id === blacklistQuote.quote?.id)) {
-      userUpdated.blacklist.push(blacklistQuote);
-
       try {
-        let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
+        let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/user/blacklist/${blacklistQuote.quote.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({
-            username: user.username,
-            blacklist: userUpdated.blacklist
+            typeitem: blacklistQuote
           })
         });
 
@@ -116,10 +126,7 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
       } catch (err) {
 
       }
-    } else {
-      setErrorMessage("Already added to blacklist!");
-      setMessage("");
-    }
+    
   }
 
   const checkAnswer = () => {

@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { dbClient } from "../db";
-import { User, UserBasic } from "../types";
+import { Blacklist, Favorite, User, UserBasic } from "../types";
 
 const DB_NAME: string = "LOTR-app";
 export const COLLECTION_USERS: string = "Users";
@@ -56,7 +56,41 @@ const updateUser = async (user: UserBasic): Promise<void> => {
     console.log(err);
   }
 }
-const deleteItemFromUserList = async (userId: string, typelist: string, itemId: string) => {
+const addItemToUserList = async (userId: string, typeList: string, typeItem?:Favorite|Blacklist):Promise<void> => {
+
+  if (typeList === "favorites") {
+
+    try {
+      let favoriteItem = typeItem as Favorite;
+      console.log("adding...");
+
+      console.log(favoriteItem.quote);
+      let a = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+        {_id: new Object(userId)},
+        {
+          $push: {"favorites":  {"quote": favoriteItem.quote}}
+        }
+      )
+      console.log(a.modifiedCount);
+    } catch (err) {
+      console.log(err);
+    }
+  } else if (typeList === "blacklist") {
+    try {
+      let blacklistItem = typeItem as Blacklist;
+      
+      await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+        {_id: new Object(userId)},
+        {
+          $push: {blacklist: blacklistItem}
+        }
+      )
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+const deleteItemFromUserList = async (userId: string, typelist: string, itemId: string):Promise<void> => {
 
   if (typelist === "favorites") {
     try {
@@ -101,6 +135,7 @@ export default {
   emptyCollection,
   getAllUsers,
   updateUser,
+  addItemToUserList,
   deleteItemFromUserList
 }
 

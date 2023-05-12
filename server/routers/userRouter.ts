@@ -11,6 +11,7 @@ router.get("/user/:typelist", userController.getUserList);
 
 // PUT
 router.put("/update", userController.updateUser); 
+router.put("/user/:typelist/:id", userController.addListItem);
 
 // DELETE
 router.delete("/user/:typelist/:id", userController.deleteListItem);
