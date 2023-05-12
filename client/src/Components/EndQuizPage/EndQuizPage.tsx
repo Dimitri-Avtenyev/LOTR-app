@@ -1,7 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import styles from "./EndQuizPage.module.css";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import { UserContext } from "../../Context/UserContext";
+import { User } from "../../types";
+import { updateUserData } from "../../utils/fetchHandlers";
 
 interface EndQuizPageProps {
     score: number;
@@ -9,6 +12,34 @@ interface EndQuizPageProps {
 
 const EndQuizPage = ({score} : EndQuizPageProps) => {
     const [show, setShow] = useState<boolean>(true);
+    const { user, setUser } = useContext(UserContext);
+    const [highscore, setHighscore] = useState<number>(0);
+
+    useEffect(() => {
+        getUserHighscore();
+        updateUserData(`${process.env.REACT_APP_API_URL}api/users/update`, JSON.stringify({highscore:score}));
+    }, [])
+
+    const getUserHighscore = async () => {
+        let currentUser:User = JSON.parse(JSON.stringify(user));
+        currentUser.highscore = highscore;
+        setUser(currentUser);
+        console.log(currentUser);
+
+        try {
+            let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/highscore`, {
+                method: "GET",
+                headers: {"Content-Type": "application/json"},
+                credentials: "include"
+              });
+              if (response.status === 200) {
+                setHighscore(currentUser.highscore);
+              }
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
 
     return (
         <Modal className={styles.container}
@@ -22,7 +53,7 @@ const EndQuizPage = ({score} : EndQuizPageProps) => {
             </Modal.Header>
             <Modal.Body>
                 <p>Your score: {score}/10</p>
-                <p>Your highscore: X/10</p>
+                <p>Your highscore: {highscore}/10</p>
                 
             </Modal.Body>
             <Modal.Footer className={styles.footer}>
