@@ -42,13 +42,11 @@ const updateUser = async (user: UserBasic): Promise<void> => {
 
   try {
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
-      { username: user.username},
+      { username: user.username },
       {
         $set: {
           avatarID: user.avatarID,
-          highscore: user.highscore,
-          favorites: user.favorites,
-          blacklist: user.blacklist
+          highscore: user.highscore
         }
       }
     )
@@ -56,41 +54,35 @@ const updateUser = async (user: UserBasic): Promise<void> => {
     console.log(err);
   }
 }
-const addItemToUserList = async (userId: string, typeList: string, typeItem?:Favorite|Blacklist):Promise<void> => {
+const addItemToUserList = async (userId: string, typeList: string, typeItem?: Favorite | Blacklist): Promise<void> => {
 
   if (typeList === "favorites") {
-
     try {
-      let favoriteItem = typeItem as Favorite;
-      console.log("adding...");
-
-      console.log(favoriteItem.quote);
-      let a = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
-        {_id: new Object(userId)},
+      let favoriteItem: Favorite = typeItem as Favorite;
+      await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+        { _id: new ObjectId(userId) },
         {
-          $push: {"favorites":  {"quote": favoriteItem.quote}}
+          $push: { favorites: favoriteItem }
         }
-      )
-      console.log(a.modifiedCount);
+      );
     } catch (err) {
       console.log(err);
     }
   } else if (typeList === "blacklist") {
     try {
-      let blacklistItem = typeItem as Blacklist;
-      
+      let blacklistItem: Blacklist = typeItem as Blacklist;
       await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
-        {_id: new Object(userId)},
+        { _id: new ObjectId(userId) },
         {
-          $push: {blacklist: blacklistItem}
+          $push: { blacklist: blacklistItem }
         }
-      )
+      );
     } catch (err) {
       console.log(err);
     }
   }
 }
-const deleteItemFromUserList = async (userId: string, typelist: string, itemId: string):Promise<void> => {
+const deleteItemFromUserList = async (userId: string, typelist: string, itemId: string): Promise<void> => {
 
   if (typelist === "favorites") {
     try {
@@ -98,23 +90,22 @@ const deleteItemFromUserList = async (userId: string, typelist: string, itemId: 
       await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
         { _id: new ObjectId(userId) },
         {
-        $pull: {favorites: {"quote.id": itemId}}
+          $pull: { favorites: { "quote.id": itemId } }
         }
-      )
-      
+      );
+
     } catch (err) {
       console.log(err);
     }
   } else if (typelist === "blacklist") {
     try {
-    
       await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
         {
           _id: new ObjectId(userId)
         }, {
-          $pull: {blacklist: { "quote.id":  itemId} }
+        $pull: { blacklist: { "quote.id": itemId } }
       }
-      )
+      );
     } catch (err) {
       console.log(err);
     }

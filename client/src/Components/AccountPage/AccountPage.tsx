@@ -3,6 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { LoggedinContext } from "../../Context/LoggedinContext";
 import { UserContext } from "../../Context/UserContext";
 import { User } from "../../types";
+import { updateUserData } from "../../utils/fetchHandlers";
 
 
 const AccountPage = () => {
@@ -24,25 +25,13 @@ const AccountPage = () => {
   }, [avatarId]);
 
   const updateUser = async() => {
+    //todo: implement getuser and call, remove lines below until "remove"
     let updatedUser:User = JSON.parse(JSON.stringify(user));
     updatedUser.avatarID = avatarId;
     setUser(updatedUser);
-
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify ({
-          username: user.username,
-          avatarID: updatedUser.avatarID
-        })
-      });
-      if (response.status === 200) {
-        setHideAvatars(true);
-      }
-    } catch(err) {
-      console.log(err);
-    }
+    // "<--- remove --->"
+    let body:BodyInit = JSON.stringify({avatarID: avatarId});
+    await updateUserData(`${process.env.REACT_APP_API_URL}api/users/update`, body)
   }
   if (!loggedin) {
     return <h1>Please login to view your account.</h1>

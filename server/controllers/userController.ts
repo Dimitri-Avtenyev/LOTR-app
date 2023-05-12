@@ -30,7 +30,6 @@ const getUserHighscore = async (req: Request, res: Response): Promise<Response> 
   return res.status(200).json(user.highscore);
 }
 
-
 const updateUser = async (req: Request, res: Response): Promise<Response> => {
   res.type("application/json");
   let payload: TokenPayloadDecoded = req.body.payload;
@@ -42,9 +41,7 @@ const updateUser = async (req: Request, res: Response): Promise<Response> => {
   let updatedUser: UserBasic = {
     username: user.username,
     avatarID: req.body.avatarID ?? user.avatarID,
-    highscore: req.body.highscore ?? user.highscore,
-    favorites: req.body.favorites,
-    blacklist: req.body.blacklist
+    highscore: req.body.highscore ?? user.highscore
   }
   await userService.updateUser(updatedUser);
 
@@ -70,7 +67,7 @@ const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
 const addListItem = async (req:Request, res:Response):Promise<Response> => {
   let typeList:string = req.params.typelist;
   let id:string = req.params.id;
-  let typeItem:Favorite | Blacklist = req.body.typeitem;
+  let typeItem:Favorite|Blacklist = req.body.typeitem;
   let payload: TokenPayloadDecoded = req.body.payload;
 
   if (id !== undefined) {

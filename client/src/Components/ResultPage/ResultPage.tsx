@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { Blacklist, Favorite, Quote, User } from "../../types";
 import { Modal } from "react-bootstrap";
 import Movie from "../Movie/Movie";
+import { updateUserData } from "../../utils/fetchHandlers";
 
 interface ResultPageProps {
   quote: Quote,
@@ -61,72 +62,13 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
 
   const saveToFavorites = async () => {
     let favorite: Favorite = { quote };
-    let userUpdated: User = JSON.parse(JSON.stringify(user));
-
- 
-      // try {
-      //   let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/update`, {
-      //     method: "PUT",
-      //     headers: { "Content-Type": "application/json" },
-      //     credentials: "include",
-      //     body: JSON.stringify({
-      //       username: user.username,
-      //       favorites: [favorite]
-      //     }),
-      //   });
-
-      //   if (response.status === 200) {
-      //     setUser(userUpdated);
-      //     setMessage("Successfuly added to favorites!");
-      //     setErrorMessage("");
-      //   }
-      // } catch (err) {
-      //   console.log(err);
-      // }
-
-      try {
-        let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/user/favorites/${favorite.quote.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            typeitem: favorite
-          }),
-        });
-
-        if (response.status === 200) {
-          setUser(userUpdated);
-          setMessage("Successfuly added to favorites!");
-          setErrorMessage("");
-        }
-      } catch (err) {
-        console.log(err);
-      }
+    let body:BodyInit = JSON.stringify({typeitem: favorite});
+    await updateUserData(`${process.env.REACT_APP_API_URL}api/users/user/favorites/${favorite.quote.id}`, body);
     } 
   const saveToBlacklist = async () => {
-
     let blacklistQuote: Blacklist = { quote, reasonForBlacklisting: blacklistReason };
-    let userUpdated: User = JSON.parse(JSON.stringify(user));
-
-      try {
-        let response = await fetch(`${process.env.REACT_APP_API_URL}api/users/user/blacklist/${blacklistQuote.quote.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            typeitem: blacklistQuote
-          })
-        });
-
-        if (response.status === 200) {
-          setUser(userUpdated);
-          setMessage("Successfuly added to blacklist!");
-          setErrorMessage("");
-        }
-      } catch (err) {
-
-      }
-    
+    let body:BodyInit = JSON.stringify({typeitem: blacklistQuote});
+    await updateUserData(`${process.env.REACT_APP_API_URL}api/users/user/blacklist/${blacklistQuote.quote.id}`, body);
   }
 
   const checkAnswer = () => {
