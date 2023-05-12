@@ -16,7 +16,9 @@ main {
 }
 
 .startButton {
-    padding: 20px 110px;
+    padding: 20px 100px;
+    margin: 5px;
+    width: 330px;
     background-color: rgb(57, 121, 57);
     border-color: rgb(57, 121, 57);
 }
