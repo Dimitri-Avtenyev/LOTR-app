@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import userService, { COLLECTION_USERS } from "../services/userService";
-import { TokenPayloadDecoded, User, UserBasic } from "../types";
+import { Blacklist, Favorite, TokenPayloadDecoded, User, UserBasic } from "../types";
 
 const getUserList = async (req: Request, res: Response): Promise<Response> => {
   let typeList:string = req.params.typelist;
@@ -13,7 +13,7 @@ const getUserList = async (req: Request, res: Response): Promise<Response> => {
   if (typeList === "favorites") {
     return res.status(200).json(user.favorites);
 
-  } else if (typeList === "blacklist") {
+  } else if (typeList === "blacklist" ) {
     return res.status(200).json(user.blacklist);
   }
   return res.status(400).json({error: "Wrong endpoint, try favorites or blacklist"});
@@ -30,7 +30,6 @@ const getUserHighscore = async (req: Request, res: Response): Promise<Response> 
   return res.status(200).json(user.highscore);
 }
 
-
 const updateUser = async (req: Request, res: Response): Promise<Response> => {
   res.type("application/json");
   let payload: TokenPayloadDecoded = req.body.payload;
@@ -42,9 +41,7 @@ const updateUser = async (req: Request, res: Response): Promise<Response> => {
   let updatedUser: UserBasic = {
     username: user.username,
     avatarID: req.body.avatarID ?? user.avatarID,
-    highscore: req.body.highscore ?? user.highscore,
-    favorites: req.body.favorites ?? user.favorites,
-    blacklist: req.body.blacklist ?? user.blacklist
+    highscore: req.body.highscore ?? user.highscore
   }
   await userService.updateUser(updatedUser);
 
@@ -66,6 +63,19 @@ const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
     })
   }
   return res.status(200).json(userBasic);
+}
+const addListItem = async (req:Request, res:Response):Promise<Response> => {
+  let typeList:string = req.params.typelist;
+  let id:string = req.params.id;
+  let typeItem:Favorite|Blacklist = req.body.typeitem;
+  let payload: TokenPayloadDecoded = req.body.payload;
+
+  if (id !== undefined) {
+    await userService.addItemToUserList(payload._id, typeList, typeItem);
+    return res.status(200).send(`item ${id} added.`)
+  }
+  return res.status(400).send(`item ${id} not found.`)
+
 }
 const deleteListItem = async (req:Request, res:Response): Promise<Response> => {
   let typeList:string = req.params.typelist;
@@ -89,5 +99,6 @@ export default {
   emptyUsersCollection,
   getAllUsers,
   updateUser,
+  addListItem,
   deleteListItem
 }

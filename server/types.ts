@@ -25,8 +25,8 @@ interface UserBasic {
   username:       string;
   avatarID:       number;
   highscore:      number;
-  favorites:      Favorite[];
-  blacklist:      Blacklist[];
+  favorites?:      Favorite[];
+  blacklist?:      Blacklist[];
 }
 interface QuoteQuiz {
   id:             string;

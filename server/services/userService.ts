@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { dbClient } from "../db";
-import { User, UserBasic } from "../types";
+import { Blacklist, Favorite, User, UserBasic } from "../types";
 
 const DB_NAME: string = "LOTR-app";
 export const COLLECTION_USERS: string = "Users";
@@ -42,13 +42,11 @@ const updateUser = async (user: UserBasic): Promise<void> => {
 
   try {
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
-      { username: user.username},
+      { username: user.username },
       {
         $set: {
           avatarID: user.avatarID,
-          highscore: user.highscore,
-          favorites: user.favorites,
-          blacklist: user.blacklist
+          highscore: user.highscore
         }
       }
     )
@@ -56,7 +54,35 @@ const updateUser = async (user: UserBasic): Promise<void> => {
     console.log(err);
   }
 }
-const deleteItemFromUserList = async (userId: string, typelist: string, itemId: string) => {
+const addItemToUserList = async (userId: string, typeList: string, typeItem?: Favorite | Blacklist): Promise<void> => {
+
+  if (typeList === "favorites") {
+    try {
+      let favoriteItem: Favorite = typeItem as Favorite;
+      await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+        { _id: new ObjectId(userId) },
+        {
+          $push: { favorites: favoriteItem }
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  } else if (typeList === "blacklist") {
+    try {
+      let blacklistItem: Blacklist = typeItem as Blacklist;
+      await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+        { _id: new ObjectId(userId) },
+        {
+          $push: { blacklist: blacklistItem }
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+const deleteItemFromUserList = async (userId: string, typelist: string, itemId: string): Promise<void> => {
 
   if (typelist === "favorites") {
     try {
@@ -64,23 +90,22 @@ const deleteItemFromUserList = async (userId: string, typelist: string, itemId: 
       await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
         { _id: new ObjectId(userId) },
         {
-        $pull: {favorites: {"quote.id": itemId}}
+          $pull: { favorites: { "quote.id": itemId } }
         }
-      )
-      
+      );
+
     } catch (err) {
       console.log(err);
     }
   } else if (typelist === "blacklist") {
     try {
-    
       await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
         {
           _id: new ObjectId(userId)
         }, {
-          $pull: {blacklist: { "quote.id":  itemId} }
+        $pull: { blacklist: { "quote.id": itemId } }
       }
-      )
+      );
     } catch (err) {
       console.log(err);
     }
@@ -101,6 +126,7 @@ export default {
   emptyCollection,
   getAllUsers,
   updateUser,
+  addItemToUserList,
   deleteItemFromUserList
 }
 

@@ -12,6 +12,7 @@ router.get("/highscore", userController.getUserHighscore);
 
 // PUT
 router.put("/update", userController.updateUser); 
+router.put("/user/:typelist/:id", userController.addListItem);
 
 // DELETE
 router.delete("/user/:typelist/:id", userController.deleteListItem);
