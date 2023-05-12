@@ -6,6 +6,7 @@ const router = express.Router();
 // GET
 router.get("/", userController.getAllUsers);
 router.get("/user/:typelist", userController.getUserList);
+router.get("/highscore", userController.getUserHighscore);
 
 // POST
 

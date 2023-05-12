@@ -19,6 +19,17 @@ const getUserList = async (req: Request, res: Response): Promise<Response> => {
   return res.status(400).json({error: "Wrong endpoint, try favorites or blacklist"});
 }
 
+const getUserHighscore = async (req: Request, res: Response): Promise<Response> => {
+  let payload: TokenPayloadDecoded = req.body.payload;
+  let user: User | null = await userService.getUser(payload.username);
+
+  if(user === null) {
+    return res.status(400).send({error: "Highscore not found"});
+  } 
+  console.log(user.highscore);
+  return res.status(200).json(user.highscore);
+}
+
 
 const updateUser = async (req: Request, res: Response): Promise<Response> => {
   res.type("application/json");
@@ -87,6 +98,7 @@ const emptyUsersCollection = async (req: Request, res: Response): Promise<Respon
 }
 export default {
   getUserList,
+  getUserHighscore,
   emptyUsersCollection,
   getAllUsers,
   updateUser,
