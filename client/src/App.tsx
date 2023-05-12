@@ -18,6 +18,7 @@ import { User } from './types';
 import './index.css';
 import './Fonts/aniron.regular.ttf';
 import ProtectedRoutes from './ProtectedRoutes';
+import SuddenDeathPage from './Components/SuddenDeathPage/SuddenDeathPage';
 
 const App = () => {
   const [loggedin, setLoggedin] = useState<boolean>(JSON.parse(localStorage.getItem("loggedin") ?? "false"));
@@ -75,6 +76,10 @@ const App = () => {
           path: "quiz/theone",
           element: <ProtectedRoutes element={ <Quizpage/>} loggedin={loggedin}/>
         },
+        {
+          path: "quiz/suddendeath",
+          element: <ProtectedRoutes element={ <SuddenDeathPage/>} loggedin={loggedin}/>
+        }
       ]
     },
     {
