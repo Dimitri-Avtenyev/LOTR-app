@@ -7,8 +7,6 @@ import Spinner from "react-bootstrap/Spinner";
 import styles from "./Login.module.css";
 import { Link, Navigate } from "react-router-dom";
 import { LoggedinContext } from "../../Context/LoggedinContext";
-import { User } from "../../types";
-
 
 const FORM_ENDPOINT: string = `${process.env.REACT_APP_API_URL}login`;
 
@@ -37,7 +35,6 @@ const Login = () => {
           password: password,
         }),
       });
-      let userResponse: User = await response.json();
       if (response.status === 200) {
         setLoggedin(true);
         setShow(false);
