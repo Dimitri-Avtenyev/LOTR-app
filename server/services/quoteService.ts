@@ -5,8 +5,6 @@ import { UserBasic } from "../types";
 
 const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN}` } }
 
-// todo -> 10 or x random quotes excl. blacklisted bij user
-// param -> blacklist
 const getQuotes = async (amountQuotes: number = 10, blacklist?: Blacklist[]): Promise<Quote[]> => {
   let quotes: Quote[] = [];
   let data: Quote[] = [];

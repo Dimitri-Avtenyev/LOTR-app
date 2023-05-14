@@ -9,9 +9,7 @@ export const getUserInfo = async ():Promise<User> => {
       credentials: "include"
     });
     if (response.status === 200) {
-      
       return userInfo = await response.json() ;
-
     } else if (response.status === 401 || response.status === 403) {
       console.log(response.statusText);
     }
@@ -19,7 +17,6 @@ export const getUserInfo = async ():Promise<User> => {
     console.log(err);
   }
   return userInfo;
-
 }
 
 export const getUserDataFavorites = async(url:string):Promise<Favorite[]> => {

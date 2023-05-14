@@ -12,7 +12,6 @@ import AccountPage from './Components/AccountPage/AccountPage';
 import UserPreference from './Components/UserPreference/UserPreference';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
-import { User } from './types';
 import './index.css';
 import './Fonts/aniron.regular.ttf';
 import ProtectedRoutes from './ProtectedRoutes';
@@ -79,7 +78,6 @@ const App = () => {
       <LoggedinContext.Provider value={{ loggedin, setLoggedin }}>
           <RouterProvider router={router} />
       </LoggedinContext.Provider>
-
     </div>
 
   );

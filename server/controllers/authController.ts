@@ -52,25 +52,16 @@ const login = async (req: Request, res: Response):Promise<Response> => {
       } else {
         console.log("Secretkey not found.");
       }
-      
-      let userBasic: UserBasic = {
-        username: foundUser.username,
-        avatarID: foundUser.avatarID,
-        highscore: foundUser.highscore,
-        favorites: foundUser.favorites,
-        blacklist: foundUser.blacklist
-      }
+  
       if(process.env.NODE_ENV === "development") {
         res.cookie("jwt", token, {httpOnly:true, sameSite:"none", secure: true, domain: "localhost"});
       } else {
         res.cookie("jwt", token, {httpOnly:true, sameSite:"none", secure: true, domain: `${process.env.CLIENT_DOMAIN}`});
       }
-      
-      return res.status(200).json(userBasic);
+      return res.status(200).json({"message": "login successful"});
     } else {
       return res.status(401).json({ "error": "credentials with wrong combination." })
     }
-
   }
   return res.status(404).json({ "error": "user does not exist." });
 }

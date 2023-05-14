@@ -2,57 +2,51 @@ import styles from "./AccountPage.module.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { LoggedinContext } from "../../Context/LoggedinContext";
 import { User } from "../../types";
-import { updateUserData } from "../../utils/fetchHandlers";
+import { getUserInfo, updateUserData } from "../../utils/fetchHandlers";
+import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 
 
 const AccountPage = () => {
   const { loggedin } = useContext(LoggedinContext);
-  const [userInfo, setUserInfo] = useState<User>({username:"", avatarID: 1, highscore: 0});
+  const [userInfo, setUserInfo] = useState<User>();
   const [hideAvatars, setHideAvatars] = useState<boolean>(true);
-  const [avatarId, setAvatarId] = useState<number>(1);
+  const [atIndex, setAtIndex] = useState<number>(0);
+  const [avatarId, setAvatarId] = useState<number>();
 
-  const atIndex: number = userInfo.username.indexOf("@");
   const avatars: number[] = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
-    const getUserInfo = async () => {
-      
+    const getUser = async () => {
+      let userInfo: User = await getUserInfo();
+      setUserInfo(userInfo);
+      setAvatarId(userInfo.avatarID);
+      setAtIndex(userInfo.username.indexOf("@"));
     }
-  })
-  const initialMount = useRef<boolean>(true);
+    getUser();
+  }, []);
   useEffect(() => {
-    if(initialMount.current) {
-      initialMount.current = false;
-    } else {
-      updateUser();
+    const updateUser = async () => {
+      await updateUserData(`${process.env.REACT_APP_API_URL}api/users/update`, JSON.stringify({ avatarID: avatarId }));
     }
+    updateUser();
   }, [avatarId]);
 
-  const updateUser = async() => {
-    //todo: implement getuser and call, remove lines below until "remove"
-    let updatedUser:User = JSON.parse(JSON.stringify(userInfo));
-    updatedUser.avatarID = avatarId;
-    setUserInfo(updatedUser);
-    // "<--- remove --->"
-    let body:BodyInit = JSON.stringify({avatarID: avatarId});
-    await updateUserData(`${process.env.REACT_APP_API_URL}api/users/update`, body)
-  }
   if (!loggedin) {
     return <h1>Please login to view your account.</h1>
   }
   return (
     <div className={styles.container}>
-      <img src={require(`./assets/avatar_${1}.png`)} />
-      <a><button onClick={() => setHideAvatars((prevState) => !prevState )}>Change avatar</button></a>
+      {userInfo ? <img src={require(`./assets/avatar_${avatarId}.png`)} /> : <LoadingIndicator />}
+      <a><button onClick={() => setHideAvatars((prevState) => !prevState)}>Change avatar</button></a>
       <div className={styles.changeAvatar} hidden={hideAvatars}>
         {avatars.map(i => {
           return <div key={i} onClick={() => setAvatarId(i)}><img src={require(`./assets/avatar_${i}.png`)} /></div>
         })}
       </div>
-      <h1>- {userInfo.username.substring(0, atIndex)} -</h1>
+      <h1>- {userInfo?.username?.substring(0, atIndex)} -</h1>
       <div className={styles.highscore}>
         <h2>Highscore</h2>
-        <p>{userInfo.highscore}</p>
+        <p>{userInfo?.highscore}</p>
       </div>
     </div>
   );
