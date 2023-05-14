@@ -1,13 +1,13 @@
-import { Character, Movie, QuoteQuiz, WrongAnswer } from "../types";
+import { Blacklist, Character, Movie, Quote, QuoteQuiz, WrongAnswer } from "../types";
 import movieService from "../services/movieService";
 import characterService from "./characterService";
 import quoteService from "./quoteService";
 
-const getQuiz = async (amountQuotes?: number): Promise<QuoteQuiz[]> => {
+const getQuiz = async (blacklist?:Blacklist[], amountQuotes?: number): Promise<QuoteQuiz[]> => {
   let quoteQuiz: QuoteQuiz[] = [];
 
   let [randomQuotes, movies, characters] = await Promise.all([
-    quoteService.getQuotes(amountQuotes),
+    quoteService.getQuotes(amountQuotes, blacklist),
     movieService.getMovies(),
     characterService.getCharacters()
   ]);

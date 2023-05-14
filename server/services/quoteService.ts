@@ -7,7 +7,7 @@ const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN
 
 // todo -> 10 or x random quotes excl. blacklisted bij user
 // param -> blacklist
-const getQuotes = async (amountQuotes: number = 10): Promise<Quote[]> => {
+const getQuotes = async (amountQuotes: number = 10, blacklist?: Blacklist[]): Promise<Quote[]> => {
   let quotes: Quote[] = [];
   let data: Quote[] = [];
 
@@ -22,15 +22,20 @@ const getQuotes = async (amountQuotes: number = 10): Promise<Quote[]> => {
     data = await failsafeService.getDbQuotes();
   }
 // filter data -> blacklist
+let datafiltered : Quote[]=[...data];
 
+if(blacklist !== undefined){
+  for(let blacklistQuote of blacklist){
+    datafiltered = datafiltered.filter(quote => blacklistQuote.quote.id !== quote.id);
+   }
+}
 
 // assign random quotes to arr
   for (let i: number = 0; i < amountQuotes; i++) {
-    let randomIndex: number = Math.floor(Math.random() * data.length );
-    quotes.push(data[randomIndex]);
+    let randomIndex: number = Math.floor(Math.random() * datafiltered.length );
+    quotes.push(datafiltered[randomIndex]);
     data.splice(randomIndex, 1);
   }
-  
   return quotes;
 }
 
