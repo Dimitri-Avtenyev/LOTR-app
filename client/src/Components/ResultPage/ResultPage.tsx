@@ -2,7 +2,6 @@ import styles from "./ResultPage.module.css";
 import thumbsUp from "./assets/thumbs-up.svg";
 import thumbsDown from "./assets/thumbs-down.svg"
 import Button from 'react-bootstrap/Button';
-import { UserContext } from "../../Context/UserContext";
 import { useContext, useEffect, useState } from "react";
 import { Blacklist, Favorite, Quote, User } from "../../types";
 import { Modal } from "react-bootstrap";
@@ -26,7 +25,6 @@ interface ResultPageProps {
 }
 
 const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, selectedCharacterIndex, setSelectedCharacterIndex, selectedMovieIndex, setSelectedMovieIndex, selectedCharacter, setSelectedCharacter, selectedMovie, setSelectedMovie }: ResultPageProps) => {
-  const { user, setUser } = useContext(UserContext);
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -34,10 +32,6 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
   const [dislike, setDislike] = useState<boolean>(false);
   const [activeButton, setActiveButton] = useState<string>("none");
   const [blacklistReason, setBlacklistReason] = useState<string>("");
-
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
 
   const handleSave =  () => {
 

@@ -2,7 +2,6 @@ import React, {useEffect, useState, useContext} from "react";
 import styles from "./EndQuizPage.module.css";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import { UserContext } from "../../Context/UserContext";
 import { User } from "../../types";
 import { updateUserData } from "../../utils/fetchHandlers";
 
@@ -12,7 +11,7 @@ interface EndQuizPageProps {
 
 const EndQuizPage = ({score} : EndQuizPageProps) => {
     const [show, setShow] = useState<boolean>(true);
-    const { user, setUser } = useContext(UserContext);
+    const [userInfo, setUserInfo] = useState<User>({} as User);
     const [highscore, setHighscore] = useState<number>(0);
 
     useEffect(() => {
@@ -21,9 +20,9 @@ const EndQuizPage = ({score} : EndQuizPageProps) => {
     }, [])
 
     const getUserHighscore = async () => {
-        let currentUser:User = JSON.parse(JSON.stringify(user));
+        let currentUser:User = JSON.parse(JSON.stringify(userInfo));
         currentUser.highscore = highscore;
-        setUser(currentUser);
+        setUserInfo(currentUser);
         console.log(currentUser);
 
         try {

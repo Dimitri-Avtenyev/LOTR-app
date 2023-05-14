@@ -2,6 +2,24 @@ import { Request, Response } from "express";
 import userService, { COLLECTION_USERS } from "../services/userService";
 import { Blacklist, Favorite, TokenPayloadDecoded, User, UserBasic } from "../types";
 
+const getUser = async (req:Request, res:Response): Promise<Response> => {
+
+  let payload:TokenPayloadDecoded = req.body.payload;
+  let user:User|null = await userService.getUser(payload.username);
+
+  if (user === null) {
+    return res.status(400).json({error: "User not found."});
+  } else {
+    let userBasic:UserBasic = {
+      username: user.username,
+      avatarID: user.avatarID,
+      highscore: user.highscore
+    }
+    return res.status(200).json(userBasic);
+  }
+  
+}
+
 const getUserList = async (req: Request, res: Response): Promise<Response> => {
   let typeList:string = req.params.typelist;
   let payload: TokenPayloadDecoded = req.body.payload;
@@ -94,6 +112,7 @@ const emptyUsersCollection = async (req: Request, res: Response): Promise<Respon
   return res.status(200).send("Collection deleted");
 }
 export default {
+  getUser,
   getUserList,
   getUserHighscore,
   emptyUsersCollection,

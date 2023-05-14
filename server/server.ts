@@ -31,9 +31,9 @@ const prefixUrl:string = "/api/";
 
 app.use(authRouter.router);
 app.use(`${prefixUrl}users`, authController.authorize, userRoutes.router);
-app.use(`${prefixUrl}quotes`, quoteRoutes.router);
-app.use(`${prefixUrl}movies`, movieRoutes.router);
-app.use(`${prefixUrl}characters`, characterRouter.router);
+app.use(`${prefixUrl}quotes`, authController.authorize, quoteRoutes.router);
+app.use(`${prefixUrl}movies`, authController.authorize, movieRoutes.router);
+app.use(`${prefixUrl}characters`, authController.authorize, characterRouter.router);
 app.use(`${prefixUrl}quiz`, authController.authorize, quizRouter.router);
 
 

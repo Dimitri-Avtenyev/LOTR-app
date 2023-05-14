@@ -6,7 +6,7 @@ import { UserBasic } from "../types";
 const API_HEADER = { headers: { "Authorization": `Bearer ${process.env.API_TOKEN}` } }
 
 // todo -> 10 or x random quotes excl. blacklisted bij user
-
+// param -> blacklist
 const getQuotes = async (amountQuotes: number = 10): Promise<Quote[]> => {
   let quotes: Quote[] = [];
   let data: Quote[] = [];
@@ -21,7 +21,10 @@ const getQuotes = async (amountQuotes: number = 10): Promise<Quote[]> => {
     console.log(`${err}: (quotes) fetching from db`);
     data = await failsafeService.getDbQuotes();
   }
+// filter data -> blacklist
 
+
+// assign random quotes to arr
   for (let i: number = 0; i < amountQuotes; i++) {
     let randomIndex: number = Math.floor(Math.random() * data.length );
     quotes.push(data[randomIndex]);
