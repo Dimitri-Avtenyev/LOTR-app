@@ -7,7 +7,6 @@ import Spinner from "react-bootstrap/Spinner";
 import styles from "./Login.module.css";
 import { Link, Navigate } from "react-router-dom";
 import { LoggedinContext } from "../../Context/LoggedinContext";
-import { UserContext } from "../../Context/UserContext";
 import { User } from "../../types";
 
 
@@ -19,18 +18,11 @@ const Login = () => {
   const handleShow = () => setShow(true);
   const [loading, setLoading] = useState<boolean>(false);
   const { loggedin, setLoggedin } = useContext(LoggedinContext)
-  const { user, setUser } = useContext(UserContext);
 
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
-
-
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-
-  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +40,6 @@ const Login = () => {
       let userResponse: User = await response.json();
       if (response.status === 200) {
         setLoggedin(true);
-        setUser(userResponse);
         setShow(false);
         setEmail("");
         setPassword("");

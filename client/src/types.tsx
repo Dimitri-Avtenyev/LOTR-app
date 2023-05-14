@@ -3,8 +3,6 @@ export interface User {
   avatarID:       number;
   username:       string;
   highscore:      number;
-  favorites:      Favorite[];
-  blacklist:      Blacklist[];
 }
 export interface Quote {
   id:           string;
