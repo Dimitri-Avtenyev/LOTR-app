@@ -56,7 +56,7 @@ const login = async (req: Request, res: Response):Promise<Response> => {
       if(process.env.NODE_ENV === "development") {
         res.cookie("jwt", token, {httpOnly:true, sameSite:"none", secure: true, domain: "localhost"});
       } else {
-        res.cookie("jwt", token, {httpOnly:true, sameSite:"none", secure: true, domain: `${process.env.CLIENT_DOMAIN}`});
+        res.cookie("jwt", token, {httpOnly:true, sameSite:"lax", secure: true, domain: `${process.env.CLIENT_DOMAIN}`});
       }
       return res.status(200).json({"message": "login successful"});
     } else {
