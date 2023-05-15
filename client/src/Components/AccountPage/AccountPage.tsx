@@ -17,10 +17,12 @@ const AccountPage = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      let userInfo: User = await getUserInfo();
-      setUserInfo(userInfo);
-      setAvatarId(userInfo.avatarID);
-      setAtIndex(userInfo.username.indexOf("@"));
+      let userInfo: User|null = await getUserInfo();
+      if (userInfo !== null) {
+        setUserInfo(userInfo);
+        setAvatarId(userInfo.avatarID);
+        setAtIndex(userInfo.username.indexOf("@"));
+      } 
     }
     getUser();
   }, []);
@@ -36,7 +38,7 @@ const AccountPage = () => {
   }
   return (
     <div className={styles.container}>
-      {userInfo ? <img src={require(`./assets/avatar_${avatarId}.png`)} /> : <LoadingIndicator />}
+      {userInfo?.avatarID ? <img src={require(`./assets/avatar_${avatarId}.png`)} /> : <LoadingIndicator />}
       <a><button onClick={() => setHideAvatars((prevState) => !prevState)}>Change avatar</button></a>
       <div className={styles.changeAvatar} hidden={hideAvatars}>
         {avatars.map(i => {

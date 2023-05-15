@@ -1,7 +1,7 @@
 import { Blacklist, Favorite, User } from "../types";
 
-export const getUserInfo = async ():Promise<User> => {
-  let userInfo: User = {} as User;
+export const getUserInfo = async ():Promise<User|null> => {
+  let userInfo: User|null = null;
   try {
     let response:Response = await fetch(`${process.env.REACT_APP_API_URL}api/users/user`, {
       method: "GET",

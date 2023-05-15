@@ -62,7 +62,7 @@ const addItemToUserList = async (userId: string, typeList: string, typeItem?: Fa
       await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
         { _id: new ObjectId(userId) },
         {
-          $push: { favorites: favoriteItem }
+          $addToSet: { favorites: favoriteItem }
         }
       );
     } catch (err) {
@@ -74,7 +74,7 @@ const addItemToUserList = async (userId: string, typeList: string, typeItem?: Fa
       await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
         { _id: new ObjectId(userId) },
         {
-          $push: { blacklist: blacklistItem }
+          $addToSet: { blacklist: blacklistItem }
         }
       );
     } catch (err) {

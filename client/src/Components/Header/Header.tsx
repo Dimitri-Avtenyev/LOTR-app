@@ -11,7 +11,6 @@ import { LoggedinContext } from "../../Context/LoggedinContext";
 import { getUserInfo } from "../../utils/fetchHandlers";
 
 interface HeaderChildProps {
-  user?: User,
   loggedin: boolean,
   setLoggedin: (loggedin: boolean) => void
 }
@@ -40,19 +39,29 @@ const HeaderNotLoggedIn = () => {
   )
 }
 
-const HeaderLoggedIn = ({ user, loggedin, setLoggedin }: HeaderChildProps) => {
+const HeaderLoggedIn = ({ loggedin, setLoggedin }: HeaderChildProps) => {
+  const [userInfo, setUserInfo] = useState<User>();
+  const [avatarID, setAvatarID] = useState<number>(1);
+  const [loginTimer, setLoginTimer] = useState<number>(0);
+  useEffect(() => {
+    const getUser = async () => {
+      let userInfo: User|null= await getUserInfo();
+      if (userInfo !== null) {
+        setUserInfo(userInfo);
+        setAvatarID(userInfo.avatarID);
+      } else {
+        logOut();
+      }
+    }
+    getUser();
+  }, []);
 
-  let userIcon:ReactElement;
   const logOut = () => {
     setLoggedin(false);
     localStorage.clear();
   }
 
-  if (user) {
-    userIcon = <img className={styles.userIcon} src={require(`../AccountPage/assets/avatar_${user?.avatarID}.png`)} alt="user icon" />
-  } else {
-    userIcon = <img className={styles.userIcon} src={require(`./assets/user.png`)} alt="user icon" />;
-  }
+  let userIcon: ReactElement = <img className={styles.userIcon} src={require(`../AccountPage/assets/avatar_${avatarID}.png`)} alt="user icon" />
   return (
     <header>
       <nav>
@@ -62,10 +71,10 @@ const HeaderLoggedIn = ({ user, loggedin, setLoggedin }: HeaderChildProps) => {
           <Nav variant="pills" >
             <div>
               <Nav.Item>
-                <Nav.Link className={styles.greeting}><p className={styles.greetings}>Hello, {user?.username?.substring(0, user?.username?.indexOf("@"))}</p></Nav.Link>
+                <Nav.Link className={styles.greeting}><p className={styles.greetings}>Hello, {userInfo?.username?.substring(0, userInfo?.username?.indexOf("@"))}</p></Nav.Link>
               </Nav.Item>
             </div>
-            <NavDropdown title={loggedin ? userIcon : icon} id="nav-dropdown" className={styles.navdropdown} >
+            <NavDropdown title={userIcon} id="nav-dropdown" className={styles.navdropdown} >
               <NavDropdown.Item eventKey="4.1" href="/account">Account</NavDropdown.Item>
               <NavDropdown.Item eventKey="4.1" href="/account/favorites">Favorites</NavDropdown.Item>
               <NavDropdown.Item eventKey="4.1" href="/account/blacklist">Blacklist</NavDropdown.Item>
@@ -79,21 +88,17 @@ const HeaderLoggedIn = ({ user, loggedin, setLoggedin }: HeaderChildProps) => {
 }
 
 const Header = () => {
-  const [userInfo, setUserInfo] = useState<User>();
   const { loggedin, setLoggedin } = useContext(LoggedinContext);
-  useEffect(() => {
-    const getUser = async () => {
-      let userInfo: User = await getUserInfo();
-      setUserInfo(userInfo);
-    }
-    getUser();
-  }, [loggedin]);
-
-  return (
-    loggedin ?
-      <HeaderLoggedIn user={userInfo} loggedin={loggedin} setLoggedin={setLoggedin} /> :
+  if (loggedin) {
+    return (
+      <HeaderLoggedIn loggedin={loggedin} setLoggedin={setLoggedin} />
+    )
+  } else {
+    return (
       <HeaderNotLoggedIn />
-  )
+    )
+  }
+
 }
 
 export default Header;
