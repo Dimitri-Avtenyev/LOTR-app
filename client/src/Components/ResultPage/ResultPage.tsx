@@ -68,19 +68,19 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
   const checkAnswer = () => {
     if (selectedCharacter === true && selectedMovie === true) {
       return (
-        <Modal.Title>Both answers are correct!</Modal.Title>
+        <Modal.Title className={styles.correctAnswer}>Both answers are correct!</Modal.Title>
       )
     } else if(selectedCharacter === true && selectedMovie === false) {
       return (
-        <Modal.Title>You guessed the character correctly!</Modal.Title>
+        <Modal.Title className={styles.oneCorrectAnswer}>You only answered the character correctly!</Modal.Title>
       )
     } else if(selectedCharacter === false && selectedMovie === true){
       return (
-        <Modal.Title>You guessed the movie correctly!</Modal.Title>
+        <Modal.Title className={styles.oneCorrectAnswer}>You only answered the movie correctly!</Modal.Title>
       )
     } else {
       return (
-        <Modal.Title>Both guesses are incorrect...</Modal.Title>
+        <Modal.Title className={styles.incorrectAnswer}>Both answers are incorrect ...</Modal.Title>
       )
     }
   }
@@ -127,7 +127,6 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
             </button>
           </div>
           <div className={styles.reason}>
-            <p>
               <label htmlFor="message"></label>
               {dislike &&
                 <textarea
@@ -138,7 +137,6 @@ const ResultPage = ({ show, setShow, activeQuestion, setActiveQuestion, quote, s
                   onChange={(e) => { setBlacklistReason(e.target.value) }}
                 >
                 </textarea>}
-            </p>
           </div>
         </div>
       </Modal.Body>
