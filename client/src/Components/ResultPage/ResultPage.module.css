@@ -13,9 +13,10 @@
 }
 
 .thumbButtons button{
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 3px;
   margin: 25px;
+  margin-bottom: 10px;
   background-color: rgb(57, 121, 57);
 }
 
@@ -24,6 +25,13 @@
   margin: 5px;
 }
 
-@media only screen and (max-width: 550px) {
-  /* img movie kleiner maken*/
+/*resultcolors*/
+.correctAnswer{
+  color: rgb(57, 121, 57);
+}
+.oneCorrectAnswer{
+  color: orange;
+}
+.incorrectAnswer{
+  color:rgb(152, 32, 32)
 }
