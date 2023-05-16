@@ -3,13 +3,14 @@ import { Blacklist } from "../../../types";
 import styles from "../Blacklist/Blacklisted.module.css";
 import deleteBin from "../assets/deleteBin.svg";
 import editIcon from "../assets/editIcon.svg";
-import { deleteUserData, getUserDataBlackList } from "../../../utils/fetchHandlers";
+import { deleteUserData, getUserDataBlackList, updateUserData } from "../../../utils/fetchHandlers";
 import LoadingIndicator from "../../LoadingIndicator/LoadingIndicator";
 
 const Blacklisted = () => {
   const [blacklist, setBlacklist] = useState<Blacklist[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [reason, setReason] = useState<string>("");
+  const [quoteId, setQuoteId] = useState<string>("");
   const [indexSelector, setIndexSelector] = useState<number>(-1);
   const [show, setShow] = useState<boolean>(false);
 
@@ -29,21 +30,26 @@ const Blacklisted = () => {
     await deleteUserData(`${process.env.REACT_APP_API_URL}api/users/user/blacklist/${id}`);
   }
 
-  const modifyReason = (index: number) => {
+  const modifyReason = (index: number, id:string) => {
     setReason("");
     setIndexSelector(index);
     setShow((prevState) => !prevState);
+    setQuoteId(id);
   }
 
-  const handleEdit = () => {
+  const handleEdit = async(id:string) => {
     setShow(false);
     let blacklistCpy: Blacklist[] = [...blacklist];
     blacklistCpy[indexSelector].reasonForBlacklisting = reason;
     setBlacklist(blacklistCpy);
+    let body:BodyInit = JSON.stringify({blacklistreason: reason});
+    console.log(quoteId);
+    await updateUserData(`${process.env.REACT_APP_API_URL}api/users/updateblacklist/${quoteId}`, body);
+
   }
   const handleEnterKey:React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
-      handleEdit();
+      handleEdit(quoteId);
     }
   }
 
@@ -80,11 +86,11 @@ const Blacklisted = () => {
                       value={reason}
                       onKeyDown={handleEnterKey}
                       onChange={(e) => setReason(e.target.value)}
-                      placeholder="Reason for blacklisting"
+                      placeholder="Edit here your reason for blacklisting"
                     /></div>}
                 </td>
                 <td>
-                  <button className={styles.editBtn} onClick={() => modifyReason(index)}><img src={editIcon} /></button>
+                  <button className={styles.editBtn} onClick={() => modifyReason(index, blacklistItem.quote.id)}><img src={editIcon} /></button>
                 </td>
                 <td><button className={styles.binBtn} onClick={() => removeQuote(blacklistItem.quote.id)}><img src={deleteBin}></img></button></td>
               </tr>

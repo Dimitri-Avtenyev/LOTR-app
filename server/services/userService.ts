@@ -39,7 +39,6 @@ const getAllUsers = async (): Promise<User[]> => {
 }
 
 const updateUser = async (user: UserBasic): Promise<void> => {
-
   try {
     await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
       { username: user.username },
@@ -54,6 +53,21 @@ const updateUser = async (user: UserBasic): Promise<void> => {
     console.log(err);
   }
 }
+
+const updateBlacklistItem = async (userId:string, quoteId:string, blacklistReason:string):Promise<void> => {
+  try {
+    let a = await dbClient.db(DB_NAME).collection(COLLECTION_USERS).updateOne(
+      { _id: new ObjectId(userId), "blacklist.quote.id": quoteId}, 
+      {
+        $set: {"blacklist.$.reasonForBlacklisting": blacklistReason}
+      }
+    )
+    console.log(`quote: ${quoteId} modified reason to ${blacklistReason}`)
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 const addItemToUserList = async (userId: string, typeList: string, typeItem?: Favorite | Blacklist): Promise<void> => {
 
   if (typeList === "favorites") {
@@ -126,6 +140,7 @@ export default {
   emptyCollection,
   getAllUsers,
   updateUser,
+  updateBlacklistItem,
   addItemToUserList,
   deleteItemFromUserList
 }
