@@ -125,7 +125,7 @@ const Quizpage = () => {
       {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex} selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />}
       {loading && <LoadingIndicator />}
       {
-      activeQuestion === 3 ? <EndQuizPage score={score}/> :
+      activeQuestion === 10 ? <EndQuizPage score={score}/> :
       <div>
 
         <div>
