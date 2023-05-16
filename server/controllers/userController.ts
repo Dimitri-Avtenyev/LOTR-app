@@ -66,6 +66,22 @@ const updateUser = async (req: Request, res: Response): Promise<Response> => {
   return res.sendStatus(200);
 }
 
+const updateBlacklistItem = async(req:Request, res:Response):Promise<Response> => {
+  res.type("application/json");
+
+  let payload: TokenPayloadDecoded = req.body.payload;
+  let user: User | null = await userService.getUser(payload.username);
+  let blacklistQuoteId:string = req.params.id;
+  let blacklistReason:string = req.body.blacklistreason;
+
+  if (user === null) {
+    return res.status(400).send({ error: "User not found." });
+  }
+  await userService.updateBlacklistItem(payload._id, blacklistQuoteId, blacklistReason);
+  
+  return res.status(200).send({message : "reason for blacklisting updated successfully."});
+}
+
 const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
   res.type("application/json");
   const users = await userService.getAllUsers();
@@ -118,6 +134,7 @@ export default {
   emptyUsersCollection,
   getAllUsers,
   updateUser,
+  updateBlacklistItem,
   addListItem,
   deleteListItem
 }
