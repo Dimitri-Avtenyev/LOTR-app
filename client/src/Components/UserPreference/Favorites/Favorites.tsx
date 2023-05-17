@@ -73,10 +73,9 @@ const Favorites = () => {
           <tr>
             <th>Movie</th>
             <th>Quote</th>
-            <th></th>
             <th>Character</th>
-            <th colSpan={2} hidden={filterActive}>n_quotes</th>
-            <th></th>
+            <th hidden={filterActive}>#</th>
+            <th colSpan={2} ></th>
           </tr>
         </thead>
         <tbody>
@@ -86,7 +85,7 @@ const Favorites = () => {
                 <tr key={favorite.quote?.id}>
                   <td>{favorite.quote?.movie.name}</td>
                   <td><q>{favorite.quote?.dialog}</q></td>
-                  <td>-</td>
+                  
                   <td>
                     <a href={favorite.quote?.character.wikiUrl} target="_blank">{favorite.quote?.character.name}</a>
                   </td>
