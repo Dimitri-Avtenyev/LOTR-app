@@ -6,7 +6,7 @@ import { Quote } from "../../types";
 import ResultPage from "../ResultPage/ResultPage";
 import wallppaper from "./assets/wallpaper.jpg";
 import EndQuizPage from "../EndQuizPage/EndQuizPage";
-import { act } from "react-dom/test-utils";
+import ProgressTimer from "../ProgressTimer/ProgressTimer";
 
 
 const Quizpage = () => {
@@ -21,24 +21,25 @@ const Quizpage = () => {
   const [selectedMovieIndex, setSelectedMovieIndex] = useState<number>(-1);
   const [show, setShow] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
+  const [active, setActive] = useState<boolean>(true);
   const [showEndQuiz, setShowEndQuiz] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
     const loadQuotes = async () => {
       let response = await fetch(`${process.env.REACT_APP_API_URL}api/quiz`, {
-        headers: {"Content-Type" : "application/json"},
+        headers: { "Content-Type": "application/json" },
         credentials: "include"
       });
       let data: Quote[] = await response.json();
       setQuotes(data);
 
-      let characters:string[] = [
+      let characters: string[] = [
         data[activeQuestion].character.name,
         data[activeQuestion]?.wrongAnswers?.character[0].name,
         data[activeQuestion]?.wrongAnswers?.character[1].name
       ];
-      let movies:string[] = [
+      let movies: string[] = [
         data[activeQuestion]?.movie.name,
         data[activeQuestion]?.wrongAnswers?.movie[0].name,
         data[activeQuestion]?.wrongAnswers?.movie[1]?.name
@@ -52,17 +53,17 @@ const Quizpage = () => {
       setLoading(false);
     }
     loadQuotes();
-   
+
   }, []);
 
   useEffect(() => {
 
-    let characters:string[] = [
+    let characters: string[] = [
       quotes[activeQuestion]?.character.name,
       quotes[activeQuestion]?.wrongAnswers?.character[0].name,
       quotes[activeQuestion]?.wrongAnswers?.character[1].name
     ];
-    let movies:string[] = [
+    let movies: string[] = [
       quotes[activeQuestion]?.movie.name,
       quotes[activeQuestion]?.wrongAnswers?.movie[0].name,
       quotes[activeQuestion]?.wrongAnswers?.movie[1]?.name
@@ -73,7 +74,16 @@ const Quizpage = () => {
 
     setCharacters(characters);;
     setMovies(movies);
+    
+    setActive(true);
   }, [activeQuestion]);
+
+useEffect(() => {
+  if (!active) {
+    setShow(true);
+    checkAnswer();
+  } 
+}, [active]);
 
   const shuffleArr = (arr: string[]): string[] => {
     for (let i: number = 0; i < arr.length; i++) {
@@ -86,10 +96,11 @@ const Quizpage = () => {
     }
     return arr;
   }
-  
+
   const submitAnswerHandler = () => {
     setShow(true);
     checkAnswer();
+    setActive(false);
   }
 
   const onCharacterSelected = (character: string, index: number) => {
@@ -121,47 +132,47 @@ const Quizpage = () => {
 
   return (
     <main className={styles.main}>
-        <img className={styles.wallpaper} src={wallppaper}/>
+      <img className={styles.wallpaper} src={wallppaper} />
       {show && <ResultPage show={show} setShow={setShow} activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} quote={quotes[activeQuestion]} selectedCharacterIndex={selectedCharacterIndex} setSelectedCharacterIndex={setselectedCharacterIndex} selectedMovieIndex={selectedMovieIndex} setSelectedMovieIndex={setSelectedMovieIndex} selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />}
       {loading && <LoadingIndicator />}
       {
-      activeQuestion === 10 ? <EndQuizPage score={score}/> :
-      <div>
+        activeQuestion === 10 ? <EndQuizPage score={score} /> :
+          <div>
+            <ProgressTimer timer={15} active={active} setActive={setActive} />
+            <div>
+              <h3>{activeQuestion + 1}/10</h3>
+              <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
+            </div>
 
-        <div>
-          <h3>{activeQuestion + 1}/10</h3>
-          <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
-        </div>
+            <div className={styles.quizForm}>
+              <div className={styles.columnLeft}>
+                {characters.map((character: string, index: number) => {
+                  return (
+                    <button key={index} onClick={() => onCharacterSelected(character, index)}
+                      style={{
+                        backgroundColor: selectedCharacterIndex === index ? "#50695d" : ""
+                      }}
+                    >{character}</button>
+                  )
+                })}
+              </div>
+              <div className={styles.line}></div>
+              <div className={styles.columnRight}>
+                {movies.map((movie: string, index: number) => {
+                  return (
+                    <button key={index} onClick={() => onMovieSelected(movie, index)}
+                      style={{
+                        backgroundColor: selectedMovieIndex === index ? "#50695d" : ""
+                      }}
+                    >{movie}</button>
+                  )
+                })}
+              </div>
+            </div>
 
-        <div className={styles.quizForm}>
-          <div className={styles.columnLeft}>
-            {characters.map((character: string, index: number) => {
-              return (
-                <button key={index} onClick={() => onCharacterSelected(character, index)}
-                  style={{
-                    backgroundColor: selectedCharacterIndex === index ? "#50695d" : ""
-                  }}
-                >{character}</button>
-              )
-            })}
+            <button className={styles.submitButton} onClick={submitAnswerHandler} disabled={selectedCharacterIndex > -1 && selectedMovieIndex > -1 ? false : true}>Submit Answer</button>
+            <h3>Score: {score}</h3>
           </div>
-          <div className={styles.line}></div>
-          <div className={styles.columnRight}>
-            {movies.map((movie: string, index: number) => {
-              return (
-                <button key={index} onClick={() => onMovieSelected(movie, index)}
-                  style={{
-                    backgroundColor: selectedMovieIndex === index ? "#50695d" : ""
-                  }}
-                >{movie}</button>
-              )
-            })}
-          </div>
-        </div>
-
-        <button className={styles.submitButton} onClick={submitAnswerHandler}disabled={selectedCharacterIndex > -1 && selectedMovieIndex > -1 ? false : true}>Submit Answer</button>
-        <h3>Score: {score}</h3>
-      </div>
       }
     </main>
   )
