@@ -7,6 +7,7 @@ import ResultPage from "../ResultPage/ResultPage";
 import wallppaper from "./assets/wallpaper.jpg";
 import EndQuizPage from "../EndQuizPage/EndQuizPage";
 import { act } from "react-dom/test-utils";
+import ProgressTimer from "../ProgressTimer/ProgressTimer";
 
 
 const Quizpage = () => {
@@ -21,6 +22,7 @@ const Quizpage = () => {
   const [selectedMovieIndex, setSelectedMovieIndex] = useState<number>(-1);
   const [show, setShow] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
+  const [active, setActive] = useState<boolean>(true);
   const [suddenDeath, setSuddenDeath] = useState<boolean>(false);
 
   useEffect(() => {
@@ -73,7 +75,16 @@ const Quizpage = () => {
 
     setCharacters(characters);;
     setMovies(movies);
+
+    setActive(true);
   }, [activeQuestion]);
+
+  useEffect(() => {
+    if (!active) {
+      setShow(true);
+      checkAnswer();
+    } 
+  }, [active]);
 
   const shuffleArr = (arr: string[]): string[] => {
     for (let i: number = 0; i < arr.length; i++) {
@@ -90,6 +101,7 @@ const Quizpage = () => {
   const submitAnswerHandler = () => {
     setShow(true);
     checkAnswer();
+    setActive(false);
   }
 
   const onCharacterSelected = (character: string, index: number) => {
@@ -127,7 +139,7 @@ const Quizpage = () => {
       {
       suddenDeath ? <EndQuizPage score={score}/> :
       <div>
-
+        {!loading && <ProgressTimer timer={15} active={active} setActive={setActive} />}
         <div>
           <h3>{activeQuestion + 1}/10</h3>
           <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>

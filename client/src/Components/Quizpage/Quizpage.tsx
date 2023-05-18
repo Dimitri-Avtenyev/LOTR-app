@@ -138,7 +138,7 @@ useEffect(() => {
       {
         activeQuestion === 10 ? <EndQuizPage score={score} /> :
           <div>
-            <ProgressTimer timer={15} active={active} setActive={setActive} />
+            {!loading && <ProgressTimer timer={15} active={active} setActive={setActive} />}
             <div>
               <h3>{activeQuestion + 1}/10</h3>
               <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
