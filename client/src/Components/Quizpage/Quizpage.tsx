@@ -7,6 +7,7 @@ import ResultPage from "../ResultPage/ResultPage";
 import wallppaper from "./assets/wallpaper.jpg";
 import EndQuizPage from "../EndQuizPage/EndQuizPage";
 import ProgressTimer from "../ProgressTimer/ProgressTimer";
+import { isArgumentsObject } from "util/types";
 
 
 const Quizpage = () => {
@@ -22,7 +23,7 @@ const Quizpage = () => {
   const [show, setShow] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   const [active, setActive] = useState<boolean>(true);
-  const [showEndQuiz, setShowEndQuiz] = useState<boolean>(false);
+  const [fullQuote, setFullQuote] = useState<string>("");
 
   useEffect(() => {
     setLoading(true);
@@ -57,6 +58,8 @@ const Quizpage = () => {
   }, []);
 
   useEffect(() => {
+    setSelectedCharacter(false);
+    setSelectedMovie(false);
 
     let characters: string[] = [
       quotes[activeQuestion]?.character.name,
@@ -99,7 +102,6 @@ useEffect(() => {
 
   const submitAnswerHandler = () => {
     setShow(true);
-    checkAnswer();
     setActive(false);
   }
 
@@ -130,6 +132,29 @@ useEffect(() => {
     }
   }
 
+  const ReadMore = () => {
+    const [isReadMore, setIsReadMore] = useState<boolean>(true);
+    const toggleReadMore = () => {
+      setIsReadMore(false);
+    }
+    return (
+      <div>
+        {isReadMore ? 
+        <div>
+          <h3>
+          {quotes[activeQuestion]?.dialog.slice(0, 70).concat("...")}
+          </h3>
+          <button className={styles.readMoreButton} onClick={toggleReadMore}>Read More...</button>
+        </div> :
+        <div>
+          <h3>{quotes[activeQuestion]?.dialog}</h3>
+        </div>
+        }
+        
+      </div>
+    )
+  }
+
   return (
     <main className={styles.main}>
       <img className={styles.wallpaper} src={wallppaper} />
@@ -141,7 +166,12 @@ useEffect(() => {
             {!loading && <ProgressTimer timer={15} active={active} setActive={setActive} />}
             <div>
               <h3>{activeQuestion + 1}/10</h3>
-              <h3>Quote: {quotes[activeQuestion]?.dialog}</h3>
+              <h3>
+              {
+              quotes[activeQuestion]?.dialog.length > 70 ? <ReadMore/> :
+              quotes[activeQuestion]?.dialog 
+              }
+              </h3>
             </div>
 
             <div className={styles.quizForm}>

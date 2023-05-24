@@ -58,7 +58,9 @@ const Quizpage = () => {
   }, []);
 
   useEffect(() => {
-
+    setSelectedCharacter(false);
+    setSelectedMovie(false);
+    
     let characters:string[] = [
       quotes[activeQuestion]?.character.name,
       quotes[activeQuestion]?.wrongAnswers?.character[0].name,
@@ -85,7 +87,7 @@ const Quizpage = () => {
       checkAnswer();
     } 
   }, [active]);
-
+  
   const shuffleArr = (arr: string[]): string[] => {
     for (let i: number = 0; i < arr.length; i++) {
       let randomIndex: number = Math.floor((Math.random() * arr.length));
@@ -100,7 +102,6 @@ const Quizpage = () => {
   
   const submitAnswerHandler = () => {
     setShow(true);
-    checkAnswer();
     setActive(false);
   }
 
