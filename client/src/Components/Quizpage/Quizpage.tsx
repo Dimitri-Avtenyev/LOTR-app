@@ -58,6 +58,8 @@ const Quizpage = () => {
   }, []);
 
   useEffect(() => {
+    setSelectedCharacter(false);
+    setSelectedMovie(false);
 
     let characters: string[] = [
       quotes[activeQuestion]?.character.name,
@@ -100,7 +102,6 @@ useEffect(() => {
 
   const submitAnswerHandler = () => {
     setShow(true);
-    checkAnswer();
     setActive(false);
   }
 

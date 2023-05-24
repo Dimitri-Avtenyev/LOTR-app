@@ -2,7 +2,7 @@ import styles from "./ResultPage.module.css";
 import thumbsUp from "./assets/thumbs-up.svg";
 import thumbsDown from "./assets/thumbs-down.svg"
 import Button from 'react-bootstrap/Button';
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { Blacklist, Favorite, Quote, User } from "../../types";
 import { Modal } from "react-bootstrap";
 import Movie from "../Movie/Movie";
