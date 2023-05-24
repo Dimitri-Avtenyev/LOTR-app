@@ -19,6 +19,7 @@ const getQuotes = async (amountQuotes: number = 10, blacklist?: Blacklist[]): Pr
     console.log(`${err}: (quotes) fetching from db`);
     data = await failsafeService.getDbQuotes();
   }
+  
 // filter data -> blacklist
 let datafiltered : Quote[]=[...data];
 
