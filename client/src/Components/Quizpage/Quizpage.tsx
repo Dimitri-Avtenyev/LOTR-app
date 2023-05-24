@@ -83,6 +83,7 @@ const Quizpage = () => {
 useEffect(() => {
   if (!active) {
     setShow(true);
+    checkAnswer();
   } 
 }, [active]);
 
@@ -100,7 +101,6 @@ useEffect(() => {
 
   const submitAnswerHandler = () => {
     setShow(true);
-    checkAnswer();
     setActive(false);
   }
 
