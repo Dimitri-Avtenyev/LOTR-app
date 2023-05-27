@@ -33,6 +33,9 @@ main {
     .info{
         width: 80%;
     }
+    .buttonRow{
+        text-align: center;
+    }
 }
 @media only screen and (max-width: 550px) {
     .info{
@@ -44,6 +47,8 @@ main {
     }
     .startButton{
         white-space: nowrap;
-        padding: 20px 30%;
-    }
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 280px;
+    }   
 }

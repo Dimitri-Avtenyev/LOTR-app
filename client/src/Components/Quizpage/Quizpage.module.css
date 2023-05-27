@@ -11,7 +11,7 @@
 .wallpaper{
     position: absolute;
     height: 100%;
-    width:autot;
+    width:100%;
     opacity: 0.1;
     z-index: -1;
 }
@@ -94,9 +94,10 @@
     }
     .line {
         border-left: 250px solid black;
-        margin-right: 2px;
+        margin-right: 50%;
         height: 2px;
         border-radius: 2px;
+        
     }
 
     .columnRight {
